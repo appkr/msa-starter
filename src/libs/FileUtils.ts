@@ -13,11 +13,9 @@ import {
   chmodSync
 } from 'fs';
 
-import {
-  resolve,
-  join,
-  dirname
-} from 'path'
+import { resolve, join, dirname } from 'path'
+
+import { homedir } from "os";
 
 const isBinaryFileSync = require("isbinaryfile").isBinaryFileSync;
 
@@ -50,12 +48,37 @@ export class FileUtils {
     copyFileSync(src, dest);
   }
 
+  static copyFolder(srcDir: string, destDir: string) {
+    try {
+      mkdirSync(destDir, { recursive: true });
+    } catch(e) {}
+
+    readdirSync(srcDir).forEach((element) => {
+      const stat = lstatSync(join(srcDir, element));
+      if (stat.isFile()) {
+        copyFileSync(join(srcDir, element), join(destDir, element));
+      } else if (stat.isSymbolicLink()) {
+        symlinkSync(readlinkSync(join(srcDir, element)), join(destDir, element));
+      } else if (stat.isDirectory()) {
+        this.copyFolder(join(srcDir, element), join(destDir, element));
+      }
+    });
+  }
+
   static write(filePath: string, content: string): void {
     writeFileSync(filePath, content);
   }
 
   static chmod(filePath: string, mode: string): void {
     chmodSync(filePath, mode);
+  }
+
+  static resolve(relativePath: string): string {
+    return resolve(relativePath.replace('~', homedir()));
+  }
+
+  static exists(filePath: string): boolean {
+    return existsSync(filePath);
   }
 
 }

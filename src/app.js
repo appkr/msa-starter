@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+import {PublishCommand} from "./PublishCommand";
+
 const { program } = require("@caporal/core");
 const { BuildCommand } = require("./BuildCommand");
 
@@ -13,6 +15,11 @@ program
             "You can publish the build result with \"publish\" command.",
             buildInfo.projectName);
       }).default()
+  .command('publish', 'publish build artifact to another folder')
+      .action(({ logger}) => {
+        const publishInfo = new PublishCommand().publish();
+        logger.info("Done! Read %s/README.md to learn how to start.", publishInfo.publishDir);
+      })
 ;
 
 program.run();

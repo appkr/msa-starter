@@ -10,6 +10,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FileUtils = void 0;
 var fs_1 = require("fs");
 var path_1 = require("path");
+var os_1 = require("os");
 var isBinaryFileSync = require("isbinaryfile").isBinaryFileSync;
 var FileUtils = /** @class */ (function () {
     function FileUtils() {
@@ -36,11 +37,36 @@ var FileUtils = /** @class */ (function () {
     FileUtils.copy = function (src, dest) {
         fs_1.copyFileSync(src, dest);
     };
+    FileUtils.copyFolder = function (srcDir, destDir) {
+        var _this = this;
+        try {
+            fs_1.mkdirSync(destDir, { recursive: true });
+        }
+        catch (e) { }
+        fs_1.readdirSync(srcDir).forEach(function (element) {
+            var stat = fs_1.lstatSync(path_1.join(srcDir, element));
+            if (stat.isFile()) {
+                fs_1.copyFileSync(path_1.join(srcDir, element), path_1.join(destDir, element));
+            }
+            else if (stat.isSymbolicLink()) {
+                fs_1.symlinkSync(fs_1.readlinkSync(path_1.join(srcDir, element)), path_1.join(destDir, element));
+            }
+            else if (stat.isDirectory()) {
+                _this.copyFolder(path_1.join(srcDir, element), path_1.join(destDir, element));
+            }
+        });
+    };
     FileUtils.write = function (filePath, content) {
         fs_1.writeFileSync(filePath, content);
     };
     FileUtils.chmod = function (filePath, mode) {
         fs_1.chmodSync(filePath, mode);
+    };
+    FileUtils.resolve = function (relativePath) {
+        return path_1.resolve(relativePath.replace('~', os_1.homedir()));
+    };
+    FileUtils.exists = function (filePath) {
+        return fs_1.existsSync(filePath);
     };
     return FileUtils;
 }());
