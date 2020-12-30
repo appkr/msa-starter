@@ -2,6 +2,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var PublishCommand_1 = require("./PublishCommand");
+var CleanCommand_1 = require("./CleanCommand");
 var program = require("@caporal/core").program;
 var BuildCommand = require("./BuildCommand").BuildCommand;
 program
@@ -14,11 +15,16 @@ program
     logger.info("A spring-boot application has been created in ./build/%s. " +
         "You can publish the build result with \"publish\" command.", buildInfo.projectName);
 }).default()
-    .command("publish", "publish build artifact to another folder")
+    .command('publish', 'publish build artifact to another folder')
     .action(function (_a) {
     var logger = _a.logger;
     var publishInfo = new PublishCommand_1.PublishCommand().publish();
-    logger.info("Done! " +
-        "Read %s/README.md to learn how to start.", publishInfo.publishDir);
+    logger.info("Done! Read %s/README.md to learn how to start.", publishInfo.publishDir);
+})
+    .command('clean', 'clean build output')
+    .action(function (_a) {
+    var logger = _a.logger;
+    new CleanCommand_1.CleanCommand('build').clean();
+    logger.info("Done!");
 });
 program.run();

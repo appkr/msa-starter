@@ -28,8 +28,8 @@ export class BuildCommand {
   };
 
   constructor(
-    private readonly sourceDir:string,
-    private readonly targetDir:string
+    private readonly sourceDir: string,
+    private readonly targetDir: string
   ) {
     this.sourceDir = sourceDir;
     this.targetDir = targetDir;

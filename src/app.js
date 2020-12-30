@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import {PublishCommand} from "./PublishCommand";
+import {CleanCommand} from "./CleanCommand";
 
 const { program } = require("@caporal/core");
 const { BuildCommand } = require("./BuildCommand");
@@ -19,6 +20,11 @@ program
       .action(({ logger}) => {
         const publishInfo = new PublishCommand().publish();
         logger.info("Done! Read %s/README.md to learn how to start.", publishInfo.publishDir);
+      })
+  .command('clean', 'clean build output')
+      .action(({ logger}) => {
+        new CleanCommand('build').clean();
+        logger.info("Done!");
       })
 ;
 

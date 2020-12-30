@@ -21,9 +21,9 @@ const isBinaryFileSync = require("isbinaryfile").isBinaryFileSync;
 
 export class FileUtils {
 
-  static files(dir: string): string[] {
-    return readdirSync(dir).reduce((files: string[], file: string) => {
-      const name = join(dir, file);
+  static files(dirname: string): string[] {
+    return readdirSync(dirname).reduce((files: string[], file: string) => {
+      const name = join(dirname, file);
       const isDirectory = statSync(name).isDirectory();
       return isDirectory ? [...files, ...FileUtils.files(name.toString())] : [...files, name.toString()];
     }, []);
@@ -81,4 +81,7 @@ export class FileUtils {
     return existsSync(filePath);
   }
 
+  static rmdir(dirname: string) {
+    rmdirSync(dirname, { recursive: true });
+  }
 }

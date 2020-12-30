@@ -15,9 +15,9 @@ var isBinaryFileSync = require("isbinaryfile").isBinaryFileSync;
 var FileUtils = /** @class */ (function () {
     function FileUtils() {
     }
-    FileUtils.files = function (dir) {
-        return fs_1.readdirSync(dir).reduce(function (files, file) {
-            var name = path_1.join(dir, file);
+    FileUtils.files = function (dirname) {
+        return fs_1.readdirSync(dirname).reduce(function (files, file) {
+            var name = path_1.join(dirname, file);
             var isDirectory = fs_1.statSync(name).isDirectory();
             return isDirectory ? __spreadArrays(files, FileUtils.files(name.toString())) : __spreadArrays(files, [name.toString()]);
         }, []);
@@ -67,6 +67,9 @@ var FileUtils = /** @class */ (function () {
     };
     FileUtils.exists = function (filePath) {
         return fs_1.existsSync(filePath);
+    };
+    FileUtils.rmdir = function (dirname) {
+        fs_1.rmdirSync(dirname, { recursive: true });
     };
     return FileUtils;
 }());
