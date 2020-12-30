@@ -1,0 +1,53 @@
+# CAVEAT - THIS FILE MUST BE USED FOR LOCAL DEVELOPMENT PURPOSE ONLY
+# For full spec of docker-compose: @see @see https://docs.docker.com/compose/compose-file/
+version: '3'
+
+services:
+
+  mysql:
+    image: mysql:5.7.32
+    container_name: mysql
+    volumes:
+      - $HOME/mysql_data:/var/lib/mysql/
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=secret
+    ports:
+      - 3306:3306
+    command: mysqld --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
+    healthcheck:
+      test: mysql -e -uroot -psecret -e 'SELECT 1' || exit 1
+      interval: 60s
+
+  zookeeper:
+    image: wurstmeister/zookeeper:3.4.6
+    container_name: zookeeper
+    ports:
+      - 2181:2181
+
+  kafka:
+    image: wurstmeister/kafka:2.13-2.6.0
+    container_name: kafka
+    environment:
+      KAFKA_CREATE_TOPICS: "local-{{projectName}}-output:1:1"
+      KAFKA_BROKER_ID: 1
+{{#ifVroongProject projectType}}
+      KAFKA_OPTS: "-Djava.security.auth.login.config=/etc/kafka/kafka_server_jaas.conf"
+      KAFKA_ADVERTISED_LISTENERS: 'SASL_PLAINTEXT://localhost:9092'
+      KAFKA_INTER_BROKER_LISTENER_NAME: SASL_PLAINTEXT
+      KAFKA_SASL_ENABLED_MECHANISMS: PLAIN
+      KAFKA_SASL_MECHANISM_INTER_BROKER_PROTOCOL: PLAIN
+      KAFKA_LISTENERS: SASL_PLAINTEXT://0.0.0.0:9092
+{{else}}
+      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ADVERTISED_PORT: 9092
+{{/ifVroongProject}}
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    ports:
+      - 9092:9092
+{{#ifVroongProject projectType}}
+      - 1099:1099
+    volumes:
+      - ./kafka/kafka_server_jaas.conf:/etc/kafka/kafka_server_jaas.conf
+{{/ifVroongProject}}
