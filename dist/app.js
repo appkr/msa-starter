@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var BuildCommand_1 = require("./BuildCommand");
 var PublishCommand_1 = require("./PublishCommand");
 var CleanCommand_1 = require("./CleanCommand");
-var program = require("@caporal/core").program;
-var BuildCommand = require("./BuildCommand").BuildCommand;
-program
+var core_1 = require("@caporal/core");
+core_1.program
     .name('msa-starter')
     .description('spring-boot msa project starter')
     .command('build', 'build a spring-boot base microservice')
@@ -29,4 +29,4 @@ program
     new CleanCommand_1.CleanCommand('build').clean();
     logger.info("Done!");
 });
-program.run();
+core_1.program.run();

@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 
+import {BuildCommand} from "./BuildCommand";
 import {PublishCommand} from "./PublishCommand";
 import {CleanCommand} from "./CleanCommand";
-
-const { program } = require("@caporal/core");
-const { BuildCommand } = require("./BuildCommand");
+import {program} from "@caporal/core";
 
 program
   .name('msa-starter')
