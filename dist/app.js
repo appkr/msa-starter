@@ -11,7 +11,9 @@ program
     .command('build', 'build a spring-boot base microservice')
     .action(function (_a) {
     var logger = _a.logger;
-    var buildInfo = new BuildCommand('templates', 'build').build();
+    logger.info("Cleaning the build dir...");
+    new CleanCommand_1.CleanCommand('build').clean();
+    var buildInfo = new BuildCommand_1.BuildCommand('templates', 'build').build();
     logger.info("A spring-boot application has been created in ./build/%s. " +
         "You can publish the build result with \"publish\" command.", buildInfo.projectName);
 }).default()

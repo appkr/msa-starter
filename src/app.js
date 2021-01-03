@@ -11,6 +11,9 @@ program
   .description('spring-boot msa project starter')
   .command('build', 'build a spring-boot base microservice')
       .action(({ logger}) => {
+        logger.info("Cleaning the build dir...")
+        new CleanCommand('build').clean();
+
         const buildInfo = new BuildCommand('templates', 'build').build();
         logger.info("A spring-boot application has been created in ./build/%s. " +
             "You can publish the build result with \"publish\" command.",
