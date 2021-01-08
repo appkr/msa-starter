@@ -15,6 +15,7 @@ public class SpecificationBuilder<T> {
     return this;
   }
 
+  @SuppressWarnings("unchecked")
   public Specification<T> build() {
     if (params.size() == 0) {
       return null;
