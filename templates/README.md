@@ -10,15 +10,19 @@ $ jenv versions
 $ jenv local corretto64-11.0.9
 ```
 {{/ifJava11}}
-- 아래 명령으로 MySQL(3306), Kafka(9092) 등을 구동합니다
+- jhipster-uaa.zip 파일 압축을 풀고 도커 이미지를 빌드합니다. 이 과정은 최초 한번만 실행하면 됩니다
 ```bash
-$ ./gradlew up
+~ $ cp msa-starter/jhipster-uaa.zip ./
+~ $ unzip jhipster-uaa.zip && cd jhipster-uaa && ./gradlew jibDockerBuild
+```
+- 아래 명령으로 MySQL(3306), Kafka(9092), jhipster-uaa(9999) 등을 구동합니다
+```bash
+~/{{projectName}} $ ./gradlew clusterUp
 # Ctrl + c to quit
 ```
-- UAA(9999)는 실행중이라 가정합니다
 - 애플리케이션을 구동합니다
 ```bash
-$ export SPRING_PROFILES_ACTIVE=local; export USER_TIMEZONE="Asia/Seoul"; ./gradlew clean bootRun
+~/{{projectName}} $ export SPRING_PROFILES_ACTIVE=local; export USER_TIMEZONE="Asia/Seoul"; ./gradlew clean bootRun
 $ curl -s http://localhost:{{portNumber}}/management/health
 ```
 - [Postman Collection & Environment](./postman)를 import하여 Example 및 UAA API를 작동해볼 수 있습니다
@@ -49,11 +53,11 @@ String a = "foo"; // GOOD
 
 ## 클라이언트 SDK 빌드 및 배포
 ```bash
-$ ./gradlew :clients:clean :clients:publish -Dorg.gradle.internal.publish.checksums.insecure=true
+~/{{projectName}} $ ./gradlew :clients:clean :clients:publish -Dorg.gradle.internal.publish.checksums.insecure=true
 # 배포 결과는 https://nexus.mm.meshkorea.net/ 에서 확인할 수 있습니다
 ```
 ```bash
-$ ./gradlew :clients:redoc
+~/{{projectName}} $ ./gradlew :clients:redoc
 # 빌드된 API 문서는 clients/build/redoc.html 입니다
 ```
 

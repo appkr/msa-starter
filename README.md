@@ -1,12 +1,12 @@
 ## msa-starter
-[jhipster](https://www.jhipster.tech/)를 사용하지 않고, 메쉬코리아의 스택과 업무 표준에 따르는 스프링부트 마이크로서비스 베이스 프로젝트를 만드는 스타터 앱입니다([유튜브 플레이리스트](https://www.youtube.com/watch?v=cfU5f2wAdDc&list=PL7LvACI5jQlrojoPKfmY6yzG0dyeLUFhu))
+[jhipster](https://www.jhipster.tech/)를 사용하지 않고, 메쉬코리아의 스택과 업무 표준에 따르는 스프링부트 마이크로서비스 베이스 프로젝트를 만드는 스타터 앱입니다([유튜브 플레이리스트](https://www.youtube.com/watch?v=cfU5f2wAdDc&list=PL7LvACI5jQlrojoPKfmY6yzG0dyeLUFhu)). 복제/포크해서 스타터 앱(`src`)이나 템플릿(`templates`) 부분을 자유롭게 고쳐서, 각자의 상황에 맞는 새로운 스타터 앱을 만들 수 있을 겁니다
 
-이하 가이드에 따라 빌드된 결과물로 API Spec 작성부터 바로 시작할 수 있습니다. 복제 또는 포크해서 `templates` 폴더의 내용을 교체하시고 `src` 폴더의 내용을 자유롭게 변경해서 사용하셔서 자신만의 스타터 앱을 만들 수도 있을 겁니다
+이하 가이드에 따라 빌드된 결과물로 API Spec 작성부터 바로 시작할 수 있습니다.
 
 [![asciicast](https://asciinema.org/a/381871.svg)](https://asciinema.org/a/381871)
 
 ### Install
-스타터 앱은 Node.js로 만든 프로젝트입니다. 스타터 앱이 빌드한 결과물이 스프링부트 프로젝트입니다
+스타터 앱은 Node.js로 만든 프로젝트입니다. 스타터 앱으로 `build`한 결과물이 스프링부트 프로젝트입니다
 ```bash
 $ git clone https://github.com/appkr/msa-starter.git
 $ cd msa-starter && npm install
@@ -29,7 +29,7 @@ $ npm run start build
 # You can publish the build result with "publish" command
 ```
 
-`publish` 만든 프로젝트를 다른 폴더로 발행합니다. 발행한 폴더의 README.md에서 프로젝트를 시작하기 위한 가이드를 참고하세요
+`publish` `build`한 프로젝트를 다른 폴더로 발행합니다. 발행한 폴더의 README.md에서 프로젝트를 시작하기 위한 가이드를 참고하세요
 ```bash
 $ npm run start publish
 # What is the build artifact path you want to publish(e.g. ./build/example)? ./build/example
@@ -86,7 +86,15 @@ $ npm run start clean
     - PersitentEvent for "at-least-once" message publishing
 
 ### Inter-operation with Auth Server
-[jhipster-uaa.zip](./jhipster-uaa.zip) 은 로컬 컴퓨터에서 사용할 수 있는 `@AuthorizationServer` 입니다. 압축을 풀고, README.md에서 작동 방법을 참고합니다
+[jhipster-uaa.zip](./jhipster-uaa.zip) 은 로컬 컴퓨터에서 사용할 수 있는 Oauth2 인증 서버입니다. 아래 가이드에 따라 MySQL, Kafka, jhipster-uaa 를 한번에 띄울 수 있습니다
+
+```bash
+~ $ cp msa-starter/jhipster-uaa.zip ./
+~ $ unzip jhipster-uaa.zip && cd jhipster-uaa && ./gradlew jibDockerBuild
+# 위 2 줄은압축을 풀고, jhipster-uaa 도커 이미지를 빌드하는 명령으로, 최초 한번만 실행하면 됩니다
+~ $ cd ~/your-project && ./gradlew clusterUp
+```
+압축을 푼 `jhipster-uaa/README.md` 파일에서 jhipster-uaa 프로젝트에 대한 더 자세한 설명을 볼 수 있습니다 
 
 ### Contribution
 `src` 폴더 아래에 있는 스타터 앱뿐만아니라, `templates` 스프링부트 프로젝트도 기여할 수 있습니다

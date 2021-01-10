@@ -64,3 +64,21 @@ task up(type:Exec) {
     dependsOn down
     commandLine '/usr/local/bin/docker-compose', '-f', 'docker/docker-compose.yml', 'up'
 }
+
+// How to start a cluster including "jhipster-uaa"
+//
+// Build "jhipster-uaa" docker image
+//   ~/jhipster-uaa $ ./gradlew clean jibDockerBuild
+//   ~ $ docker image ls | grep uaa
+//   # uaa  latest  f50dc363f133    xx minutes ago  305MB
+//
+// Run the cluster
+//   ~/{{projectName}} $ ./gradlew clusterUp
+task clusterDown(type:Exec) {
+    commandLine '/usr/local/bin/docker-compose', '-f', 'docker/cluster-compose.yml', 'down'
+}
+
+task clusterUp(type:Exec) {
+    dependsOn clusterDown
+    commandLine '/usr/local/bin/docker-compose', '-f', 'docker/cluster-compose.yml', 'up'
+}
