@@ -9,11 +9,14 @@ program
   .name('msa-starter')
   .description('spring-boot msa project starter')
   .command('build', 'build a spring-boot base microservice')
-      .action(({ logger}) => {
+      .option('-y, --use-default <value>', 'Use default values', {
+        default: false
+      })
+      .action(({ logger, options}) => {
         logger.info("Cleaning the build dir...")
         new CleanCommand('build').clean();
 
-        const buildInfo = new BuildCommand('templates', 'build').build();
+        const buildInfo = new BuildCommand('templates', 'build', options.useDefault).build();
         logger.info("A spring-boot application has been created in ./build/%s. " +
             "You can publish the build result with \"publish\" command.",
             buildInfo.projectName);

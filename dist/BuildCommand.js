@@ -10,9 +10,10 @@ var ControlUtils_1 = require("./libs/ControlUtils");
 var FileUtils_1 = require("./libs/FileUtils");
 var handlebars_1 = __importDefault(require("handlebars"));
 var BuildCommand = /** @class */ (function () {
-    function BuildCommand(sourceDir, targetDir) {
+    function BuildCommand(sourceDir, targetDir, useDefault) {
         this.sourceDir = sourceDir;
         this.targetDir = targetDir;
+        this.useDefault = useDefault;
         this.buildInfo = {
             projectType: ProjectType_1.ProjectType.NON_VROONG,
             projectName: 'example',
@@ -34,13 +35,16 @@ var BuildCommand = /** @class */ (function () {
         };
         this.sourceDir = sourceDir;
         this.targetDir = targetDir;
+        this.useDefault = useDefault;
         this.registerHandlebarsHelper();
     }
     BuildCommand.prototype.build = function () {
         var _this = this;
         this.getUserInput();
-        console.log("Build a project with ", this.buildInfo);
-        ControlUtils_1.ControlUtils.continue();
+        if (!this.useDefault) {
+            console.log("Build a project with ", this.buildInfo);
+            ControlUtils_1.ControlUtils.continue();
+        }
         FileUtils_1.FileUtils.files(this.sourceDir).forEach(function (srcFilename) {
             if (ControlUtils_1.ControlUtils.shouldSkip(srcFilename, _this.buildInfo)) {
                 console.error(srcFilename + " skipped");
@@ -55,6 +59,9 @@ var BuildCommand = /** @class */ (function () {
         return this.buildInfo;
     };
     BuildCommand.prototype.getUserInput = function () {
+        if (this.useDefault) {
+            return;
+        }
         var projectType = ControlUtils_1.ControlUtils.ask('Non-vroong project(n)? Or vroong project(v) (default:n)? ', 'n');
         this.buildInfo = (projectType == 'n')
             ? this.buildInfo

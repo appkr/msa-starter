@@ -29,18 +29,22 @@ export class BuildCommand {
 
   constructor(
     private readonly sourceDir: string,
-    private readonly targetDir: string
+    private readonly targetDir: string,
+    private readonly useDefault: boolean
   ) {
     this.sourceDir = sourceDir;
     this.targetDir = targetDir;
+    this.useDefault = useDefault;
     this.registerHandlebarsHelper();
   }
 
   build(): BuildInfo {
     this.getUserInput();
 
-    console.log("Build a project with ", this.buildInfo);
-    ControlUtils.continue();
+    if (!this.useDefault) {
+      console.log("Build a project with ", this.buildInfo);
+      ControlUtils.continue();
+    }
 
     FileUtils.files(this.sourceDir).forEach(srcFilename => {
       if (ControlUtils.shouldSkip(srcFilename, this.buildInfo)) {
@@ -60,6 +64,10 @@ export class BuildCommand {
   }
 
   getUserInput(): void {
+    if (this.useDefault) {
+      return;
+    }
+
     const projectType: string = ControlUtils.ask(
       'Non-vroong project(n)? Or vroong project(v) (default:n)? ',
       'n'
