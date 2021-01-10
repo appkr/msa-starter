@@ -1,3 +1,5 @@
+[![](https://api.travis-ci.com/appkr/msa-starter.svg)](https://travis-ci.com/github/appkr/msa-starter)
+
 ## msa-starter
 [jhipster](https://www.jhipster.tech/)를 사용하지 않고, 메쉬코리아의 스택과 업무 표준에 따르는 스프링부트 마이크로서비스 베이스 프로젝트를 만드는 스타터 앱입니다([유튜브 플레이리스트](https://www.youtube.com/watch?v=cfU5f2wAdDc&list=PL7LvACI5jQlrojoPKfmY6yzG0dyeLUFhu)). 복제/포크해서 스타터 앱(`src`)이나 템플릿(`templates`) 부분을 자유롭게 고쳐서, 각자의 상황에 맞는 새로운 스타터 앱을 만들 수 있을 겁니다
 
@@ -15,7 +17,7 @@ $ cd msa-starter && npm install
 ### Run
 `build` spring-boot 마이크로서비스 프로젝트를 만듭니다
 ```bash
-$ npm run start build
+$ npm start build
 # Non-vroong project(n)? Or vroong project(v) (default:n)?
 # Which Java version do you want to use, 8 or 11? 8
 # What is the project name (default:example)?
@@ -31,7 +33,7 @@ $ npm run start build
 
 `publish` `build`한 프로젝트를 다른 폴더로 발행합니다. 발행한 폴더의 README.md에서 프로젝트를 시작하기 위한 가이드를 참고하세요
 ```bash
-$ npm run start publish
+$ npm start publish
 # What is the build artifact path you want to publish(e.g. ./build/example)? ./build/example
 # Where do you want to publish the build(e.g. ~/example)? ~/example
 # publishing project:
@@ -48,7 +50,7 @@ $ ls ~/example
 
 `clean` 빌드 결과물을 삭제합니다
 ```bash
-$ npm run start clean
+$ npm start clean
 # info: done!
 ```
 
