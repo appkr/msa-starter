@@ -54,7 +54,7 @@ openApiGenerate {
 sourceSets {
     main {
         java {
-            srcDir file("${buildDir}/javaclient/src/main/java")
+            srcDir file("${buildDir}/java-client/src/main/java")
         }
     }
 }
