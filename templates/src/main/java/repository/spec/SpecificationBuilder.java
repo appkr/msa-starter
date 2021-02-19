@@ -10,8 +10,8 @@ public class SpecificationBuilder<T> {
 
   private List<SearchCriteria> params = new ArrayList<>();
 
-  public SpecificationBuilder<T> with(String key, String operation, Object value) {
-    params.add(new SearchCriteria(key, operation, value));
+  public SpecificationBuilder<T> with(String key, SearchCriteria.Operator operator, Object value) {
+    params.add(new SearchCriteria(key, operator, value));
     return this;
   }
 

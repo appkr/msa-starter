@@ -12,6 +12,16 @@ import lombok.Setter;
 public class SearchCriteria {
 
   private String key;
-  private String operation;
+  private Operator operator;
   private Object value;
+
+  public enum Operator {
+    IN,
+        GTE,
+        GT,
+        LTE,
+        LT,
+        LIKE,
+        EQ
+  }
 }

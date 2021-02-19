@@ -17,21 +17,24 @@ public class GenericSpecification<T> implements Specification<T> {
   }
 
   @Override
-  public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-    if (criteria.getOperation().equalsIgnoreCase("in")) {
-      return root.get(criteria.getKey()).in(criteria.getValue());
-    } else if (criteria.getOperation().equalsIgnoreCase(">=")) {
-      return builder.greaterThanOrEqualTo(root.get(criteria.getKey()), criteria.getValue().toString());
-    } else if (criteria.getOperation().equalsIgnoreCase(">")) {
-      return builder.greaterThan(root.get(criteria.getKey()), criteria.getValue().toString());
-    } else if (criteria.getOperation().equalsIgnoreCase("<=")) {
-      return builder.lessThan(root.get(criteria.getKey()), criteria.getValue().toString());
-    } else if (criteria.getOperation().equalsIgnoreCase("<")) {
-      return builder.lessThanOrEqualTo(root.get(criteria.getKey()), criteria.getValue().toString());
-    } else if (criteria.getOperation().equalsIgnoreCase("like")) {
-      return builder.like(root.get(criteria.getKey()), "%" + criteria.getValue().toString() + "%");
-    } else {
-      return builder.equal(root.get(criteria.getKey()), criteria.getValue());
+  public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+    final String key = criteria.getKey();
+    final String value = criteria.getValue().toString();
+    switch (criteria.getOperator()) {
+      case IN:
+        return root.get(key).in(value);
+      case GTE:
+        return cb.greaterThanOrEqualTo(root.get(key), value);
+      case GT:
+        return cb.greaterThan(root.get(key), value);
+      case LTE:
+        return cb.lessThanOrEqualTo(root.get(key), value);
+      case LT:
+        return cb.lessThan(root.get(key), value);
+      case LIKE:
+        return cb.like(root.get(key), "%" + value + "%");
+      default:
+        return cb.equal(root.get(key), value);
     }
   }
 }

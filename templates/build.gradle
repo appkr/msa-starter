@@ -123,6 +123,8 @@ dependencies {
 
     // jpa & database drivers
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.hibernate:hibernate-jpamodelgen'
+    annotationProcessor 'org.hibernate:hibernate-jpamodelgen'
     implementation 'mysql:mysql-connector-java'
     testImplementation 'com.h2database:h2'
 
