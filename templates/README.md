@@ -4,10 +4,9 @@
 {{#ifJava11 javaVersion}}
 - [amazonaws corretto jdk11](https://docs.aws.amazon.com/ko_kr/corretto/latest/corretto-11-ug/what-is-corretto-11.html) 을 사용합니다
 ```bash
-$ brew cask install corretto11 --appdir="/Applications"
+$ brew install homebrew/cask-versions/corretto11 --cask
 $ jenv add /Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home
 $ jenv versions
-$ jenv local corretto64-11.0.9
 ```
 {{/ifJava11}}
 - jhipster-uaa.zip 파일 압축을 풀고 도커 이미지를 빌드합니다. 이 과정은 최초 한번만 실행하면 됩니다
