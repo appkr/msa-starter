@@ -2,7 +2,6 @@ package {{packageName}}.config.security;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
-import {{packageName}}.config.ApplicationProperties;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.boot.actuate.info.InfoEndpoint;
@@ -31,12 +30,9 @@ import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class WebSecurityConfiguration extends ResourceServerConfigurerAdapter {
 
-  private final ApplicationProperties applicationProperties;
   private final SecurityProblemSupport problemSupport;
 
-  public WebSecurityConfiguration(ApplicationProperties applicationProperties,
-      SecurityProblemSupport problemSupport) {
-    this.applicationProperties = applicationProperties;
+  public WebSecurityConfiguration(SecurityProblemSupport problemSupport) {
     this.problemSupport = problemSupport;
   }
 
@@ -47,33 +43,21 @@ public class WebSecurityConfiguration extends ResourceServerConfigurerAdapter {
         // To avoid an OPTIONS request always making a 401 response:
         // @see https://www.baeldung.com/spring-security-cors-preflight
         .cors()
-        .and()
+      .and()
         .csrf().disable()
         .headers().frameOptions().disable()
-        .and()
+      .and()
         .sessionManagement().sessionCreationPolicy(STATELESS)
-        .and()
+      .and()
         .authorizeRequests()
         .requestMatchers(EndpointRequest.to(HealthEndpoint.class, InfoEndpoint.class)).permitAll()
         .antMatchers("/api/**").authenticated()
-        .and()
+      .and()
         .exceptionHandling()
         .authenticationEntryPoint(problemSupport)
         .accessDeniedHandler(problemSupport)
     ;
     // @formatter:on
-  }
-
-  @Bean
-  public CorsFilter corsFilter() {
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    CorsConfiguration config = applicationProperties.getCors();
-    if (config.getAllowedOrigins() != null && !config.getAllowedOrigins().isEmpty()) {
-      source.registerCorsConfiguration("/management/**", config);
-      source.registerCorsConfiguration("/api/**", config);
-    }
-
-    return new CorsFilter(source);
   }
 
   @Bean

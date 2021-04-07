@@ -12,8 +12,6 @@ public class ApplicationProperties {
 
   private String version = "0.0.1.SNAPSHOT";
 
-  private CorsConfiguration cors = new CorsConfiguration();
-
   private Scheduler scheduler = new Scheduler();
 
   @Getter

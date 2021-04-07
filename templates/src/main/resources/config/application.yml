@@ -104,12 +104,5 @@ security:
 
 application:
   version: #project.version#
-  cors:
-    allowed-origins: "*"
-    allowed-methods: "GET,PUT,POST,DELETE,PATCH,OPTIONS"
-    allowed-headers: "*"
-    exposed-headers: "Authorization,Link,X-Total-Count,Access-Control-Allow-Methods"
-    allow-credentials: true
-    max-age: 1800
   scheduler:
     enabled: false
