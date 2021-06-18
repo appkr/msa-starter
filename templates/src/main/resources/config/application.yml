@@ -2,6 +2,12 @@ server:
   port: {{portNumber}}
   # @see https://www.baeldung.com/spring-boot-web-server-shutdown
   shutdown: graceful
+  # @see https://github.com/zalando/logbook/issues/870
+  servlet:
+    encoding:
+      enabled: true
+      charset: UTF-8
+      force: true
 
 spring:
   profiles:
