@@ -105,8 +105,8 @@ security:
       grant-type: client_credentials
       authorized-grant-type: password, client_credentials, refresh_token
     resource:
-      token-info-uri: http://localhost:9999/oauth/check_token
-#      jwt.key-uri: http://localhost:9999/oauth/token_key
+#      token-info-uri: http://localhost:9999/oauth/check_token
+      jwt.key-uri: http://localhost:9999/oauth/token_key
 
 application:
   version: #project.version#
