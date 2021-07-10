@@ -28,7 +28,7 @@ services:
       - 3306:3306
     command: mysqld --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
     healthcheck:
-      test: mysql -e -uroot -psecret -e 'SELECT 1' || exit 1
+      test: mysql -uroot -e 'SELECT 1' || exit 1
       interval: 60s
 
   zookeeper:
@@ -71,7 +71,7 @@ services:
     depends_on:
       - mysql
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:9999/management/health"]
+      test: curl -s http://localhost:9999/management/health || exit 1
     environment:
       - SPRING_PROFILES_ACTIVE=dev
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/jhipster_uaa?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
