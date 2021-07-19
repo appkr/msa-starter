@@ -3,10 +3,8 @@ server:
 
 spring:
   jpa:
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
+    show-sql: true
+    properties.hibernate.format_sql: true
 
   liquibase:
     enabled: true
