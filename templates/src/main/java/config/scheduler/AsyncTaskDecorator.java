@@ -16,14 +16,15 @@ class AsyncTaskDecorator implements TaskDecorator {
   @Override
   public Runnable decorate(Runnable runnable) {
 
-    /**
-     * WORKAROUND for "Exception in thread "exe-3" java.lang.NullPointerException
-     *   at {{packageName}}.config.scheduler.AsyncTaskDecorator.lambda$decorate$0(AsyncTaskDecorator.java:21)"
-     * @see https://jira.qos.ch/browse/LOGBACK-944
-     */
-    MDC.put("foo", "bar");
-
     Map<String, String> contextMap = MDC.getCopyOfContextMap();
+    if (contextMap == null) {
+      /**
+       * WORKAROUND for "Exception in thread "exe-3" java.lang.NullPointerException
+       *   at {{packageName}}.config.scheduler.AsyncTaskDecorator.lambda$decorate$0(AsyncTaskDecorator.java:21)"
+       * @see https://jira.qos.ch/browse/LOGBACK-944
+       */
+      MDC.put("foo", "bar");
+    }
 
     return () -> {
       MDC.setContextMap(contextMap);
