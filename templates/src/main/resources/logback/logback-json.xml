@@ -21,9 +21,7 @@
   <logger name="sun.rmi.transport" level="WARN"/>
 
   <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
-    <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-      <layout class="{{packageName}}.config.logging.JsonLayout"/>
-    </encoder>
+    <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
   </appender>
 
   <appender name="sentry" class="io.sentry.logback.SentryAppender">
