@@ -12,7 +12,7 @@
   "author": "juwonkim@me.com",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^14.14.16",
+    "@types/node": "^17.0.19",
     "nodemon": "^2.0.6",
     "rimraf": "^3.0.2",
     "ts-node": "^9.1.1",

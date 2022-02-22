@@ -1,75 +1,78 @@
 "use strict";
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FileUtils = void 0;
 var fs_1 = require("fs");
 var path_1 = require("path");
 var os_1 = require("os");
-var isBinaryFileSync = require("isbinaryfile").isBinaryFileSync;
+var isBinaryFileSync = require('isbinaryfile').isBinaryFileSync;
 var FileUtils = /** @class */ (function () {
     function FileUtils() {
     }
     FileUtils.files = function (dirname) {
-        return fs_1.readdirSync(dirname).reduce(function (files, file) {
-            var name = path_1.join(dirname, file);
-            var isDirectory = fs_1.statSync(name).isDirectory();
-            return isDirectory ? __spreadArrays(files, FileUtils.files(name.toString())) : __spreadArrays(files, [name.toString()]);
+        return (0, fs_1.readdirSync)(dirname).reduce(function (files, file) {
+            var name = (0, path_1.join)(dirname, file);
+            var isDirectory = (0, fs_1.statSync)(name).isDirectory();
+            return isDirectory ? __spreadArray(__spreadArray([], files, true), FileUtils.files(name.toString()), true) : __spreadArray(__spreadArray([], files, true), [name.toString()], false);
         }, []);
     };
     FileUtils.isBinary = function (filePath) {
-        return isBinaryFileSync(filePath, fs_1.lstatSync(filePath).size);
+        return isBinaryFileSync(filePath, (0, fs_1.lstatSync)(filePath).size);
     };
     FileUtils.read = function (filePath) {
-        return fs_1.readFileSync(filePath, 'utf8');
+        return (0, fs_1.readFileSync)(filePath, 'utf8');
     };
     FileUtils.mkdir = function (dirOrFile) {
-        var targetDirname = path_1.dirname(dirOrFile);
-        if (!fs_1.existsSync(targetDirname)) {
-            fs_1.mkdirSync(targetDirname, { recursive: true });
+        var targetDirname = (0, path_1.dirname)(dirOrFile);
+        if (!(0, fs_1.existsSync)(targetDirname)) {
+            (0, fs_1.mkdirSync)(targetDirname, { recursive: true });
         }
     };
     FileUtils.copy = function (src, dest) {
-        fs_1.copyFileSync(src, dest);
+        (0, fs_1.copyFileSync)(src, dest);
     };
     FileUtils.copyFolder = function (srcDir, destDir) {
         var _this = this;
         try {
-            fs_1.mkdirSync(destDir, { recursive: true });
+            (0, fs_1.mkdirSync)(destDir, { recursive: true });
         }
-        catch (e) { }
-        fs_1.readdirSync(srcDir).forEach(function (element) {
-            var stat = fs_1.lstatSync(path_1.join(srcDir, element));
+        catch (e) {
+        }
+        (0, fs_1.readdirSync)(srcDir).forEach(function (element) {
+            var stat = (0, fs_1.lstatSync)((0, path_1.join)(srcDir, element));
             if (stat.isFile()) {
-                fs_1.copyFileSync(path_1.join(srcDir, element), path_1.join(destDir, element));
+                (0, fs_1.copyFileSync)((0, path_1.join)(srcDir, element), (0, path_1.join)(destDir, element));
             }
             else if (stat.isSymbolicLink()) {
-                fs_1.symlinkSync(fs_1.readlinkSync(path_1.join(srcDir, element)), path_1.join(destDir, element));
+                (0, fs_1.symlinkSync)((0, fs_1.readlinkSync)((0, path_1.join)(srcDir, element)), (0, path_1.join)(destDir, element));
             }
             else if (stat.isDirectory()) {
-                _this.copyFolder(path_1.join(srcDir, element), path_1.join(destDir, element));
+                _this.copyFolder((0, path_1.join)(srcDir, element), (0, path_1.join)(destDir, element));
             }
         });
     };
     FileUtils.write = function (filePath, content) {
-        fs_1.writeFileSync(filePath, content);
+        (0, fs_1.writeFileSync)(filePath, content);
     };
     FileUtils.chmod = function (filePath, mode) {
-        fs_1.chmodSync(filePath, mode);
+        (0, fs_1.chmodSync)(filePath, mode);
     };
     FileUtils.resolve = function (relativePath) {
-        return path_1.resolve(relativePath.replace('~', os_1.homedir()));
+        return (0, path_1.resolve)(relativePath.replace('~', (0, os_1.homedir)()));
     };
     FileUtils.exists = function (filePath) {
-        return fs_1.existsSync(filePath);
+        return (0, fs_1.existsSync)(filePath);
     };
     FileUtils.rmdir = function (dirname) {
-        fs_1.rmdirSync(dirname, { recursive: true });
+        (0, fs_1.rmdirSync)(dirname, { recursive: true });
     };
     return FileUtils;
 }());

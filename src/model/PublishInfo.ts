@@ -1,4 +1,4 @@
 export interface PublishInfo {
-  publishDir: string,
+  publishDir: string
   buildDir: string
 }

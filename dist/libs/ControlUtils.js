@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ControlUtils = void 0;
-var prompt = require("prompt-sync")({ sigint: true });
+var prompt = require('prompt-sync')({ sigint: true });
 var ControlUtils = /** @class */ (function () {
     function ControlUtils() {
     }
     ControlUtils.continue = function () {
         var mayIContinue = prompt('Continue with these values(y|NO, default:y)? ').toLowerCase() || 'y';
-        if (mayIContinue != "y") {
-            throw Error("Stopped!");
+        if (mayIContinue != 'y') {
+            throw Error('Stopped!');
         }
     };
     ControlUtils.shouldSkip = function (srcFilename, buildInfo) {

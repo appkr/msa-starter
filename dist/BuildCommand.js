@@ -30,7 +30,7 @@ var BuildCommand = /** @class */ (function () {
                 'Jenkinsfile',
                 'clients/.gitignore',
                 'clients/build.gradle',
-                'kafka/kafka_server_jaas.conf',
+                'kafka/kafka_server_jaas.conf'
             ]
         };
         this.sourceDir = sourceDir;
@@ -42,19 +42,19 @@ var BuildCommand = /** @class */ (function () {
         var _this = this;
         this.getUserInput();
         if (!this.useDefault) {
-            console.log("Build a project with ", this.buildInfo);
+            console.log('Build a project with ', this.buildInfo);
             ControlUtils_1.ControlUtils.continue();
         }
         FileUtils_1.FileUtils.files(this.sourceDir).forEach(function (srcFilename) {
             if (ControlUtils_1.ControlUtils.shouldSkip(srcFilename, _this.buildInfo)) {
-                console.error(srcFilename + " skipped");
+                console.error(srcFilename + ' skipped');
                 return;
             }
             var targetFilename = _this.calculateTargetFileName(srcFilename);
             _this.compileAndWriteFile(srcFilename, targetFilename);
-            console.log("%s created", targetFilename);
+            console.log('%s created', targetFilename);
         });
-        var gradlewPath = this.targetDir + "/" + this.buildInfo.projectName + "/gradlew";
+        var gradlewPath = "".concat(this.targetDir, "/").concat(this.buildInfo.projectName, "/gradlew");
         FileUtils_1.FileUtils.chmod(gradlewPath, '0755');
         return this.buildInfo;
     };
@@ -74,7 +74,7 @@ var BuildCommand = /** @class */ (function () {
                 portNumber: 8080,
                 projectName: 'example',
                 projectType: ProjectType_1.ProjectType.VROONG,
-                skipTokens: ['.DS_Store'],
+                skipTokens: ['.DS_Store']
             };
         var incorrect = true;
         while (incorrect) {
@@ -89,21 +89,21 @@ var BuildCommand = /** @class */ (function () {
         this.buildInfo.groupName = ControlUtils_1.ControlUtils.ask('What is the group name (default:{})? ', this.buildInfo.groupName);
         this.buildInfo.portNumber = ControlUtils_1.ControlUtils.ask('What is the web server port (default:{})? ', this.buildInfo.portNumber);
         this.buildInfo.mediaType = ControlUtils_1.ControlUtils.ask('What is the media type for api request & response (default:{})? ', this.buildInfo.mediaType);
-        this.buildInfo.packageName = this.buildInfo.groupName + "." + this.buildInfo.projectName;
+        this.buildInfo.packageName = "".concat(this.buildInfo.groupName, ".").concat(this.buildInfo.projectName);
     };
     BuildCommand.prototype.calculateTargetFileName = function (srcFilename) {
         var targetFilename = srcFilename.replace(this.sourceDir, this.buildInfo.projectName);
-        if (srcFilename.indexOf("src/main/java") !== -1) {
+        if (srcFilename.indexOf('src/main/java') !== -1) {
             targetFilename = targetFilename
-                .replace("src/main/java", "src/main/java/" + this.buildInfo.packageName
-                .replace(/\./g, "/"));
+                .replace('src/main/java', "src/main/java/".concat(this.buildInfo.packageName
+                .replace(/\./g, '/')));
         }
-        if (srcFilename.indexOf("src/test/java") !== -1) {
+        if (srcFilename.indexOf('src/test/java') !== -1) {
             targetFilename = targetFilename
-                .replace("src/test/java", "src/test/java/" + this.buildInfo.packageName
-                .replace(/\./g, "/"));
+                .replace('src/test/java', "src/test/java/".concat(this.buildInfo.packageName
+                .replace(/\./g, '/')));
         }
-        targetFilename = this.targetDir + "/" + targetFilename;
+        targetFilename = "".concat(this.targetDir, "/").concat(targetFilename);
         return targetFilename;
     };
     BuildCommand.prototype.compileAndWriteFile = function (srcFilename, targetFilename) {

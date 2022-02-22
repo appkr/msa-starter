@@ -11,7 +11,7 @@ var PublishCommand = /** @class */ (function () {
     function PublishCommand() {
         this.publishInfo = {
             buildDir: 'build/example',
-            publishDir: '~/example',
+            publishDir: '~/example'
         };
     }
     PublishCommand.prototype.publish = function () {
@@ -42,11 +42,11 @@ var PublishCommand = /** @class */ (function () {
         }
         this.publishInfo = {
             buildDir: buildDir,
-            publishDir: publishDir,
+            publishDir: publishDir
         };
     };
     PublishCommand.prototype.gitCommit = function (message) {
-        var git = simple_git_1.default(this.publishInfo.publishDir, { binary: 'git' });
+        var git = (0, simple_git_1.default)(this.publishInfo.publishDir, { binary: 'git' });
         git.init()
             .then(function () { return git.add('.'); })
             .then(function () { return git.commit(message); });
