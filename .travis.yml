@@ -1,0 +1,5 @@
+language: java
+jdk: openjdk11
+script:
+  - ./gradlew generate -PuseDefault
+  - cd build && ./gradlew clean build
