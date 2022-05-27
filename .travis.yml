@@ -1,11 +1,5 @@
 language: java
-jdk: openjdk8
-env:
-  - NODE_VERSION="14.0"
-before_install:
-  - nvm install $NODE_VERSION
-install:
-  - npm install
+jdk: openjdk11
 script:
-  - node dist/app.js build -y
-  - cd build/example && ./gradlew clean build
+  - ./gradlew generate -PuseDefault
+  - cd build && ./gradlew clean build
