@@ -1,7 +1,8 @@
 plugins {
+    id 'java'
+    id 'idea'
     id 'org.springframework.boot' version '2.5.7'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'java'
     id 'net.ltgt.apt' version '0.8'
     id 'com.gorylenko.gradle-git-properties' version '2.3.2'
     id 'com.google.cloud.tools.jib' version '3.1.4'
@@ -23,7 +24,7 @@ sourceCompatibility = '{{javaVersion}}'
 repositories {
 {{#ifVroongProject projectType}}
     maven {
-        url "http://nexus.mm.meshkorea.net/repository/maven-public/"
+        url "https://nexus.mm.meshkorea.net/repository/maven-public/"
 
         credentials {
             username repoUser
