@@ -1,4 +1,20 @@
 def getGitHash = { ->
+    try {
+        exec {
+            commandLine 'git', 'log'
+        }
+    } catch (Exception e) {
+        exec {
+            commandLine 'git', 'init'
+        }
+        exec {
+            commandLine 'git', 'add', '.'
+        }
+        exec {
+            commandLine 'git', 'commit', '-m', 'new project created from msa-starter'
+        }
+    }
+
     def stdout = new ByteArrayOutputStream()
     exec {
         commandLine 'git', 'rev-parse', '--short', 'HEAD'
