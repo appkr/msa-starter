@@ -18,7 +18,6 @@ plugins {
 
 def sourceDir = "${projectDir}/templates"
 def targetDir = buildDir
-def useDefault = false
 def buildInfo = [
         projectType: 'n',
         projectName: 'example',
@@ -142,7 +141,7 @@ def confirm(Map<String, Object> buildInfo) {
     println "진행할까요('n' to quit)? ${buildInfo}"
     def inputValue = System.in.newReader().readLine()
     if (inputValue.equalsIgnoreCase('n')) {
-        System.exit(0)
+        throw new GradleException("빌드를 중단합니다!")
     }
 }
 
