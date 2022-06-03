@@ -1,0 +1,116 @@
+server:
+  port: {{portNumber}}
+  # @see https://www.baeldung.com/spring-boot-web-server-shutdown
+  shutdown: graceful
+  # @see https://github.com/zalando/logbook/issues/870
+  servlet:
+    encoding:
+      enabled: true
+      charset: UTF-8
+      force: true
+
+spring:
+  profiles:
+    active: local
+
+  output:
+    ansi:
+      enabled: always
+
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:3306/local_{{projectName}}?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: secret
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 100
+          batch_versioned_data: true
+        order_inserts: true
+        order_updates: true
+
+  liquibase:
+    enabled: false
+    change-log: classpath:/db/changelog-master.xml
+
+  resources:
+    add-mappings: false
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+  cloud:
+    stream:
+      kafka:
+        binder:
+          headers: [ "messageId", "messageType", "messageVersion", "messageSource" ]
+          auto-create-topics: false
+{{#ifVroongProject projectType}}
+          # Kafka - SASL_SSL설정과 SCRAM-SHA-512 를 이용한 ID Password 설정
+          # @see https://wiki.mm.meshkorea.net/pages/viewpage.action?pageId=95856174
+          configuration:
+            sasl:
+              jaas:
+                config: 'org.apache.kafka.common.security.plain.PlainLoginModule required username="alice" password="alice-secret";'
+              mechanism: PLAIN
+            security:
+              protocol: SASL_PLAINTEXT
+{{/ifVroongProject}}
+      bindings:
+        messageChannel:
+          binder: kafka
+          destination: local-{{projectName}}-output
+          producer:
+            # @see https://docs.spring.io/spring-cloud-stream-binder-kafka/docs/3.0.10.RELEASE/reference/html/spring-cloud-stream-binder-kafka.html#kafka-producer-properties
+            header-mode: headers
+            partition-key-expression: headers['partitionKey']
+            partition-count: 1
+      default-binder: kafka
+
+management:
+  endpoints:
+    web:
+      base-path: /management
+      exposure:
+        include: ["health", "info"]
+  endpoint:
+    health:
+      show-details: when_authorized
+      probes:
+        enabled: true
+  info:
+    git:
+      mode: simple
+  health:
+    mail.enabled: false
+
+security:
+  oauth2:
+    client:
+      access-token-uri: http://localhost:9999/oauth/token
+      user-authorization-uri: http://localhost:9999/oauth/token
+      client-id: internal
+      client-secret: internal
+      scope: web-app
+      grant-type: client_credentials
+      authorized-grant-type: password, client_credentials, refresh_token
+    resource:
+#      token-info-uri: http://localhost:9999/oauth/check_token
+      jwt.key-uri: http://localhost:9999/oauth/token_key
+
+application:
+  version: #project.version#
+  scheduler:
+    enabled: false

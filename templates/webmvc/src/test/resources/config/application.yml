@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: {{projectName}}
+
+  profiles:
+    active: test
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:local_{{projectName}};DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+  liquibase:
+    enabled: true
+    contexts: test
+    change-log: classpath:/db/changelog-master.xml

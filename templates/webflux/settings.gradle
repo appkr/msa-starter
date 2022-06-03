@@ -1,0 +1,5 @@
+rootProject.name = 'example'
+
+{{#ifVroongProject projectType}}
+include("clients")
+{{/ifVroongProject}}

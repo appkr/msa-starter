@@ -1,0 +1,40 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+    http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd ">
+
+  <changeSet id="20120820" author="appkr">
+    <comment>create persistent_events table</comment>
+
+    <createTable tableName="persistent_events" remarks="">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false" primaryKeyName="PK_PERSISTENTEVENTS_ID"/>
+      </column>
+      <column name="status" type="tinyint unsigned" defaultValue="0" remarks="10:CREATED; 20:PRODUCED; 30:CONSUMED; 40:FAILED">
+        <constraints nullable="false"/>
+      </column>
+      <column name="event_id" type="varchar(40)" remarks="">
+        <constraints nullable="false"/>
+      </column>
+      <column name="event_type" type="varchar(100)" remarks="">
+        <constraints nullable="false"/>
+      </column>
+      <column name="partition_key" type="varchar(40)" remarks="">
+        <constraints nullable="false"/>
+      </column>
+      <column name="body" type="longtext" defaultValue="NULL" remarks=""/>
+      <column name="created_at" type="timestamp(3)" remarks="">
+        <constraints nullable="false"/>
+      </column>
+      <column name="produced_at" type="timestamp(3)" remarks=""/>
+    </createTable>
+
+    <rollback>
+      <dropTable tableName="persistent_events"/>
+    </rollback>
+  </changeSet>
+</databaseChangeLog>
