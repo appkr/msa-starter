@@ -1,0 +1,205 @@
+plugins {
+    id 'org.springframework.boot' version '2.5.7'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'net.ltgt.apt' version '0.8'
+    id 'com.gorylenko.gradle-git-properties' version '2.3.2'
+    id 'com.google.cloud.tools.jib' version '3.1.4'
+    id 'org.liquibase.gradle' version '2.1.0'
+    id 'org.openapi.generator' version '5.3.0'
+}
+
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.google.cloud.tools.jib'
+apply plugin: 'org.openapi.generator'
+apply from: 'gradle/docker.gradle'
+apply from: 'gradle/swagger.gradle'
+apply from: 'gradle/liquibase.gradle'
+
+group = '{{groupName}}'
+version = project.version
+sourceCompatibility = '{{javaVersion}}'
+
+repositories {
+{{#ifVroongProject projectType}}
+    maven {
+        url "https://nexus.mm.meshkorea.net/repository/maven-public/"
+
+        credentials {
+            username repoUser
+            password repoPass
+        }
+    }
+{{/ifVroongProject}}
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+}
+
+dependencies {
+
+    // BOOTSTRAP, BOM
+
+    implementation platform('org.springframework.cloud:spring-cloud-dependencies:2020.0.4')
+    implementation platform('org.zalando:logbook-bom:2.14.0');
+
+    // GLOBAL UTILITIES
+
+    implementation 'org.apache.commons:commons-lang3:3.10'
+
+    // OPS
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // DEVELOPER TOOLS
+
+    // lombok
+    implementation 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+
+    // spring configuration processor
+    annotationProcessor('org.springframework.boot:spring-boot-configuration-processor') {
+        exclude group: 'com.vaadin.external.google', module: 'android-json'
+    }
+
+    // mapstruct
+    implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+
+    // LOGGING, TRACING
+
+    // sleuth
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+
+    // sentry
+    // @see https://docs.sentry.io/platforms/java/guides/logback/
+    implementation 'io.sentry:sentry-logback:5.4.1'
+
+    // logback extension
+    implementation 'net.logstash.logback:logstash-logback-encoder:7.0.1'
+    implementation 'ch.qos.logback.contrib:logback-json-classic:0.1.5'
+
+    // logbook - http request & response logging
+    // @see https://github.com/zalando/logbook
+    implementation 'org.zalando:logbook-spring-boot-starter'
+
+    // WEB - Hexagonal Input Port
+
+    // webmvc
+    implementation('org.springframework.boot:spring-boot-starter-web') {
+        exclude module: 'spring-boot-starter-tomcat'
+    }
+    implementation 'org.springframework.boot:spring-boot-starter-undertow'
+
+    // open-api-spec support packages
+    implementation 'org.openapitools:jackson-databind-nullable:0.2.1'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
+    // OpenApi Bug workaround @see https://github.com/OpenAPITools/openapi-generator/issues/3668
+    implementation 'io.swagger:swagger-annotations:1.5.17'
+
+    // object validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.hibernate.validator:hibernate-validator'
+
+    // RFC 7807  Problem Details for HTTP APIs
+    // @see https://github.com/zalando/problem-spring-web/tree/main/problem-spring-web
+    implementation 'org.zalando:problem-spring-web-starter:0.27.0'
+
+    // SCHEDULED TASK - Hexagonal Input Port
+
+    // scheduler lock @see https://github.com/lukas-krecan/ShedLock
+    implementation 'net.javacrumbs.shedlock:shedlock-spring:4.29.0'
+    implementation 'net.javacrumbs.shedlock:shedlock-provider-jdbc-template:4.29.0'
+
+    // MESSAGING - Hexagonal Output Port
+
+    implementation 'org.springframework.cloud:spring-cloud-stream'
+    implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka'
+    testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
+
+    // PERSISTENCE
+
+    // jpa & database drivers
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.hibernate:hibernate-jpamodelgen'
+    annotationProcessor 'org.hibernate:hibernate-jpamodelgen'
+    implementation 'mysql:mysql-connector-java'
+    testImplementation 'com.h2database:h2'
+
+    // liquibase
+    implementation 'org.liquibase:liquibase-core'
+    liquibaseRuntime(
+            'org.liquibase:liquibase-core:4.6.1',
+            'mysql:mysql-connector-java',
+            'org.liquibase.ext:liquibase-hibernate5:3.6',
+            sourceSets.main.compileClasspath,
+            sourceSets.main.output,
+            // Using this plugin with Java 9+ and XML based change sets will need to add JAXB th classpath since JAXB was removed from the core JVM.
+            // @see https://github.com/liquibase/liquibase-gradle-plugin
+            'javax.xml.bind:jaxb-api:2.3.1'
+    )
+
+    // querydsl
+    implementation 'com.querydsl:querydsl-core:5.0.0'
+    implementation 'com.querydsl:querydsl-jpa:5.0.0'
+    annotationProcessor(
+            'com.querydsl:querydsl-apt:5.0.0:jpa',
+            'jakarta.persistence:jakarta.persistence-api',
+            'jakarta.annotation:jakarta.annotation-api'
+    )
+
+    // SPRING CLOUD SECURITY
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-oauth2:2.2.5.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    // TEST
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        exclude group: 'com.vaadin.external.google', module: 'android-json'
+    }
+}
+
+// QueryDSL Class Generate Script to avoid lombok error {start}
+// @see https://jojoldu.tistory.com/372#gradle-50-이상--intellij-2020x-사용시
+def generated='src/main/generated'
+
+sourceSets {
+    main.java.srcDirs += [ generated ]
+}
+
+tasks.withType(JavaCompile) {
+    options.annotationProcessorGeneratedSourcesDirectory = file(generated)
+}
+
+clean.doLast {
+    file(generated).deleteDir()
+}
+// QueryDSL Class Generate Script to avoid lombok error {end}
+
+if (!org.gradle.internal.os.OperatingSystem.current().isWindows()) {
+    processResources {
+        filesMatching(["**/application.yml", "**/sentry.properties"]) {
+            filter {
+                it.replace("#project.version#", version)
+            }
+        }
+    }
+}
+
+compileJava {
+    options.compilerArgs = [
+            '-Amapstruct.suppressGeneratorTimestamp=true',
+            '-Amapstruct.suppressGeneratorVersionInfoComment=true',
+            '-Amapstruct.unmappedTargetPolicy=IGNORE'
+    ]
+}
+
+test {
+    useJUnitPlatform()
+    systemProperty('spring.profiles.active', 'test')
+}

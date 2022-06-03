@@ -30,7 +30,7 @@ spring-boot 마이크로서비스 프로젝트를 만듭니다. build 폴더에 
 # BUILD SUCCESSFUL in ...
 ```
 
-생성된 프로젝트를 다른 폴더로 복사해서 프로젝트를 시작합니다
+생성된 프로젝트를 다른 폴더로 복사해서 프로젝트를 시작합니다. git 초기화해야 빌드가 가능합니다.
 ```bash
 ~/msa-starter $ cp -r build {path-to-your-project}
 ~/msa-starter $ cd {path-to-your-project} && ./gradlew clean build

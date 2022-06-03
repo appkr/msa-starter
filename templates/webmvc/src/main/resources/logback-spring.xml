@@ -1,0 +1,16 @@
+<!DOCTYPE configuration>
+
+<configuration scan="true">
+  <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+    <resetJUL>true</resetJUL>
+  </contextListener>
+
+  <springProfile name="local,test">
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <include resource="logback/logback-console.xml"/>
+  </springProfile>
+
+  <springProfile name="dev,qa,prod">
+    <include resource="logback/logback-json.xml"/>
+  </springProfile>
+</configuration>
