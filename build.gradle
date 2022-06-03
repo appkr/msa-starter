@@ -16,9 +16,10 @@ plugins {
     id 'idea'
 }
 
-def sourceDir = "${projectDir}/templates"
+def sourceDir = "${projectDir}/templates/webmvc"
 def targetDir = buildDir
 def buildInfo = [
+        osArch: System.getProperty('os.arch').equals('aarch64') ? 'arm' : 'intel',
         projectType: 'n',
         projectName: 'example',
         groupName  : 'dev.appkr',
@@ -39,6 +40,9 @@ def buildInfo = [
 ]
 
 def handlebars = new Handlebars()
+handlebars.registerHelper('ifArmArch', (context, options) -> {
+    return (context == 'arm') ? options.fn(context) : options.inverse(context)
+})
 handlebars.registerHelper('ifJava11', (context, options) -> {
     return (context == '11') ? options.fn(context) : options.inverse(context)
 })
@@ -93,19 +97,17 @@ tasks.register('generate') {
 
 tasks.register('getBuildInfo') {
     doLast {
+        def template = getInput('WebMVC/JPA 프로젝트인가요(m)? WebFlux/R2DBC 프로젝트인가요(f) (default: {})? ', 'm')
+        if (template.equalsIgnoreCase('f')) {
+            sourceDir = "${projectDir}/templates/webflux"
+        }
+
         def isVroongProject = getInput('부릉 프로젝트입니까(y/n, default: {})?: ', 'n')
         if (isVroongProject.equalsIgnoreCase('y')) {
-            buildInfo = [
-                    projectType: 'v',
-                    projectName: 'example',
-                    groupName  : 'com.vroong',
-                    packageName: 'com.vroong.example',
-                    portNumber : '8080',
-                    mediaType  : 'application/vnd.vroong.private.v1+json',
-                    javaVersion: '11',
-                    dockerImage: 'amazoncorretto:11-alpine-jdk',
-                    skipTokens : ['.DS_Store']
-            ]
+            buildInfo.projectType = 'v'
+            buildInfo.groupName = 'com.vroong'
+            buildInfo.mediaType = 'application/vnd.vroong.private.v1+json'
+            buildInfo.skipTokens = ['.DS_Store']
         }
 
         def incorrect = true

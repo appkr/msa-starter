@@ -1,0 +1,383 @@
+openapi: '3.0.1'
+
+info:
+  title: '{{projectName}}'
+  version: 0.0.1
+
+servers:
+  - url: http://localhost:{{portNumber}}
+    description: Development server
+
+paths:
+  /api/albums/{albumId}:
+    get:
+      description: Get album
+      operationId: getAlbum
+      tags:
+        - Album
+      parameters:
+        - in: path
+          name: albumId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Ok
+          content:
+            {{mediaType}}:
+              schema:
+                $ref: '#/components/schemas/AlbumDetail'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /api/songs:
+    post:
+      description: Create Song
+      operationId: createSong
+      tags:
+        - Song
+      requestBody:
+        content:
+          {{mediaType}}:
+            schema:
+              $ref: '#/components/schemas/Song'
+      responses:
+        '200':
+          description: Ok
+          content:
+            {{mediaType}}:
+              schema:
+                $ref: '#/components/schemas/Song'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    get:
+      description: List Songs
+      operationId: listSongs
+      tags:
+        - Song
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/SizeParam'
+      responses:
+        '200':
+          description: Ok
+          content:
+            {{mediaType}}:
+              schema:
+                $ref: '#/components/schemas/SongList'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /api/songs/{songId}:
+    parameters:
+      - in: path
+        name: songId
+        required: true
+        schema:
+          type: integer
+          format: int64
+
+    put:
+      description: Update Song
+      operationId: updateSong
+      tags:
+        - Song
+      requestBody:
+        content:
+          {{mediaType}}:
+            schema:
+              $ref: '#/components/schemas/Song'
+      responses:
+        '200':
+          description: Ok
+          content:
+            {{mediaType}}:
+              schema:
+                $ref: '#/components/schemas/Song'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    delete:
+      description: Delete Song
+      operationId: deleteSong
+      tags:
+        - Song
+      responses:
+        '204':
+          $ref: '#/components/responses/EmptyContent'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+components:
+  schemas:
+
+    #----------------------------------------
+    # API fields
+    #----------------------------------------
+
+    LongId:
+      type: integer
+      format: int64
+      example: 1
+
+    DateTime:
+      type: string
+      format: date-time
+      example: "2018-12-01T10:00:00Z"
+
+    String:
+      type: string
+      example: "foo"
+
+    UUID:
+      type: string
+      format: uuid
+      example: c9106593-2d6c-40eb-8504-66b0ef41ad2d
+
+    #----------------------------------------
+    # Common Model
+    #----------------------------------------
+
+    LongArray:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/LongId'
+
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          format: uri
+          example: example/constraint-violation
+        title:
+          type: string
+          example: 제출한 요청이 유효하지 않습니다
+        detail:
+          type: string
+        fieldErrors:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/FieldError'
+
+    FieldError:
+      type: object
+      properties:
+        field:
+          type: string
+        message:
+          $ref: '#/components/schemas/ErrorCode'
+
+    ErrorCode:
+      type: string
+      example:
+        - NotNull
+        - Size
+
+    Page:
+      type: object
+      properties:
+        size:
+          type: integer
+          format: int32
+          default: 20
+          example: 20
+        totalElements:
+          type: integer
+          format: int64
+          example: 100
+        totalPages:
+          type: integer
+          format: int32
+          example: 5
+        number:
+          type: integer
+          format: int32
+          default: 1
+          example: 1
+
+    #----------------------------------------
+    # API Model
+    #----------------------------------------
+
+    Album:
+      type: object
+      properties:
+        albumId:
+          $ref: '#/components/schemas/LongId'
+        title:
+          $ref: '#/components/schemas/String'
+        createdAt:
+          $ref: '#/components/schemas/DateTime'
+        updatedAt:
+          $ref: '#/components/schemas/DateTime'
+        createdBy:
+          $ref: '#/components/schemas/UUID'
+        updatedBy:
+          $ref: '#/components/schemas/UUID'
+
+    AlbumDetail:
+      allOf:
+        - $ref: '#/components/schemas/Album'
+        - type: object
+          properties:
+            songs:
+              type: array
+              items:
+                $ref: '#/components/schemas/Song'
+
+    Song:
+      type: object
+      properties:
+        songId:
+          $ref: '#/components/schemas/LongId'
+        title:
+          $ref: '#/components/schemas/String'
+        album:
+          $ref: '#/components/schemas/Album'
+        createdAt:
+          $ref: '#/components/schemas/DateTime'
+        updatedAt:
+          $ref: '#/components/schemas/DateTime'
+        createdBy:
+          $ref: '#/components/schemas/UUID'
+        updatedBy:
+          $ref: '#/components/schemas/UUID'
+
+    SongList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Song'
+        page:
+          $ref: '#/components/schemas/Page'
+
+  parameters:
+
+    PageParam:
+      in: query
+      name: page
+      schema:
+        type: integer
+        format: int32
+        default: 1
+
+    SizeParam:
+      in: query
+      name: size
+      schema:
+        type: integer
+        format: int32
+        default: 10
+
+  responses:
+
+    Created:
+      description: Created
+
+    Accepted:
+      description: Accepted
+
+    NoContent:
+      description: No Content
+
+    EmptyContent:
+      description: No Content
+      content:
+        {{mediaType}}: { }
+
+    BadRequest:
+      description: Bad Request
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+
+    Forbidden:
+      description: Forbidden
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+
+    NotFound:
+      description: Not Found
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+
+    Conflict:
+      description: Conflict
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+
+    ServerError:
+      description: Internal Server Error
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+
+  securitySchemes:
+    'jhipster-uaa':
+      type: oauth2
+      flows:
+        password:
+          tokenUrl: http://localhost:9999/uaa/oauth/token
+          refreshUrl: http://localhost:9999/uaa/oauth/token
+          scopes: {}
+        clientCredentials:
+          tokenUrl: http://localhost:9999/uaa/oauth/token
+          scopes: {}
+
+security:
+  - jhipster-uaa: []

@@ -1,0 +1,82 @@
+server:
+  port: {{portNumber}}
+
+spring:
+  profiles:
+    active: local
+
+  output:
+    ansi:
+      enabled: always
+
+  r2dbc:
+    url: r2dbc:mysql://localhost:3306/local_{{projectName}}?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: root
+    password: secret
+
+  security:
+    oauth2:
+      client:
+        registration:
+          uaa:
+            client-id: internal
+            client-secret: internal
+            scope: web-app
+            authorization-grant-type: password, client_credentials, refresh_token
+        provider:
+          uaa.token-uri: http://localhost:9999/oauth/token
+      resourceserver:
+        jwt.jwk-set-uri: http://localhost:9999/.well-known/jwks.json
+
+  cloud:
+    stream:
+      kafka:
+        binder:
+          headers: [ "messageId", "messageType", "messageVersion", "messageSource" ]
+          auto-create-topics: false
+{{#ifVroongProject projectType}}
+          # Kafka - SASL_SSL설정과 SCRAM-SHA-512 를 이용한 ID Password 설정
+          # @see https://wiki.mm.meshkorea.net/pages/viewpage.action?pageId=95856174
+          configuration:
+            sasl:
+              jaas:
+                config: 'org.apache.kafka.common.security.plain.PlainLoginModule required username="alice" password="alice-secret";'
+              mechanism: PLAIN
+            security:
+              protocol: SASL_PLAINTEXT
+{{/ifVroongProject}}
+      bindings:
+        messageChannel:
+          binder: kafka
+          destination: local-{{projectName}}-output
+          producer:
+            # @see https://docs.spring.io/spring-cloud-stream-binder-kafka/docs/3.0.10.RELEASE/reference/html/spring-cloud-stream-binder-kafka.html#kafka-producer-properties
+            header-mode: headers
+            partition-key-expression: headers['partitionKey']
+            partition-count: 1
+      default-binder: kafka
+
+  sleuth:
+    web.additional-skip-pattern: '/management/.*'
+
+management:
+  endpoints:
+    web:
+      base-path: /management
+      exposure:
+        include: ["health", "info"]
+  endpoint:
+    health:
+      show-details: when_authorized
+      probes:
+        enabled: true
+  info:
+    git:
+      mode: simple
+  health:
+    mail.enabled: false
+
+application:
+  version: #project.version#
+  scheduler:
+    enabled: false
