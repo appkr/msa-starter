@@ -40,6 +40,9 @@ def buildInfo = [
 ]
 
 def handlebars = new Handlebars()
+handlebars.registerHelper('ifArmArch', (context, options) -> {
+    return (context == 'arm') ? options.fn(context) : options.inverse(context)
+})
 handlebars.registerHelper('ifJava11', (context, options) -> {
     return (context == '11') ? options.fn(context) : options.inverse(context)
 })

@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: example
+
+  profiles:
+    active: test
+
+  output:
+    ansi:
+      enabled: always
+
+  r2dbc:
+    url: r2dbc:h2:mem:///local_{{projectName}}?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MySQL;DATABASE_TO_LOWER=TRUE
+    username: sa
+    password:
+    initialization-mode: always
+
+  sql:
+    init:
+      schema-locations: classpath*:db/schema.sql
+
+logging.level:
+  io.r2dbc.h2: TRACE

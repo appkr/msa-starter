@@ -589,7 +589,7 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"const seed = CryptoJS.enc.Utf8.parse(pm.environment.get(\"clientId\") + \":\" + pm.environment.get(\"clientSecret\"));",
+							"const seed = CryptoJS.enc.Utf8.parse('internal:internal');",
 							"const basicAuthString = CryptoJS.enc.Base64.stringify(seed);",
 							"pm.environment.set(\"basicAuthString\", basicAuthString);"
 						]
@@ -1540,7 +1540,7 @@
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "http://localhost",
+			"value": "http://localhost:{{portNumber}}",
 			"type": "string"
 		}
 	]

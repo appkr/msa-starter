@@ -95,7 +95,11 @@ publishing {
 
 task redoc(type:Exec) {
     // For this to work correctly, `yarn global add redoc`
+    {{#ifArmArch osArch}}
+    commandLine '/opt/homebrew/bin/npx', 'redoc-cli', 'bundle', specPath, '-o', "${buildDir}/redoc.html"
+    {{else}}
     commandLine '/usr/local/bin/npx', 'redoc-cli', 'bundle', specPath, '-o', "${buildDir}/redoc.html"
+    {{/ifArmArch}}
 }
 
 compileJava.dependsOn("openApiGenerate")

@@ -33,12 +33,20 @@ services:
 
   zookeeper:
     image: wurstmeister/zookeeper:3.4.6
+{{#ifArmArch osArch}}
+    platform: linux/amd64
+{{/ifArmArch}}
     container_name: zookeeper
     ports:
       - 2181:2181
 
   kafka:
+{{#ifArmArch osArch}}
+    image: niks123123/kafka:latest
+    platform: linux/arm64
+{{else}}
     image: wurstmeister/kafka:2.13-2.6.0
+{{/ifArmArch}}
     container_name: kafka
     environment:
       KAFKA_CREATE_TOPICS: "local-{{projectName}}-output:1:1"

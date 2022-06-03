@@ -23,7 +23,7 @@ sourceCompatibility = '{{javaVersion}}'
 repositories {
 {{#ifVroongProject projectType}}
     maven {
-        url "http://nexus.mm.meshkorea.net/repository/maven-public/"
+        url "https://nexus.mm.meshkorea.net/repository/maven-public/"
 
         credentials {
             username repoUser

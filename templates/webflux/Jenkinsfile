@@ -1,0 +1,8 @@
+@Library('meshkorea') _
+
+vroongNeoMsaJavaPipeline(
+    team: '',
+    ecrRepoName: 'vroong/{{projectName}}',
+    argoAppName: 'vroong-{{projectName}}',
+    gradleBuildArguments: ''
+)

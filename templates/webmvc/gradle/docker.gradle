@@ -75,15 +75,6 @@ jib {
     }
 }
 
-task down(type:Exec) {
-    commandLine '/usr/local/bin/docker-compose', '-f', 'docker/docker-compose.yml', 'down'
-}
-
-task up(type:Exec) {
-    dependsOn down
-    commandLine '/usr/local/bin/docker-compose', '-f', 'docker/docker-compose.yml', 'up'
-}
-
 // How to start a cluster including "jhipster-uaa"
 //
 // Build "jhipster-uaa" docker image
@@ -93,6 +84,16 @@ task up(type:Exec) {
 //
 // Run the cluster
 //   ~/{{projectName}} $ ./gradlew clusterUp
+{{#ifArmArch osArch}}
+task clusterDown(type:Exec) {
+    commandLine '/opt/homebrew/bin/docker-compose', '-f', 'docker/cluster-compose.yml', 'down'
+}
+
+task clusterUp(type:Exec) {
+    dependsOn clusterDown
+    commandLine '/opt/homebrew/bin/docker-compose', '-f', 'docker/cluster-compose.yml', 'up'
+}
+{{else}}
 task clusterDown(type:Exec) {
     commandLine '/usr/local/bin/docker-compose', '-f', 'docker/cluster-compose.yml', 'down'
 }
@@ -101,3 +102,4 @@ task clusterUp(type:Exec) {
     dependsOn clusterDown
     commandLine '/usr/local/bin/docker-compose', '-f', 'docker/cluster-compose.yml', 'up'
 }
+{{/ifArmArch}}
