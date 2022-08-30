@@ -5,7 +5,6 @@ import java.net.InetAddress;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -13,7 +12,7 @@ import org.springframework.boot.info.GitProperties;
 import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
-@EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})
+@EnableConfigurationProperties({ApplicationProperties.class})
 public class Application {
 
 	public static void main(String[] args) {

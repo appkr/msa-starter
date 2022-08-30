@@ -1,22 +1,23 @@
 openApiGenerate {
     generatorName = 'spring'
-    inputSpec = "$rootDir/src/main/resources/swagger/api.yml".toString()
-    outputDir = "$buildDir/openapi".toString()
+    inputSpec = "${rootDir}/src/main/resources/swagger/api.yml".toString()
+    outputDir = "${buildDir}/openapi".toString()
     apiPackage = '{{packageName}}.api'
     modelPackage = '{{packageName}}.api.model'
-    modelNameSuffix = "Dto"
-    apiFilesConstrainedTo = [""]
-    modelFilesConstrainedTo = [""]
-    supportingFilesConstrainedTo = ["ApiUtil.java"]
+    modelNameSuffix = 'Dto'
+    apiFilesConstrainedTo = ['']
+    modelFilesConstrainedTo = ['']
+    supportingFilesConstrainedTo = ['ApiUtil.java']
     configOptions = [
-            delegatePattern: "true",
-            title: "{{projectName}}",
-            useTags: "true",
-            dateLibrary: "java8",
-            java8: "true",
-            hideGenerationTimestamp: "true"
+            delegatePattern: 'true',
+            title: '{{projectName}}',
+            useTags: 'true',
+            dateLibrary: 'java8',
+            java8: 'true',
+            hideGenerationTimestamp: 'true'
     ]
     validateSpec = true
+    importMappings = [Problem: 'org.zalando.problem.Problem']
 }
 
 sourceSets {
@@ -27,4 +28,9 @@ sourceSets {
     }
 }
 
-compileJava.dependsOn("openApiGenerate")
+compileJava.dependsOn('openApiGenerate')
+
+task redoc(type:Exec) {
+    // For this to work correctly, `yarn global add redoc`
+    commandLine 'npx', 'redoc-cli', 'bundle', "${rootDir}/src/main/resources/swagger/api.yml", '-o', "${buildDir}/redoc.html"
+}

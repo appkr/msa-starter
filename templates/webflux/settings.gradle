@@ -1,5 +1,3 @@
 rootProject.name = 'example'
 
-{{#ifVroongProject projectType}}
-include("clients")
-{{/ifVroongProject}}
+{{#ifVroongProject projectType}}include("clients"){{/ifVroongProject}}

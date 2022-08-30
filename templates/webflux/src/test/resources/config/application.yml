@@ -21,3 +21,7 @@ spring:
 
 logging.level:
   io.r2dbc.h2: TRACE
+
+application:
+  scheduler:
+    enabled: false

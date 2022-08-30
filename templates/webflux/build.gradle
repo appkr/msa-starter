@@ -6,11 +6,11 @@ plugins {
     id 'com.gorylenko.gradle-git-properties' version '2.3.2'
     id 'com.google.cloud.tools.jib' version '3.2.0'
     id 'org.openapi.generator' version '5.4.0'
+    id 'io.freefair.lombok' version '6.3.0'
+    id 'com.github.ben-manes.versions' version '0.42.0'
+    id 'com.avast.gradle.docker-compose' version '0.16.8'
 }
 
-apply plugin: 'io.spring.dependency-management'
-apply plugin: 'com.google.cloud.tools.jib'
-apply plugin: 'org.openapi.generator'
 apply from: 'gradle/docker.gradle'
 apply from: 'gradle/swagger.gradle'
 
@@ -19,71 +19,42 @@ version = project.version
 sourceCompatibility = '{{javaVersion}}'
 
 repositories {
-{{#ifVroongProject projectType}}
-    maven {
-        url "https://nexus.mm.meshkorea.net/repository/maven-public/"
+    {{#ifVroongProject projectType}}maven {
+        url 'https://nexus.mm.meshkorea.net/repository/maven-public/'
 
         credentials {
             username repoUser
             password repoPass
         }
-    }
-{{/ifVroongProject}}
+    }{{/ifVroongProject}}
+
     mavenCentral()
     maven { url 'https://repo.spring.io/milestone' }
 }
 
 dependencies {
 
-    // BOOTSTRAP, BOM
+    /**
+     * BOM, dependency management
+     */
 
     implementation platform('org.springframework.cloud:spring-cloud-dependencies:2021.0.1')
     implementation platform('org.zalando:logbook-bom:2.9.0');
 
-    // GLOBAL UTILITIES
+    /**
+     * Global utilities
+     */
 
     implementation 'org.apache.commons:commons-lang3:3.10'
-
-    // OPS
-
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-
-    // DEVELOPER TOOLS
-
-    // lombok
-    implementation 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.projectlombok:lombok'
-    testAnnotationProcessor 'org.projectlombok:lombok'
-
-    // spring configuration processor
     annotationProcessor('org.springframework.boot:spring-boot-configuration-processor') {
         exclude group: 'com.vaadin.external.google', module: 'android-json'
     }
-
-    // mapstruct
     implementation 'org.mapstruct:mapstruct:1.4.2.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 
-    // LOGGING, TRACING
-
-    // sleuth
-    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
-
-    // sentry
-    // @see https://docs.sentry.io/platforms/java/guides/logback/
-    implementation 'io.sentry:sentry-logback:5.4.1'
-
-    // logback extension
-    implementation 'net.logstash.logback:logstash-logback-encoder:7.0.1'
-    implementation 'ch.qos.logback.contrib:logback-json-classic:0.1.5'
-
-    // logbook - http request & response logging
-    // @see https://github.com/zalando/logbook
-    implementation 'org.zalando:logbook-spring-boot-starter'
-    implementation 'org.zalando:logbook-spring-boot-webflux-autoconfigure'
-
-    // WEB - Hexagonal Input Port
+    /**
+     * Inbound adapters
+     */
 
     // web
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
@@ -104,19 +75,13 @@ dependencies {
     implementation 'org.zalando:problem-spring-webflux:0.27.0'
     implementation 'org.zalando:logbook-spring-boot-webflux-autoconfigure'
 
-    // SCHEDULED TASK - Hexagonal Input Port
-
     // scheduler lock @see https://github.com/lukas-krecan/ShedLock
     implementation 'net.javacrumbs.shedlock:shedlock-spring:4.33.0'
     implementation 'net.javacrumbs.shedlock:shedlock-provider-r2dbc:4.33.0'
 
-    // MESSAGING - Hexagonal Output Port
-
-    implementation 'org.springframework.cloud:spring-cloud-stream'
-    implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka'
-    testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
-
-    // PERSISTENCE
+    /**
+     * Outbound adapters
+     */
 
     // persistence framework & database drivers
     implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
@@ -125,13 +90,42 @@ dependencies {
     testImplementation 'io.r2dbc:r2dbc-h2'
     testImplementation 'com.h2database:h2'
 
-    // SPRING CLOUD SECURITY
+    // messaging
+    implementation 'org.springframework.cloud:spring-cloud-stream'
+    implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka'
+    testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
 
+    /**
+     * Microservice patterns
+     */
+
+    // 헬스체크 패턴
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // 로깅 및 추적 패턴
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+
+    // sentry
+    // @see https://docs.sentry.io/platforms/java/guides/logback/
+    implementation 'io.sentry:sentry-logback:5.4.1'
+
+    // logback extension
+    implementation 'net.logstash.logback:logstash-logback-encoder:7.0.1'
+    implementation 'ch.qos.logback.contrib:logback-json-classic:0.1.5'
+
+    // logbook - http request & response logging
+    // @see https://github.com/zalando/logbook
+    implementation 'org.zalando:logbook-spring-boot-starter'
+    implementation 'org.zalando:logbook-spring-boot-webflux-autoconfigure'
+
+    // 보안 패턴
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
     testImplementation 'org.springframework.security:spring-security-test'
 
-    // TEST
+    /**
+     * Test
+     */
 
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
@@ -141,18 +135,17 @@ dependencies {
     testImplementation 'io.projectreactor.tools:blockhound-junit-platform:1.0.6.RELEASE'
     testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
     testImplementation 'com.google.auto.service:auto-service:1.0.1'
-{{#ifArmArch osArch}}
-    // For apple silicon
+
+    {{#ifArmArch osArch}}// For apple silicon
     // Workaround to avoid i.n.r.d.DnsServerAddressStreamProviders : Unable to load io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS.
-    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.77.Final:osx-aarch_64'
-{{/ifArmArch}}
+    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.77.Final:osx-aarch_64'{{/ifArmArch}}
 }
 
 if (!org.gradle.internal.os.OperatingSystem.current().isWindows()) {
     processResources {
-        filesMatching(["**/application.yml", "**/sentry.properties"]) {
+        filesMatching(['**/application.yml', '**/sentry.properties']) {
             filter {
-                it.replace("#project.version#", version)
+                it.replace('#project.version#', version)
             }
         }
     }

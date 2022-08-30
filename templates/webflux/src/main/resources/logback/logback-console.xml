@@ -18,8 +18,6 @@
   <logger name="org.springframework.web" level="INFO"/>
   <logger name="org.springframework.security" level="INFO"/>
   <logger name="org.springframework.cache" level="WARN"/>
-  <logger name="liquibase" level="INFO"/>
-  <logger name="LiquibaseSchemaResolver" level="INFO"/>
   <logger name="sun.net.www" level="INFO"/>
   <logger name="sun.rmi.transport" level="WARN"/>
 

@@ -30,3 +30,8 @@ sourceSets {
 }
 
 compileJava.dependsOn('openApiGenerate')
+
+task redoc(type:Exec) {
+    // For this to work correctly, `yarn global add redoc`
+    commandLine 'npx', 'redoc-cli', 'bundle', "${rootDir}/src/main/resources/swagger/api.yml", '-o', "${buildDir}/redoc.html"
+}
