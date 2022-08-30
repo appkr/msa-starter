@@ -1,5 +1,5 @@
 language: java
-jdk: openjdk11
+jdk: openjdk17
 script:
-  - ./gradlew generate -PuseDefault
+  - ./gradlew clean generate -PuseDefault
   - cd build && ./gradlew clean build
