@@ -19,6 +19,13 @@ spring:
     init:
       schema-locations: classpath*:db/schema.sql
 
+  security:
+    oauth2:
+      client:
+        provider:
+          uaa:
+            jwk-set-uri: http://dummy/jwks.json
+
 logging.level:
   io.r2dbc.h2: TRACE
 

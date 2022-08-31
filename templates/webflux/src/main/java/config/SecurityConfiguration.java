@@ -1,6 +1,7 @@
 package {{packageName}}.config;
 
 import java.security.GeneralSecurityException;
+import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -13,18 +14,23 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.zalando.problem.spring.webflux.advice.security.SecurityProblemSupport;
+
+import static org.springframework.security.oauth2.jwt.NimbusJwtDecoder.withJwkSetUri;
 
 @Configuration
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
 @Import(SecurityProblemSupport.class)
-public class WebSecurityConfiguration {
+public class SecurityConfiguration {
 
+  private final OAuth2ClientProperties properties;
   private final SecurityProblemSupport problemSupport;
 
-  public WebSecurityConfiguration(SecurityProblemSupport problemSupport) {
+  public SecurityConfiguration(OAuth2ClientProperties properties, SecurityProblemSupport problemSupport) {
+    this.properties = properties;
     this.problemSupport = problemSupport;
   }
 
@@ -32,8 +38,6 @@ public class WebSecurityConfiguration {
   public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) throws GeneralSecurityException {
     // @formatter:off
     return http
-        // To avoid an OPTIONS request always making a 401 response:
-        // @see https://www.baeldung.com/spring-security-cors-preflight
         .cors(customizer -> customizer.and())
         .csrf(spec -> spec.disable())
         .headers(spec -> spec.frameOptions().disable())
@@ -50,6 +54,11 @@ public class WebSecurityConfiguration {
         })
         .build();
     // @formatter:on
+  }
+
+  @Bean
+  public JwtDecoder jwtDecoder() {
+    return withJwkSetUri(properties.getProvider().get("uaa").getJwkSetUri()).build();
   }
 
   @Bean

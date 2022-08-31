@@ -72,6 +72,19 @@ spring:
             partition-key-expression: headers['partitionKey']
             partition-count: 1
       default-binder: kafka
+  security:
+    oauth2:
+      client:
+        registration:
+          uaa:
+            client-id: internal
+            client-secret: internal
+            scope: web-app
+            authorization-grant-type: client_credentials
+        provider:
+          uaa:
+            token-uri: http://localhost:9999/oauth/token
+            jwk-set-uri: http://localhost:9999/.well-known/jwks.json
 
 management:
   endpoints:
@@ -89,20 +102,6 @@ management:
       mode: simple
   health:
     mail.enabled: false
-
-security:
-  oauth2:
-    client:
-      access-token-uri: http://localhost:9999/oauth/token
-      user-authorization-uri: http://localhost:9999/oauth/token
-      client-id: internal
-      client-secret: internal
-      scope: web-app
-      grant-type: client_credentials
-      authorized-grant-type: password, client_credentials, refresh_token
-    resource:
-#      token-info-uri: http://localhost:9999/oauth/check_token
-      jwt.key-uri: http://localhost:9999/oauth/token_key
 
 application:
   version: #project.version#

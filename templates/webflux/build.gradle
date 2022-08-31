@@ -119,8 +119,8 @@ dependencies {
     implementation 'org.zalando:logbook-spring-boot-webflux-autoconfigure'
 
     // 보안 패턴
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     testImplementation 'org.springframework.security:spring-security-test'
 
     /**
@@ -160,6 +160,12 @@ compileJava {
 }
 
 tasks.named('test') {
+    // https://github.com/reactor/BlockHound/issues/33
+    if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_13)) {
+        jvmArgs += [
+                "-XX:+AllowRedefinitionToAddDeleteMethods"
+        ]
+    }
     useJUnitPlatform()
     systemProperty('spring.profiles.active', 'test')
 }

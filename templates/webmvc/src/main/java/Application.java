@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -12,7 +13,7 @@ import org.springframework.boot.info.GitProperties;
 import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
-@EnableConfigurationProperties({ApplicationProperties.class})
+@EnableConfigurationProperties({ApplicationProperties.class, OAuth2ClientProperties.class})
 public class Application {
 
 	public static void main(String[] args) {
@@ -46,5 +47,4 @@ public class Application {
 
 		return String.format("%s://%s:%s/management/health", scheme, host, serverInfo.getPort());
 	}
-
 }

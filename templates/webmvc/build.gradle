@@ -130,8 +130,8 @@ dependencies {
 
     // 보안 패턴
 
-    implementation 'org.springframework.cloud:spring-cloud-starter-oauth2:2.2.5.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     testImplementation 'org.springframework.security:spring-security-test'
 
     /**

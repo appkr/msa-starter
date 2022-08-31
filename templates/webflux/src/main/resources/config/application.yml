@@ -22,11 +22,10 @@ spring:
             client-id: internal
             client-secret: internal
             scope: web-app
-            authorization-grant-type: password, client_credentials, refresh_token
+            authorization-grant-type: client_credentials
         provider:
           uaa.token-uri: http://localhost:9999/oauth/token
-      resourceserver:
-        jwt.jwk-set-uri: http://localhost:9999/.well-known/jwks.json
+          jwk-set-uri: http://localhost:9999/.well-known/jwks.json
 
   cloud:
     stream:
