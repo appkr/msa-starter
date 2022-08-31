@@ -40,8 +40,8 @@ jib {
 
     container {
         jvmFlags = [
-                {{#ifJava11 javaVersion}}// Java9 container support @see https://www.eclipse.org/openj9/docs/xxusecontainersupport/
-                '-XX:+UseContainerSupport',{{/ifJava11}}
+                {{#ifJava8 javaVersion}}{{else}}// Java9 container support @see https://www.eclipse.org/openj9/docs/xxusecontainersupport/
+                '-XX:+UseContainerSupport',{{/ifJava8}}
                 // for G1GC @see https://www.oracle.com/technical-resources/articles/java/g1gc.html
                 '-XX:+UseG1GC',
                 '-XX:+HeapDumpOnOutOfMemoryError',

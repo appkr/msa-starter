@@ -2,12 +2,17 @@
 
 ## 개발 환경
 
-{{#ifJava11 javaVersion}}- amazonaws corretto jdk 11을 사용합니다
+{{#ifJava17 javaVersion}}- amazonaws corretto jdk 17을 사용합니다
+```shell
+$ brew install homebrew/cask-versions/corretto17 --cask
+$ jenv add /Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home
+$ jenv versions
+```{{#ifJava11 javaVersion}}- amazonaws corretto jdk 11을 사용합니다
 ```shell
 $ brew install homebrew/cask-versions/corretto11 --cask
 $ jenv add /Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home
 $ jenv versions
-```{{/ifJava11}}
+```{{/ifJava11}}{{/ifJava17}}
 
 - jhipster-uaa.zip 파일 압축을 풀고 도커 이미지를 빌드합니다. 이 과정은 최초 한번만 실행하면 됩니다
 ```shell

@@ -26,7 +26,7 @@ def buildInfo = [
         packageName: 'dev.appkr.example',
         portNumber : '8080',
         mediaType  : 'application/json',
-        javaVersion: '11',
+        javaVersion: '17',
         dockerImage: 'amazoncorretto:11-alpine-jdk',
         skipTokens : [
                 '.DS_Store',
@@ -43,8 +43,14 @@ def handlebars = new Handlebars()
 handlebars.registerHelper('ifArmArch', (context, options) -> {
     return (context == 'arm') ? options.fn(context) : options.inverse(context)
 })
+handlebars.registerHelper('ifJava17', (context, options) -> {
+    return (context == '17') ? options.fn(context) : options.inverse(context)
+})
 handlebars.registerHelper('ifJava11', (context, options) -> {
     return (context == '11') ? options.fn(context) : options.inverse(context)
+})
+handlebars.registerHelper('ifJava8', (context, options) -> {
+    return (context == '1.8') ? options.fn(context) : options.inverse(context)
 })
 handlebars.registerHelper('ifVroongProject', (context, options) -> {
     return (context == 'v') ? options.fn(context) : options.inverse(context)
@@ -114,11 +120,18 @@ tasks.register('getBuildInfo') {
 
         def incorrect = true
         while (incorrect) {
-            def javaVersion = getInput("사용하려는 자바 버전은 무엇입니까(1.8/11, default: {})?: ", buildInfo.javaVersion)
-            println javaVersion
-            if (javaVersion.equals('1.8') || javaVersion.equals('11')) {
-                buildInfo.javaVersion = javaVersion.equals('1.8') ? '1.8' : '11'
-                buildInfo.dockerImage = javaVersion.equals('1.8') ? 'openjdk:8-jre-alpine' : 'amazoncorretto:11-alpine-jdk'
+            def javaVersion = getInput("사용하려는 자바 버전은 무엇입니까(1.8/11/17, default: {})?: ", buildInfo.javaVersion)
+            if (javaVersion.equals('1.8')) {
+                buildInfo.javaVersion = '1.8'
+                buildInfo.dockerImage = 'openjdk:8-jre-alpine'
+                incorrect = false
+            } else if (javaVersion.equals('11')) {
+                buildInfo.javaVersion = '11'
+                buildInfo.dockerImage = 'amazoncorretto:11-alpine-jdk'
+                incorrect = false
+            } else if (javaVersion.equals('17')) {
+                buildInfo.javaVersion = '17'
+                buildInfo.dockerImage = 'amazoncorretto:17-alpine-jdk'
                 incorrect = false
             }
         }
