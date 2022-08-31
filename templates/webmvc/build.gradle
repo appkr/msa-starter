@@ -182,4 +182,5 @@ compileJava {
 test {
     useJUnitPlatform()
     systemProperty('spring.profiles.active', 'test')
+    systemProperty('user.timezone', 'Asia/Seoul')
 }
