@@ -57,6 +57,8 @@ tasks.register('generate') {
         dependsOn tasks.getBuildInfo
     }
 
+    dependsOn tasks.copyGradleProperties
+
     doLast{
         fileTree(sourceDir)
                 .filter { f -> !shouldSkip(f, buildInfo) }
@@ -167,4 +169,13 @@ def isBinary(byte[] bytes) {
         count++;
     }
     return false;
+}
+
+tasks.register('copyGradleProperties', Copy) {
+    from "${projectDir}/templates/gradle.properties"
+    into buildDir
+
+    doLast {
+        println "${buildDir}/gradle.properties created"
+    }
 }

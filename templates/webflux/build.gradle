@@ -1,14 +1,14 @@
 plugins {
     id 'java'
     id 'idea'
-    id 'org.springframework.boot' version '2.6.3'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'com.gorylenko.gradle-git-properties' version '2.3.2'
-    id 'com.google.cloud.tools.jib' version '3.2.0'
-    id 'org.openapi.generator' version '5.4.0'
-    id 'io.freefair.lombok' version '6.3.0'
-    id 'com.github.ben-manes.versions' version '0.42.0'
-    id 'com.avast.gradle.docker-compose' version '0.16.8'
+    id 'org.springframework.boot' version "${springBootVersion}"
+    id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
+    id 'com.gorylenko.gradle-git-properties' version "${gitPropertiesVersion}"
+    id 'com.google.cloud.tools.jib' version "${jibVersion}"
+    id 'org.openapi.generator' version "${openapiGeneratorVersion}"
+    id 'io.freefair.lombok' version "${lombokVersion}"
+    id 'com.github.ben-manes.versions' version "${versionManagerVersion}"
+    id 'com.avast.gradle.docker-compose' version "${dockerComposeVersion}"
 }
 
 apply from: 'gradle/docker.gradle'
@@ -38,8 +38,8 @@ dependencies {
      * BOM, dependency management
      */
 
-    implementation platform('org.springframework.cloud:spring-cloud-dependencies:2021.0.1')
-    implementation platform('org.zalando:logbook-bom:2.9.0');
+    implementation platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+    implementation platform("org.zalando:logbook-bom:${logbookVersion}");
 
     /**
      * Global utilities
@@ -49,8 +49,8 @@ dependencies {
     annotationProcessor('org.springframework.boot:spring-boot-configuration-processor') {
         exclude group: 'com.vaadin.external.google', module: 'android-json'
     }
-    implementation 'org.mapstruct:mapstruct:1.4.2.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
     /**
      * Inbound adapters
@@ -72,12 +72,12 @@ dependencies {
 
     // RFC 7807  Problem Details for HTTP APIs
     // @see https://github.com/zalando/problem-spring-web/tree/main/problem-spring-web
-    implementation 'org.zalando:problem-spring-webflux:0.27.0'
+    implementation "org.zalando:problem-spring-webflux:${problemWebVersion}"
     implementation 'org.zalando:logbook-spring-boot-webflux-autoconfigure'
 
     // scheduler lock @see https://github.com/lukas-krecan/ShedLock
-    implementation 'net.javacrumbs.shedlock:shedlock-spring:4.33.0'
-    implementation 'net.javacrumbs.shedlock:shedlock-provider-r2dbc:4.33.0'
+    implementation "net.javacrumbs.shedlock:shedlock-spring:${shedlockVersion}"
+    implementation "net.javacrumbs.shedlock:shedlock-provider-r2dbc:${shedlockVersion}"
 
     /**
      * Outbound adapters
@@ -85,7 +85,7 @@ dependencies {
 
     // persistence framework & database drivers
     implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
-    runtimeOnly 'dev.miku:r2dbc-mysql'
+    runtimeOnly 'dev.miku:r2dbc-mysql:0.8.2.RELEASE'
     runtimeOnly 'mysql:mysql-connector-java'
     testImplementation 'io.r2dbc:r2dbc-h2'
     testImplementation 'com.h2database:h2'
@@ -110,7 +110,7 @@ dependencies {
     implementation 'io.sentry:sentry-logback:5.4.1'
 
     // logback extension
-    implementation 'net.logstash.logback:logstash-logback-encoder:7.0.1'
+    implementation "net.logstash.logback:logstash-logback-encoder:${logstashLogbackEncoderVersion}"
     implementation 'ch.qos.logback.contrib:logback-json-classic:0.1.5'
 
     // logbook - http request & response logging
@@ -138,7 +138,7 @@ dependencies {
 
     {{#ifArmArch osArch}}// For apple silicon
     // Workaround to avoid i.n.r.d.DnsServerAddressStreamProviders : Unable to load io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS.
-    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.77.Final:osx-aarch_64'{{/ifArmArch}}
+    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.80.Final:osx-aarch_64'{{/ifArmArch}}
 }
 
 if (!org.gradle.internal.os.OperatingSystem.current().isWindows()) {
