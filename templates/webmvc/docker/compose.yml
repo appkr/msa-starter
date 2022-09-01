@@ -55,7 +55,7 @@ services:
       test: nc -z localhost 9092 || exit 1
 
   jhipster-uaa:
-    image: uaa:latest
+    image: jhipster-uaa:latest
     container_name: jhipster-uaa
     ports:
       - 9999:9999
