@@ -42,11 +42,8 @@ mysql|root|secret
 kafka|alice|alice-secret{{/ifVroongProject}}
 
 {{#ifVroongProject projectType}}## 개발
-- java code는 [google style guide](https://github.com/google/styleguide/blob/gh-pages/intellij-java-google-style.xml) 를 따릅니다 (hard wrap은 120까지 허용)
 
-## 개발
-
-- java code는 [google style guide](https://github.com/google/styleguide/blob/gh-pages/intellij-java-google-style.xml) 를 따릅니다 (hard wrap은 120까지 허용)
+- java code는 [google style guide](https://github.com/google/styleguide/blob/gh-pages/intellij-java-google-style.xml)를 따릅니다 (hard wrap은 120까지 허용)
 
 ### 프로젝트 최신화
 
@@ -55,7 +52,7 @@ kafka|alice|alice-secret{{/ifVroongProject}}
 ```
 
 ## 빌드
-- [Jenkins 적용 가이드](https://wiki.mm.meshkorea.net/pages/viewpage.action?pageId=95855850) 에 따라 빌드합니다
+- [Jenkins 적용 가이드](https://wiki.mm.meshkorea.net/pages/viewpage.action?pageId=95855850)에 따라 빌드합니다
 - [Jenkins BlueOcean](https://jenkins.meshtools.io/blue/organizations/jenkins/example/activity) 화면에서 빌드합니다
 
 ## 클라이언트 SDK 빌드 및 배포
@@ -70,7 +67,7 @@ kafka|alice|alice-secret{{/ifVroongProject}}
 
 ## 배포
 - 릴리스 브랜치에서 `gradle.properties`에 애플리케이션 버전을 부여합니다
-- [ArgoCD](https://argocd.meshtools.io/applications?search=example) 를 사용합니다 
+- [ArgoCD](https://argocd.meshtools.io/applications?search=example)를 사용합니다 
 
 ## 모니터링
 - [Kibana](https://kibana.meshtools.io/)

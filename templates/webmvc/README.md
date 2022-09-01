@@ -72,7 +72,7 @@ kafka|alice|alice-secret
 ## 배포
 
 - 릴리스 브랜치에서 `gradle.properties`에 애플리케이션 버전을 부여합니다
-- [ArgoCD](https://argocd.meshtools.io/applications?search={{projectName}}) 를 사용합니다 
+- [ArgoCD](https://argocd.meshtools.io/applications?search={{projectName}})를 사용합니다 
 
 ## 모니터링
 
