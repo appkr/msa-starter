@@ -142,6 +142,8 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
         exclude group: 'com.vaadin.external.google', module: 'android-json'
     }
+    testImplementation 'com.tngtech.archunit:archunit-junit5-api:0.23.1'
+    testRuntimeOnly 'com.tngtech.archunit:archunit-junit5-engine:0.23.1'
 }
 
 // QueryDSL Class Generate Script to avoid lombok error {start}

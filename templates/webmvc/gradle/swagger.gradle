@@ -2,8 +2,8 @@ openApiGenerate {
     generatorName = 'spring'
     inputSpec = "${rootDir}/src/main/resources/swagger/api.yml".toString()
     outputDir = "${buildDir}/openapi".toString()
-    apiPackage = '{{packageName}}.api'
-    modelPackage = '{{packageName}}.api.model'
+    apiPackage = '{{packageName}}.rest'
+    modelPackage = '{{packageName}}.rest'
     modelNameSuffix = 'Dto'
     apiFilesConstrainedTo = ['']
     modelFilesConstrainedTo = ['']

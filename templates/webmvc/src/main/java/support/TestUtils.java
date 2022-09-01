@@ -35,8 +35,6 @@ public final class TestUtils {
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
     mapper.registerModule(new JavaTimeModule());
-    // Reference for JsonNullable
-    // @see https://github.com/OpenAPITools/jackson-databind-nullable#usage
     mapper.registerModule(new JsonNullableModule());
 
     mapper.disable(

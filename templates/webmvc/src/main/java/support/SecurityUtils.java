@@ -1,14 +1,10 @@
 package {{packageName}}.support;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.UUID;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Optional;
 
 public class SecurityUtils {
 
@@ -61,17 +57,5 @@ public class SecurityUtils {
         .map(authentication -> authentication.getAuthorities().stream()
             .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(authority)))
         .orElse(false);
-  }
-
-  public static void changeContext(UUID userId) {
-    final AnonymousAuthenticationToken token = new AnonymousAuthenticationToken(
-        "system",
-        userId,
-        new ArrayList<>(Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"))));
-    SecurityContextHolder.getContext().setAuthentication(token);
-  }
-
-  public static void resetContext() {
-    SecurityContextHolder.getContext().setAuthentication(null);
   }
 }
