@@ -9,10 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@SpringBootTest(
-    classes = { Application.class, ApplicationTestConfiguration.class },
-    properties = { "spring.redis.database=9" }
-)
+@SpringBootTest(classes = { Application.class, ApplicationTestConfiguration.class })
 @AutoConfigureWebTestClient
 public @interface IntegrationTest {
   String DEFAULT_TIMEOUT = "PT5S";
