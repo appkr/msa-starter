@@ -9,7 +9,7 @@
 ### 설치법
 
 ```bash
-$ git clone https://github.com/meshkorea/msa-starter.git
+$ git clone https://github.com/appkr/msa-starter.git
 ```
 
 ### 사용법
