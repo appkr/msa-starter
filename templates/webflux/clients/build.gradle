@@ -30,8 +30,8 @@ openApiGenerate {
     generatorName = 'java'
     inputSpec = specPath
     outputDir = '${buildDir}/webclient-client'
-    apiPackage = '{{packageName}}.api'
-    modelPackage = '{{packageName}}.api.model'
+    apiPackage = '{{packageName}}.rest'
+    modelPackage = '{{packageName}}.rest'
     apiFilesConstrainedTo = ['']
     modelFilesConstrainedTo = ['']
     supportingFilesConstrainedTo = ['']

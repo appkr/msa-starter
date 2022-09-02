@@ -24,8 +24,9 @@ spring:
             scope: web-app
             authorization-grant-type: client_credentials
         provider:
-          uaa.token-uri: http://localhost:9999/oauth/token
-          jwk-set-uri: http://localhost:9999/.well-known/jwks.json
+          uaa:
+            token-uri: http://localhost:9999/oauth/token
+            jwk-set-uri: http://localhost:9999/.well-known/jwks.json
 
   cloud:
     stream:

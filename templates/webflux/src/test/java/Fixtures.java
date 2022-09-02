@@ -2,10 +2,10 @@ package {{packageName}};
 
 import static {{packageName}}.config.Constants.UNKNOWN_USER_ID;
 
-import {{packageName}}.api.model.AlbumDto;
-import {{packageName}}.api.model.SongDto;
 import {{packageName}}.domain.Album;
 import {{packageName}}.domain.Song;
+import {{packageName}}.rest.AlbumDto;
+import {{packageName}}.rest.SongDto;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.UUID;

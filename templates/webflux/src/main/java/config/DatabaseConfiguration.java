@@ -1,8 +1,8 @@
 package {{packageName}}.config;
 
-import {{packageName}}.repository.converter.InstantConverter;
-import {{packageName}}.repository.converter.PersistentEventStatusConverter;
-import {{packageName}}.repository.converter.UUIDConverter;
+import {{packageName}}.application.port.out.persistence.converter.InstantConverter;
+import {{packageName}}.application.port.out.persistence.converter.PersistentEventStatusConverter;
+import {{packageName}}.application.port.out.persistence.converter.UUIDConverter;
 import {{packageName}}.support.SecurityUtils;
 import io.r2dbc.spi.ConnectionFactory;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import org.springframework.data.relational.core.sql.render.SqlRenderer;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableR2dbcRepositories(basePackages = { "{{packageName}}.repository" })
+@EnableR2dbcRepositories(basePackages = { "{{packageName}}.application.port.out.persistence" })
 @EnableTransactionManagement
 @EnableR2dbcAuditing(auditorAwareRef = "myAuditorProvider")
 public class DatabaseConfiguration {

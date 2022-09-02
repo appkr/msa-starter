@@ -5,20 +5,14 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2Clien
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
+import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.zalando.problem.spring.webflux.advice.security.SecurityProblemSupport;
-
-import static org.springframework.security.oauth2.jwt.NimbusJwtDecoder.withJwkSetUri;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -57,25 +51,8 @@ public class SecurityConfiguration {
   }
 
   @Bean
-  public JwtDecoder jwtDecoder() {
-    return withJwkSetUri(properties.getProvider().get("uaa").getJwkSetUri()).build();
-  }
-
-  @Bean
-  @Profile("test")
-  public MapReactiveUserDetailsService users() {
-    UserDetails user = User.builder()
-        .username("user")
-        .password(passwordEncoder().encode("user"))
-        .roles("USER")
-        .build();
-
-    return new MapReactiveUserDetailsService(user);
-  }
-
-  @Bean
-  @Profile("test")
-  public PasswordEncoder passwordEncoder() {
-    return NoOpPasswordEncoder.getInstance();
+  @Primary
+  public ReactiveJwtDecoder reactiveJwtDecoder() {
+    return new NimbusReactiveJwtDecoder(properties.getProvider().get("uaa").getJwkSetUri());
   }
 }

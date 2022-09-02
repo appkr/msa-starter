@@ -41,9 +41,10 @@ mysql|root|secret
 {{#ifVroongProject projectType}}kafka|admin|admin-secret
 kafka|alice|alice-secret{{/ifVroongProject}}
 
-{{#ifVroongProject projectType}}## 개발
+## 개발
 
 - java code는 [google style guide](https://github.com/google/styleguide/blob/gh-pages/intellij-java-google-style.xml)를 따릅니다 (hard wrap은 120까지 허용)
+- 패키지 구조는 [육각형 구조](https://reflectoring.io/spring-hexagonal/)를 따릅니다
 
 ### 프로젝트 최신화
 
@@ -51,21 +52,21 @@ kafka|alice|alice-secret{{/ifVroongProject}}
 ~/{{projectName}} $ ./gradlew dependencyUpdates
 ```
 
-## 빌드
+{{#ifVroongProject projectType}}## 빌드
 - [Jenkins 적용 가이드](https://wiki.mm.meshkorea.net/pages/viewpage.action?pageId=95855850)에 따라 빌드합니다
-- [Jenkins BlueOcean](https://jenkins.meshtools.io/blue/organizations/jenkins/example/activity) 화면에서 빌드합니다
+- [Jenkins BlueOcean](https://jenkins.meshtools.io/blue/organizations/jenkins/example/activity) 화면에서 빌드합니다{{/ifVroongProject}}
 
 ## 클라이언트 SDK 빌드 및 배포
-```shell
+{{#ifVroongProject projectType}}```shell
 ~/{{projectName}} $ ./gradlew :clients:clean :clients:publish
 # 배포 결과는 https://nexus.mm.meshkorea.net/ 에서 확인할 수 있습니다
-```
+```{{/ifVroongProject}}
 ```shell
 ~/{{projectName}} $ ./gradlew redoc
 # 빌드된 API 문서는 build/redoc.html 입니다
 ```
 
-## 배포
+{{#ifVroongProject projectType}}## 배포
 - 릴리스 브랜치에서 `gradle.properties`에 애플리케이션 버전을 부여합니다
 - [ArgoCD](https://argocd.meshtools.io/applications?search=example)를 사용합니다 
 

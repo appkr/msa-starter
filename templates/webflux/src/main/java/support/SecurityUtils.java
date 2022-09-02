@@ -3,7 +3,7 @@ package {{packageName}}.support;
 import static {{packageName}}.config.Constants.JwtKey.USER_ID_CLAIM;
 import static {{packageName}}.config.Constants.UNKNOWN_USER_ID;
 
-import {{packageName}}.service.mapper.UUIDMapper;
+import {{packageName}}.adapter.in.rest.mapper.UUIDMapper;
 import java.util.Arrays;
 import java.util.UUID;
 import org.springframework.security.core.Authentication;
