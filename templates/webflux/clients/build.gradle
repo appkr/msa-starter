@@ -30,8 +30,8 @@ openApiGenerate {
     generatorName = 'java'
     inputSpec = specPath
     outputDir = '${buildDir}/webclient-client'
-    apiPackage = '{{packageName}}.api'
-    modelPackage = '{{packageName}}.api.model'
+    apiPackage = '{{packageName}}.rest'
+    modelPackage = '{{packageName}}.rest'
     apiFilesConstrainedTo = ['']
     modelFilesConstrainedTo = ['']
     supportingFilesConstrainedTo = ['']
@@ -91,15 +91,6 @@ publishing {
             }
         }
     }
-}
-
-task redoc(type:Exec) {
-    // For this to work correctly, `yarn global add redoc`
-{{#ifArmArch osArch}}
-    commandLine '/opt/homebrew/bin/npx', 'redoc-cli', 'bundle', specPath, '-o', "${buildDir}/redoc.html"
-{{else}}
-    commandLine '/usr/local/bin/npx', 'redoc-cli', 'bundle', specPath, '-o', "${buildDir}/redoc.html"
-{{/ifArmArch}}
 }
 
 compileJava.dependsOn('openApiGenerate')

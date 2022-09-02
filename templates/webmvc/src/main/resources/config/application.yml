@@ -42,10 +42,6 @@ spring:
         order_inserts: true
         order_updates: true
 
-  liquibase:
-    enabled: false
-    change-log: classpath:/db/changelog-master.xml
-
   resources:
     add-mappings: false
   mvc:
@@ -57,8 +53,7 @@ spring:
         binder:
           headers: [ "messageId", "messageType", "messageVersion", "messageSource" ]
           auto-create-topics: false
-{{#ifVroongProject projectType}}
-          # Kafka - SASL_SSL설정과 SCRAM-SHA-512 를 이용한 ID Password 설정
+          {{#ifVroongProject projectType}}# Kafka - SASL_SSL설정과 SCRAM-SHA-512 를 이용한 ID Password 설정
           # @see https://wiki.mm.meshkorea.net/pages/viewpage.action?pageId=95856174
           configuration:
             sasl:
@@ -66,8 +61,7 @@ spring:
                 config: 'org.apache.kafka.common.security.plain.PlainLoginModule required username="alice" password="alice-secret";'
               mechanism: PLAIN
             security:
-              protocol: SASL_PLAINTEXT
-{{/ifVroongProject}}
+              protocol: SASL_PLAINTEXT{{/ifVroongProject}}
       bindings:
         messageChannel:
           binder: kafka
@@ -78,6 +72,19 @@ spring:
             partition-key-expression: headers['partitionKey']
             partition-count: 1
       default-binder: kafka
+  security:
+    oauth2:
+      client:
+        registration:
+          uaa:
+            client-id: internal
+            client-secret: internal
+            scope: web-app
+            authorization-grant-type: client_credentials
+        provider:
+          uaa:
+            token-uri: http://localhost:9999/oauth/token
+            jwk-set-uri: http://localhost:9999/.well-known/jwks.json
 
 management:
   endpoints:
@@ -95,20 +102,6 @@ management:
       mode: simple
   health:
     mail.enabled: false
-
-security:
-  oauth2:
-    client:
-      access-token-uri: http://localhost:9999/oauth/token
-      user-authorization-uri: http://localhost:9999/oauth/token
-      client-id: internal
-      client-secret: internal
-      scope: web-app
-      grant-type: client_credentials
-      authorized-grant-type: password, client_credentials, refresh_token
-    resource:
-#      token-info-uri: http://localhost:9999/oauth/check_token
-      jwt.key-uri: http://localhost:9999/oauth/token_key
 
 application:
   version: #project.version#

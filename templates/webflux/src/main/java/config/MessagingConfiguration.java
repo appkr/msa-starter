@@ -1,6 +1,6 @@
 package {{packageName}}.config;
 
-import {{packageName}}.stream.ProducerChannel;
+import {{packageName}}.application.port.out.messaging.ProducerChannel;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 
 @EnableBinding(value = {ProducerChannel.class})

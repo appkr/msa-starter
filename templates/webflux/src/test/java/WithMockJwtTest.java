@@ -8,8 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import {{packageName}}.support.SecurityUtils;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.jwt.Jwt;
 import reactor.test.StepVerifier;
 
 @IntegrationTest
@@ -38,20 +36,5 @@ public class WithMockJwtTest {
           assertEquals(2, ((List<String>)jwt.getClaim(AUTHORITIES_CLAIM)).size());
         })
         .verifyComplete();
-  }
-
-  @Test
-  @WithMockJwt
-  void testDefault_imperativeStyle() {
-    final Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    assertEquals(0, ((List<String>)jwt.getClaim(AUTHORITIES_CLAIM)).size());
-  }
-
-  @Test
-  @WithMockJwt(userId = "foo", authorities = { "ROLE_ADMIN", "ROLE_ANONYMOUS" })
-  void testCustom_imperativeStyle() {
-    final Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    assertEquals("foo", jwt.getClaim(USER_ID_CLAIM));
-    assertEquals(2, ((List<String>)jwt.getClaim(AUTHORITIES_CLAIM)).size());
   }
 }

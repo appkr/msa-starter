@@ -6,11 +6,6 @@ spring:
     show-sql: true
     properties.hibernate.format_sql: true
 
-  liquibase:
-    enabled: true
-    contexts: local
-    change-log: classpath:/db/changelog-master.xml
-
 application:
   scheduler:
     enabled: true
