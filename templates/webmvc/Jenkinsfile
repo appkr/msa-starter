@@ -1,8 +1,8 @@
 @Library('meshkorea') _
 
-vroongNeoMsaJavaPipeline(
+{{#ifJava17 javaVersion}}vroongMsaJava17MultiPipeline{{else}}{{#ifJava11}}vroongNeoMsaJavaPipeline{{else}}vroongMsaJava8MultiPipeline{{/ifJava11}}{{/ifJava17}}(
     team: '',
     ecrRepoName: 'vroong/{{projectName}}',
     argoAppName: 'vroong-{{projectName}}',
-    gradleBuildArguments: ''
+    gradleBuildArguments: '-x :clients:build'
 )

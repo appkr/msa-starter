@@ -243,7 +243,9 @@ public class Carbon implements Comparable<Carbon> {
     if (this == o) return true;
     if (!(o instanceof Carbon)) return false;
     Carbon that = (Carbon) o;
-    return base.equals(that.base);
+    if (this.base.toEpochSecond() != that.base.toEpochSecond()) return false;
+    if (this.base.getNano() != that.base.getNano()) return false;
+    return true;
   }
 
   @Override

@@ -5,8 +5,6 @@ import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.time.*;
-
 @Configuration
 public class JacksonConfiguration {
 

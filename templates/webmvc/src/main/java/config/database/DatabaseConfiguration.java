@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @EnableJpaAuditing(auditorAwareRef = "springSecurityAuditorAware")
-@EnableJpaRepositories(
-    basePackages = "{{packageName}}.repository"
-)
+@EnableJpaRepositories(basePackages = {"{{packageName}}.application.port.out"})
 public class DatabaseConfiguration {
 }

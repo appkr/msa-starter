@@ -12,7 +12,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.UUID;
 
 @Entity
 @Table(name = "examples")
@@ -48,7 +47,7 @@ public class Example implements Serializable {
     this.title = title;
   }
 
-  public static Example newInstance(String title) {
+  public static Example create(String title) {
     return new Example(title);
   }
 

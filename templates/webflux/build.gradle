@@ -1,16 +1,16 @@
 plugins {
     id 'java'
     id 'idea'
-    id 'org.springframework.boot' version '2.6.3'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'com.gorylenko.gradle-git-properties' version '2.3.2'
-    id 'com.google.cloud.tools.jib' version '3.2.0'
-    id 'org.openapi.generator' version '5.4.0'
+    id 'org.springframework.boot' version "${springBootVersion}"
+    id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
+    id 'com.gorylenko.gradle-git-properties' version "${gitPropertiesVersion}"
+    id 'com.google.cloud.tools.jib' version "${jibVersion}"
+    id 'org.openapi.generator' version "${openapiGeneratorVersion}"
+    id 'io.freefair.lombok' version "${lombokVersion}"
+    id 'com.github.ben-manes.versions' version "${versionManagerVersion}"
+    id 'com.avast.gradle.docker-compose' version "${dockerComposeVersion}"
 }
 
-apply plugin: 'io.spring.dependency-management'
-apply plugin: 'com.google.cloud.tools.jib'
-apply plugin: 'org.openapi.generator'
 apply from: 'gradle/docker.gradle'
 apply from: 'gradle/swagger.gradle'
 
@@ -19,71 +19,42 @@ version = project.version
 sourceCompatibility = '{{javaVersion}}'
 
 repositories {
-{{#ifVroongProject projectType}}
-    maven {
-        url "https://nexus.mm.meshkorea.net/repository/maven-public/"
+    {{#ifVroongProject projectType}}maven {
+        url 'https://nexus.mm.meshkorea.net/repository/maven-public/'
 
         credentials {
             username repoUser
             password repoPass
         }
-    }
-{{/ifVroongProject}}
+    }{{/ifVroongProject}}
+
     mavenCentral()
     maven { url 'https://repo.spring.io/milestone' }
 }
 
 dependencies {
 
-    // BOOTSTRAP, BOM
+    /**
+     * BOM, dependency management
+     */
 
-    implementation platform('org.springframework.cloud:spring-cloud-dependencies:2021.0.1')
-    implementation platform('org.zalando:logbook-bom:2.9.0');
+    implementation platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+    implementation platform("org.zalando:logbook-bom:${logbookVersion}");
 
-    // GLOBAL UTILITIES
+    /**
+     * Global utilities
+     */
 
     implementation 'org.apache.commons:commons-lang3:3.10'
-
-    // OPS
-
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-
-    // DEVELOPER TOOLS
-
-    // lombok
-    implementation 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.projectlombok:lombok'
-    testAnnotationProcessor 'org.projectlombok:lombok'
-
-    // spring configuration processor
     annotationProcessor('org.springframework.boot:spring-boot-configuration-processor') {
         exclude group: 'com.vaadin.external.google', module: 'android-json'
     }
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
-    // mapstruct
-    implementation 'org.mapstruct:mapstruct:1.4.2.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
-
-    // LOGGING, TRACING
-
-    // sleuth
-    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
-
-    // sentry
-    // @see https://docs.sentry.io/platforms/java/guides/logback/
-    implementation 'io.sentry:sentry-logback:5.4.1'
-
-    // logback extension
-    implementation 'net.logstash.logback:logstash-logback-encoder:7.0.1'
-    implementation 'ch.qos.logback.contrib:logback-json-classic:0.1.5'
-
-    // logbook - http request & response logging
-    // @see https://github.com/zalando/logbook
-    implementation 'org.zalando:logbook-spring-boot-starter'
-    implementation 'org.zalando:logbook-spring-boot-webflux-autoconfigure'
-
-    // WEB - Hexagonal Input Port
+    /**
+     * Inbound adapters
+     */
 
     // web
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
@@ -101,37 +72,60 @@ dependencies {
 
     // RFC 7807  Problem Details for HTTP APIs
     // @see https://github.com/zalando/problem-spring-web/tree/main/problem-spring-web
-    implementation 'org.zalando:problem-spring-webflux:0.27.0'
+    implementation "org.zalando:problem-spring-webflux:${problemWebVersion}"
     implementation 'org.zalando:logbook-spring-boot-webflux-autoconfigure'
 
-    // SCHEDULED TASK - Hexagonal Input Port
-
     // scheduler lock @see https://github.com/lukas-krecan/ShedLock
-    implementation 'net.javacrumbs.shedlock:shedlock-spring:4.33.0'
-    implementation 'net.javacrumbs.shedlock:shedlock-provider-r2dbc:4.33.0'
+    implementation "net.javacrumbs.shedlock:shedlock-spring:${shedlockVersion}"
+    implementation "net.javacrumbs.shedlock:shedlock-provider-r2dbc:${shedlockVersion}"
 
-    // MESSAGING - Hexagonal Output Port
-
-    implementation 'org.springframework.cloud:spring-cloud-stream'
-    implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka'
-    testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
-
-    // PERSISTENCE
+    /**
+     * Outbound adapters
+     */
 
     // persistence framework & database drivers
     implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
-    runtimeOnly 'dev.miku:r2dbc-mysql'
+    runtimeOnly 'dev.miku:r2dbc-mysql:0.8.2.RELEASE'
     runtimeOnly 'mysql:mysql-connector-java'
     testImplementation 'io.r2dbc:r2dbc-h2'
     testImplementation 'com.h2database:h2'
 
-    // SPRING CLOUD SECURITY
+    // messaging
+    implementation 'org.springframework.cloud:spring-cloud-stream'
+    implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka'
+    testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
 
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    /**
+     * Microservice patterns
+     */
+
+    // 헬스체크 패턴
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // 로깅 및 추적 패턴
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+
+    // sentry
+    // @see https://docs.sentry.io/platforms/java/guides/logback/
+    implementation 'io.sentry:sentry-logback:5.4.1'
+
+    // logback extension
+    implementation "net.logstash.logback:logstash-logback-encoder:${logstashLogbackEncoderVersion}"
+    implementation 'ch.qos.logback.contrib:logback-json-classic:0.1.5'
+
+    // logbook - http request & response logging
+    // @see https://github.com/zalando/logbook
+    implementation 'org.zalando:logbook-spring-boot-starter'
+    implementation 'org.zalando:logbook-spring-boot-webflux-autoconfigure'
+
+    // 보안 패턴
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     testImplementation 'org.springframework.security:spring-security-test'
 
-    // TEST
+    /**
+     * Test
+     */
 
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
@@ -141,18 +135,19 @@ dependencies {
     testImplementation 'io.projectreactor.tools:blockhound-junit-platform:1.0.6.RELEASE'
     testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
     testImplementation 'com.google.auto.service:auto-service:1.0.1'
-{{#ifArmArch osArch}}
-    // For apple silicon
+    testImplementation 'com.tngtech.archunit:archunit-junit5-api:0.23.1'
+    testRuntimeOnly 'com.tngtech.archunit:archunit-junit5-engine:0.23.1'
+
+    {{#ifArmArch osArch}}// For apple silicon
     // Workaround to avoid i.n.r.d.DnsServerAddressStreamProviders : Unable to load io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS.
-    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.77.Final:osx-aarch_64'
-{{/ifArmArch}}
+    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.80.Final:osx-aarch_64'{{/ifArmArch}}
 }
 
 if (!org.gradle.internal.os.OperatingSystem.current().isWindows()) {
     processResources {
-        filesMatching(["**/application.yml", "**/sentry.properties"]) {
+        filesMatching(['**/application.yml', '**/sentry.properties']) {
             filter {
-                it.replace("#project.version#", version)
+                it.replace('#project.version#', version)
             }
         }
     }
@@ -167,6 +162,13 @@ compileJava {
 }
 
 tasks.named('test') {
+    // https://github.com/reactor/BlockHound/issues/33
+    if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_13)) {
+        jvmArgs += [
+                "-XX:+AllowRedefinitionToAddDeleteMethods"
+        ]
+    }
     useJUnitPlatform()
     systemProperty('spring.profiles.active', 'test')
+    systemProperty('user.timezone', 'Asia/Seoul')
 }

@@ -14,7 +14,7 @@ public class CarbonTest {
 
   @Test
   public void parse() {
-    final Carbon sut = Carbon.parse("2020-01-01T00:00:00.000+09:00");
+    final Carbon sut = Carbon.parse("2020-01-01T00:00:00.000+00:00");
 
     System.out.println(sut);
     assertEquals(2020, sut.getYear());
@@ -92,7 +92,7 @@ public class CarbonTest {
 
     System.out.println(a);
     System.out.println(b);
-    assertEquals(ZonedDateTime.now().getYear() + 1, b.getYear());
+    assertEquals(ZonedDateTime.now(SEOUL_ZONE).getYear() + 1, b.getYear());
   }
 
   @Test
@@ -102,13 +102,12 @@ public class CarbonTest {
 
     System.out.println(a);
     System.out.println(b);
-    assertEquals(ZonedDateTime.now().getYear() - 1, b.getYear());
+    assertEquals(ZonedDateTime.now(SEOUL_ZONE).getYear() - 1, b.getYear());
   }
 
   @Test
   public void addMonths() {
     final Carbon a = Carbon.now(SEOUL_ZONE);
-
     final Carbon b = a.addMonths(9);
 
     System.out.println(a);
@@ -198,7 +197,7 @@ public class CarbonTest {
 
   @Test
   public void startOfYear() {
-    final Carbon a = Carbon.now(SEOUL_ZONE);
+    final Carbon a = Carbon.parse("2020-01-01T08:59:59+09:00");
     final Carbon b = a.startOfYear();
 
     System.out.println(a);
@@ -212,7 +211,7 @@ public class CarbonTest {
 
   @Test
   public void endOfYear() {
-    final Carbon a = Carbon.now(SEOUL_ZONE);
+    final Carbon a = Carbon.parse("2020-01-01T08:59:59+09:00");
     final Carbon b = a.endOfYear();
 
     System.out.println(a);
@@ -226,7 +225,7 @@ public class CarbonTest {
 
   @Test
   public void startOfMonth() {
-    final Carbon a = Carbon.now(SEOUL_ZONE);
+    final Carbon a = Carbon.parse("2020-01-31T08:59:59+09:00");
     final Carbon b = a.startOfMonth();
 
     System.out.println(a);
@@ -239,12 +238,15 @@ public class CarbonTest {
 
   @Test
   public void endOfMonth() {
-    final Carbon a = Carbon.now(SEOUL_ZONE);
+    final Carbon a = Carbon.parse("2020-01-01T08:59:59+09:00");
     final Carbon b = a.endOfMonth();
 
     System.out.println(a);
     System.out.println(b);
-    final int expected = ZonedDateTime.now(SEOUL_ZONE).with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth();
+    final int expected = ZonedDateTime
+        .ofInstant(a.toInstant(), SEOUL_ZONE)
+        .with(TemporalAdjusters.lastDayOfMonth())
+        .getDayOfMonth();
     assertEquals(expected, b.getDay());
     assertEquals(23, b.getHour());
     assertEquals(59, b.getMinute());
@@ -253,7 +255,7 @@ public class CarbonTest {
 
   @Test
   public void startOfDay() {
-    final Carbon a = Carbon.now(SEOUL_ZONE);
+    final Carbon a = Carbon.parse("2020-01-01T08:59:59+09:00");
     final Carbon b = a.startOfDay();
 
     System.out.println(a);
@@ -265,7 +267,7 @@ public class CarbonTest {
 
   @Test
   public void endOfDay() {
-    final Carbon a = Carbon.now(SEOUL_ZONE);
+    final Carbon a = Carbon.parse("2020-01-01T08:59:59+09:00");
     final Carbon b = a.endOfDay();
 
     System.out.println(a);
@@ -328,18 +330,18 @@ public class CarbonTest {
 
   @Test
   public void eq() {
-    final Carbon a = Carbon.parse("2020-01-01T00:00:00.000+09:00");
-    final Carbon b = Carbon.parse("2020-01-01T00:00:00.000+09:00");
+    final Carbon a = Carbon.parse("2020-01-01T09:00:00.000+09:00");
+    final Carbon b = Carbon.parse("2020-01-01T00:00:00.000000000+00:00");
 
-    assertEquals(a, b);
+    assertTrue(a.eq(b));
   }
 
   @Test
   public void ne() {
     final Carbon a = Carbon.parse("2020-01-01T00:00:00.000+09:00");
-    final Carbon b = Carbon.parse("2020-01-01T00:00:00.000Z");
+    final Carbon b = Carbon.parse("2020-01-01T00:00:00.000+00:00");
 
-    assertNotEquals(a, b);
+    assertTrue(a.ne(b));
   }
 
   @Test
@@ -352,7 +354,7 @@ public class CarbonTest {
 
   @Test
   public void gte() {
-    final Carbon a = Carbon.parse("2020-01-01T00:00:00.000+09:00");
+    final Carbon a = Carbon.parse("2020-01-01T00:00:00.000000001+09:00");
     final Carbon b = Carbon.parse("2020-01-01T00:00:00.000+09:00");
 
     assertTrue(a.gte(b));
@@ -368,8 +370,8 @@ public class CarbonTest {
 
   @Test
   public void lte() {
-    final Carbon a = Carbon.parse("2020-01-01T00:00:00.000+09:00");
-    final Carbon b = Carbon.parse("2020-01-01T00:00:00.000+09:00");
+    final Carbon a = Carbon.parse("2020-01-01T00:00:00.999+09:00");
+    final Carbon b = Carbon.parse("2020-01-01T00:00:01.000+09:00");
 
     assertTrue(a.lte(b));
   }

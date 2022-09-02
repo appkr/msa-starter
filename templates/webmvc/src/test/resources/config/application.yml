@@ -7,7 +7,7 @@ spring:
 
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:local_{{projectName}};DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:local_{{projectName}};DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL
     username: sa
     password:
 
@@ -17,7 +17,18 @@ spring:
         show_sql: true
         format_sql: true
 
-  liquibase:
-    enabled: true
-    contexts: test
-    change-log: classpath:/db/changelog-master.xml
+  sql:
+    init:
+      data-locations: classpath*:db/data.sql
+      schema-locations: classpath*:db/schema.sql
+
+  security:
+    oauth2:
+      client:
+        provider:
+          uaa:
+            jwk-set-uri: http://dummy/jwks.json
+
+application:
+  scheduler:
+    enabled: false
