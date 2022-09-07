@@ -28,7 +28,7 @@ $ jenv versions
 
 - 애플리케이션을 구동합니다
 ```shell
-~/{{projectName}} $ export SPRING_PROFILES_ACTIVE=local; export USER_TIMEZONE="Asia/Seoul"; ./gradlew clean bootRun
+~/{{projectName}} $ export SPRING_PROFILES_ACTIVE=local; export USER_TIMEZONE="Asia/Seoul"; ./gradlew clean bootRun -x :clients:bootRun
 $ curl -s http://localhost:{{portNumber}}/management/health
 ```
 
