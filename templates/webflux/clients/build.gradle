@@ -68,6 +68,10 @@ bootJar {
     enabled = false
 }
 
+bootRun {
+    enabled = false
+}
+
 java {
     withJavadocJar()
     withSourcesJar()
