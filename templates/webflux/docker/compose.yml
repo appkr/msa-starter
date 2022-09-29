@@ -9,6 +9,7 @@ services:
     volumes:
       - $HOME/mysql_data:/var/lib/mysql/
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.conf
     environment:
       - MYSQL_USER=root
       - MYSQL_ROOT_PASSWORD=secret
