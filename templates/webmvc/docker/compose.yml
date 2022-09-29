@@ -6,8 +6,7 @@ version: '3.8'
 services:
 
   mysql:
-    image: mysql:5.7.32
-    {{#ifArmArch osArch}}platform: linux/amd64{{/ifArmArch}}
+    {{#ifArmArch osArch}}image: appkr/mysql:5.7-arm64{{else}}image: mysql:5.7.32{{/ifArmArch}}
     container_name: mysql
     volumes:
       - $HOME/mysql_data:/var/lib/mysql/
@@ -31,9 +30,7 @@ services:
       test: nc -z localhost 2181 || exit 1
 
   kafka:
-    {{#ifArmArch osArch}}image: niks123123/kafka:latest
-    platform: linux/arm64{{else}}
-    image: wurstmeister/kafka:2.13-2.6.0{{/ifArmArch}}
+    {{#ifArmArch osArch}}image: niks123123/kafka:latest{{else}}image: wurstmeister/kafka:2.13-2.6.0{{/ifArmArch}}
     container_name: kafka
     environment:
       KAFKA_CREATE_TOPICS: "local-{{projectName}}-output:1:1"

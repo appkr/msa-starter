@@ -9,6 +9,8 @@
 ### 설치법
 
 ```bash
+# 대용량 파일을 포함하고 있으므로, 클론하기 전에 git-lfs 플러그인을 설치해야 합니다.
+$ brew install git-lfs
 $ git clone https://github.com/appkr/msa-starter.git
 ```
 

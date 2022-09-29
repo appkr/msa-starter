@@ -14,10 +14,10 @@ $ jenv add /Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Hom
 $ jenv versions
 ```{{/ifJava11}}{{/ifJava17}}
 
-- jhipster-uaa.zip 파일 압축을 풀고 도커 이미지를 빌드합니다. 이 과정은 최초 한번만 실행하면 됩니다
+- jhipster-uaa 도커 이미지를 가져옵니다. 이 과정은 최초 한번만 실행하면 됩니다
 ```shell
-~ $ cp msa-starter/jhipster-uaa.zip ./
-~ $ unzip jhipster-uaa.zip && cd jhipster-uaa && ./gradlew jibDockerBuild -Djib.to.image=jhipster-uaa -Djib.to.tags=latest
+~ $ docker load < jhipster-uaa-intel.tar
+# arm 장비라면, docker load < jhipster-uaa-arm64.tar
 ```
 
 - 아래 명령으로 MySQL(3306), Kafka(9092), jhipster-uaa(9999) 등을 구동합니다
