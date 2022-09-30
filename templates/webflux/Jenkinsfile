@@ -4,5 +4,5 @@
     team: '',
     ecrRepoName: 'vroong/{{projectName}}',
     argoAppName: 'vroong-{{projectName}}',
-    gradleBuildArguments: ''
+    gradleBuildArguments: '-x :clients:build'
 )

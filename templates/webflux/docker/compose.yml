@@ -1,5 +1,5 @@
 # CAVEAT - THIS FILE MUST BE USED FOR LOCAL DEVELOPMENT PURPOSE ONLY
-# For full spec of docker-compose: @see @see https://docs.docker.com/compose/compose-file/
+# For full spec of docker-compose: @see https://docs.docker.com/compose/compose-file/
 
 services:
 
