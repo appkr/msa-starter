@@ -17,35 +17,38 @@ import org.springframework.context.ApplicationContext;
 @EnableConfigurationProperties({ApplicationProperties.class, OAuth2ClientProperties.class, TaskExecutionProperties.class})
 public class Application {
 
-	public static void main(String[] args) {
-		SpringApplication app = new SpringApplication(Application.class);
-		ApplicationContext ctx = app.run(args);
+  public static void main(String[] args) {
+    final SpringApplication app = new SpringApplication(Application.class);
+    final ApplicationContext ctx = app.run(args);
 
-		final String profiles = StringUtils.join(ctx.getEnvironment().getActiveProfiles(), ",");
-		final String version = ctx.getBean(ApplicationProperties.class).getVersion();
-		final GitProperties gitInfo = ctx.getBean(GitProperties.class);
-		final ServerProperties serverInfo = ctx.getBean(ServerProperties.class);
+    final String profiles = StringUtils.join(ctx.getEnvironment().getActiveProfiles(), ",");
+    final String version = ctx.getBean(ApplicationProperties.class).getVersion();
+    final GitProperties gitInfo = ctx.getBean(GitProperties.class);
+    final ServerProperties serverInfo = ctx.getBean(ServerProperties.class);
 
-		// @formatter:off
-		String textBanner = String.format("\n----------------------------------------------------------\n"
-						+ "Spring profiles \u001B[31m%s\u001B[0m\n"
-						+ "Application version \u001B[31m%s\u001B[0m\n"
-						+ "Git branch \u001B[31m%s\u001B[0m; commit \u001B[31m%s\u001B[0m\n"
-						+ "\n"
-						+ "Application is running!\n"
-						+ "%s"
-						+ "\n----------------------------------------------------------\n",
-				profiles, version, gitInfo.getBranch(), gitInfo.getShortCommitId(), getHealthEndpoint(serverInfo));
-		// @formatter:on
+    // @formatter:off
+    final String textBanner = String.format("\n----------------------------------------------------------\n"
+                + "Spring profiles {RED}%s{RST}\n"
+                + "Application version {RED}%s{RST}\n"
+                + "Git branch {RED}%s{RST}; commit {RED}%s{RST}\n"
+                + "\n"
+                + "Application is running!\n"
+                + "%s"
+                + "\n----------------------------------------------------------\n",
+            profiles, version, gitInfo.getBranch(), gitInfo.getShortCommitId(), getHealthEndpoint(serverInfo))
+        .replaceAll("\\{RED}", ConsoleColor.TEXT_RED)
+        .replaceAll("\\{RST}", ConsoleColor.TEXT_RESET);
+    ;
+    // @formatter:on
 
-		System.out.println(textBanner);
-	}
+    System.out.println(textBanner);
+  }
 
-	static String getHealthEndpoint(ServerProperties serverInfo) {
-		final String scheme = (serverInfo.getSsl() != null && serverInfo.getSsl().isEnabled()) ? "https" : "http";
-		final InetAddress addr = serverInfo.getAddress();
-		final String host = (addr == null) ? "localhost" : addr.getHostName();
+  static String getHealthEndpoint(ServerProperties serverInfo) {
+    final String scheme = (serverInfo.getSsl() != null && serverInfo.getSsl().isEnabled()) ? "https" : "http";
+    final InetAddress addr = serverInfo.getAddress();
+    final String host = (addr == null) ? "localhost" : addr.getHostName();
 
-		return String.format("%s://%s:%s/management/health", scheme, host, serverInfo.getPort());
-	}
+    return String.format("%s://%s:%s/management/health", scheme, host, serverInfo.getPort());
+  }
 }
