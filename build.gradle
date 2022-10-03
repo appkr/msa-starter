@@ -1,194 +1,52 @@
-import java.nio.file.Files
-import com.github.jknack.handlebars.Handlebars
-import com.github.jknack.handlebars.io.StringTemplateSource
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'com.github.jknack', name: 'handlebars', version: '4.3.0'
-    }
-}
-
 plugins {
     id 'java'
     id 'idea'
+    id 'application'
+    id 'io.freefair.lombok' version '6.5.1'
+    // Exception in thread "main" java.lang.NoClassDefFoundError: picocli.CommandLine
+    // @see https://stackoverflow.com/a/73107093
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
-def sourceDir = "${projectDir}/templates/webmvc"
-def targetDir = buildDir
-def buildInfo = [
-        osArch: System.getProperty('os.arch').equals('aarch64') ? 'arm' : 'intel',
-        projectType: 'n',
-        projectName: 'example',
-        groupName  : 'dev.appkr',
-        packageName: 'dev.appkr.example',
-        portNumber : '8080',
-        mediaType  : 'application/json',
-        javaVersion: '17',
-        dockerImage: 'amazoncorretto:11-alpine-jdk',
-        skipTokens : [
-                '.DS_Store',
-                'jmx-exporter',
-                'newrelic',
-                'Jenkinsfile',
-                'clients/.gitignore',
-                'clients/build.gradle',
-                'kafka/kafka_server_jaas.conf'
-        ]
+version = '3.0.0-SNAPSHOT'
+group = 'dev.appkr'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+def loggers = [
+        'org.slf4j:slf4j-api:1.7.32',
+        'org.slf4j:log4j-over-slf4j:1.7.32',
+        'ch.qos.logback:logback-core:1.2.9',
+        'ch.qos.logback:logback-classic:1.2.9'
 ]
 
-def handlebars = new Handlebars()
-handlebars.registerHelper('ifArmArch', (context, options) -> {
-    return (context == 'arm') ? options.fn(context) : options.inverse(context)
-})
-handlebars.registerHelper('ifJava17', (context, options) -> {
-    return (context == '17') ? options.fn(context) : options.inverse(context)
-})
-handlebars.registerHelper('ifJava11', (context, options) -> {
-    return (context == '11') ? options.fn(context) : options.inverse(context)
-})
-handlebars.registerHelper('ifJava8', (context, options) -> {
-    return (context == '1.8') ? options.fn(context) : options.inverse(context)
-})
-handlebars.registerHelper('ifVroongProject', (context, options) -> {
-    return (context == 'v') ? options.fn(context) : options.inverse(context)
-})
+dependencies {
+    implementation 'info.picocli:picocli:4.6.3'
+    annotationProcessor 'info.picocli:picocli-codegen:4.6.3'
+    implementation 'com.github.jknack:handlebars:4.3.0'
+    implementation 'org.eclipse.jgit:org.eclipse.jgit:6.3.0.202209071007-r'
+    implementation loggers
 
-tasks.register('generate') {
-    dependsOn tasks.clean
-
-    if (!project.gradle.startParameter.projectProperties.containsKey('useDefault')) {
-        dependsOn tasks.getBuildInfo
-    }
-
-    dependsOn tasks.copyGradleProperties
-
-    doLast{
-        fileTree(sourceDir)
-                .filter { f -> !shouldSkip(f, buildInfo) }
-                .each { f ->
-                    // Calculate destination path
-                    //  {sourceDir}/clients/build.gradle -> {targetDir}/clients/build.gradle
-                    //  {sourceDir}/src/main/java/Application.java -> {targetDir}/src/main/dev/appkr/example/Application.java
-                    def targetFilename = f.path.toString().replace(sourceDir.toString(), targetDir.toString())
-                    if (targetFilename.contains('src/main/java')) {
-                        targetFilename = targetFilename.replace('src/main/java', "src/main/java/${buildInfo.packageName.replace('.', '/')}")
-                    }
-                    if (targetFilename.contains('src/test/java')) {
-                        targetFilename = targetFilename.replace('src/test/java', "src/test/java/${buildInfo.packageName.replace('.', '/')}")
-                    }
-
-                    // Make a directory if not exists
-                    Files.createDirectories(java.nio.file.Paths.get(targetFilename).getParent())
-
-                    if (isBinary(f.bytes)) {
-                        // Copy if the file is a binary
-                        Files.copy(f.toPath(), java.nio.file.Paths.get(targetFilename))
-                    } else {
-                        // Bind buildInfo to the templates
-                        def templateSource = new StringTemplateSource(f.name, f.getText('UTF-8'))
-                        def template = handlebars.compile(templateSource)
-                        new File(targetFilename).write(template.apply(buildInfo))
-                    }
-
-                    // Log and finish
-                    println "${targetFilename} created"
-                }
-
-        // Make gradlew be executable
-        def gradlewPath = "${targetDir}/gradlew"
-        new File(gradlewPath).setExecutable(true, false)
-    }
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation loggers
 }
 
-tasks.register('getBuildInfo') {
-    doLast {
-        def template = getInput('WebMVC/JPA 프로젝트인가요(m)? WebFlux/R2DBC 프로젝트인가요(f) (default: {})? ', 'm')
-        if (template.equalsIgnoreCase('f')) {
-            sourceDir = "${projectDir}/templates/webflux"
-        }
-
-        def isVroongProject = getInput('부릉 프로젝트입니까(y/n, default: {})?: ', 'n')
-        if (isVroongProject.equalsIgnoreCase('y')) {
-            buildInfo.projectType = 'v'
-            buildInfo.groupName = 'com.vroong'
-            buildInfo.mediaType = 'application/vnd.vroong.private.v1+json'
-            buildInfo.skipTokens = ['.DS_Store']
-        }
-
-        def incorrect = true
-        while (incorrect) {
-            def javaVersion = getInput("사용하려는 자바 버전은 무엇입니까(1.8/11/17, default: {})?: ", buildInfo.javaVersion)
-            if (javaVersion.equals('1.8')) {
-                buildInfo.javaVersion = '1.8'
-                buildInfo.dockerImage = 'openjdk:8-jre-alpine'
-                incorrect = false
-            } else if (javaVersion.equals('11')) {
-                buildInfo.javaVersion = '11'
-                buildInfo.dockerImage = 'amazoncorretto:11-alpine-jdk'
-                incorrect = false
-            } else if (javaVersion.equals('17')) {
-                buildInfo.javaVersion = '17'
-                buildInfo.dockerImage = 'amazoncorretto:17-alpine-jdk'
-                incorrect = false
-            }
-        }
-
-        buildInfo.projectName = getInput("프로젝트 이름은 무엇입니까(default: {})?", buildInfo.projectName)
-        buildInfo.groupName = getInput("그룹 이름은 무엇입니까(default: {})?", buildInfo.groupName)
-        buildInfo.portNumber = getInput("웹 서버 포트는 무엇입니까(default: {})?", buildInfo.portNumber)
-        buildInfo.mediaType = getInput("웹 요청 및 응답에 사용할 미디어 타입은 무엇입니까(default: {})?", buildInfo.mediaType)
-        buildInfo.packageName = "${buildInfo.groupName}.${buildInfo.projectName}"
-
-        confirm(buildInfo)
-    }
+compileJava {
+    options.compilerArgs += ["-Aproject=${project.group}/${project.name}"]
 }
 
-def getInput(String question, String defaultValue) {
-    // NOTE. In daemon mode System.console() returns null, hence System.console.readLine("...?") is not possible
-    // @see https://stackoverflow.com/a/49677500/4737224
-    println "> ${question.replace('{}', defaultValue)} "
-    def inputValue = System.in.newReader().readLine()
-    return inputValue.isEmpty() ? defaultValue : inputValue
+application {
+    mainClass = 'dev.appkr.starter.MsaStarter'
 }
 
-def confirm(Map<String, Object> buildInfo) {
-    println "진행할까요('n' to quit)? ${buildInfo}"
-    def inputValue = System.in.newReader().readLine()
-    if (inputValue.equalsIgnoreCase('n')) {
-        throw new GradleException("빌드를 중단합니다!")
-    }
-}
-
-def shouldSkip(File f, Map<String, Object> buildInfo) {
-    def skip = false
-    buildInfo.skipTokens.each { token ->
-        if (f.path.indexOf(token) != -1) {
-            skip = true
-        }
-    }
-    return skip
-}
-
-def isBinary(byte[] bytes) {
-    // @see http://guruble.com/how-to-check-binary-or-ascii-from-java-inputstream/
-    int len = 1024, count = 0;
-    for (byte b : bytes) {
-        if (b == 0 && count < len - 1) {
-            return true;
-        }
-        count++;
-    }
-    return false;
-}
-
-tasks.register('copyGradleProperties', Copy) {
-    from "${projectDir}/templates/gradle.properties"
-    into buildDir
-
-    doLast {
-        println "${buildDir}/gradle.properties created"
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'dev.appkr.starter.MsaStarter'
+        )
     }
 }
