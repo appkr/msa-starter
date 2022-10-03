@@ -1,5 +1,5 @@
 language: java
-jdk: openjdk11
+jdk: openjdk17
 script:
-  - ./gradlew clean generate -PuseDefault
-  - cd build && ./gradlew clean build
+  - ./gradlew run --args="generate --useDefault"
+  - cd $HOME/.msa-starter && git init && ./gradlew clean build

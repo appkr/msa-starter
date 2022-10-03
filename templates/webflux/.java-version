@@ -1,1 +1,0 @@
-{{#ifJava17 javaVersion}}17{{else}}{{#ifJava11}}11{{else}}1.8{{/ifJava11}}{{/ifJava17}}
