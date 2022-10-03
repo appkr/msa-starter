@@ -1,6 +1,6 @@
 [![](https://api.travis-ci.com/appkr/msa-starter.svg)](https://travis-ci.com/github/appkr/msa-starter)
 
-> **`중요 공지`** 1.x TypeScript -> 2.x Gradle task -> 3.x Java 로 구현 언어가 다릅니다.  
+> **`중요 공지`** 1.x TypeScript/Node.js -> 2.x Groovy/Gradle task -> 3.x Java 로 구현 언어가 다릅니다.  
 
 ## msa-starter
 
@@ -8,8 +8,7 @@
 
 ### 설치법
 
-- 방법 1: [Releases 페이지](https://github.com/appkr/msa-starter/releases)에서 각자의 아키텍처에 맞는 바이너리를 내려 받습니다(추천).
-- 방법 2: 프로젝트를 클론 받아 직접 빌드하고 사용합니다.
+프로젝트를 클론 받아 빌드합니다
 ```shell
 ./gradlew clean build
 
@@ -21,18 +20,13 @@ java -jar build/libs/msastarter-VERSION-all.jar publish
 unzip build/distributions/msastarter-shadow-VERSION.zip -d {DIR}
 {DIR}/bin/msastarter
 ``` 
-- 방법 3: 프로젝트를 클론 받아 Gradle로 구동합니다(추천하지 않음).
-```shell
-./gradlew run --args="generate"
-./gradlew run --args="publish"
-``` 
 
 ### 사용법
 
-generate, publish 두 개의 서브 커맨드를 제공합니다
+`generate`, `publish` 두 개의 서브 커맨드를 제공합니다
 
 ```shell
-./msastarter-3.0.0-SNAPSHOT-all
+$ java -jar build/libs/msastarter-VERSION-all.jar↵
 # Usage: msa-starter [-hV] [COMMAND]
 # Command that generates a Spring-boot microservice skeleton
 #   -h, --help      Show this help message and exit.
@@ -46,7 +40,7 @@ generate, publish 두 개의 서브 커맨드를 제공합니다
 #### generate 커맨드
 
 ```shell
-$ ./msastarter-VERSION-all generate 
+$ java -jar build/libs/msastarter-VERSION-all.jar generate↵ 
 # A WebMVC/JPA project(m)? Or a WebFlux/R2DBC project(f) (default: m)? ↵
 # Is vroong project(y/n, default: n)? ↵
 # Which java version will you choose(1.8/11/17, default: 17)? ↵
@@ -64,7 +58,7 @@ $ ./msastarter-VERSION-all generate
 #### publish 커맨드
 
 ```shell
-$ ./msastarter-VERSION-all publish 
+$ java -jar build/libs/msastarter-VERSION-all.jar publish↵ 
 # What is the dir you want to publish? ~/demo ↵
 # Proceed ('Enter' to continue OR 'n' to quit)?
 # targetDir:  ~/demo
@@ -87,10 +81,9 @@ $ ./msastarter-VERSION-all publish
 
 ## 기여하기
 
-온보딩 중이신가요? 새 프로젝트를 진행중이신가요? 스타터 앱 및 `templates`의 문제점을 발견했다면 고치고 PR해주세요
+온보딩 중이신가요? 새 프로젝트를 진행중이신가요? 스타터 앱 및 템플릿의 문제점 또는 개선점을 발견했다면 고치고 PR해주세요
 
 ```
-Folder Structure
 src
 └── main
     ├── java                # 스타터 앱
@@ -99,31 +92,4 @@ src
             ├── gradle.properties
             ├── webflux     # WebFlux/R2DBC 프로젝트 템플릿
             └── webmvc      # WebMVC/JPA 프로젝트 템플릿
-```
-
-## Build
-
-Install GraalVM
-
-```shell
-wget https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.2.0/graalvm-ce-java17-darwin-amd64-22.2.0.tar.gz
-tar -xzf graalvm-ce-java17-darwin-amd64-22.2.0.tar.gz
-
-VMDIR=/Library/Java/JavaVirtualMachines
-GRDIR=graalvm-ce-java17-22.2.0
-
-sudo mv $GRDIR $VMDIR/
-sudo xattr -r -d com.apple.quarantine $VMDIR/$GRDIR # make 'gu' and 'native-image' command executable
-
-export JAVA_HOME=$VMDIR/$GRDIR/Contents/Home
-export PATH=$JAVA_HOME/bin:$PATH
-
-gu install native-image
-```
-
-Build native image
-
-```shell
-./gradlew clean assemble
-native-image -jar build/libs/msastarter-VERSION-all.jar
 ```

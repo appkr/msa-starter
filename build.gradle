@@ -2,13 +2,12 @@ plugins {
     id 'java'
     id 'idea'
     id 'application'
-    id 'io.freefair.lombok' version '6.5.1'
     // Exception in thread "main" java.lang.NoClassDefFoundError: picocli.CommandLine
     // @see https://stackoverflow.com/a/73107093
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
-version = '3.0.0-SNAPSHOT'
+version = '3.0.0'
 group = 'dev.appkr'
 sourceCompatibility = '17'
 
@@ -16,23 +15,12 @@ repositories {
     mavenCentral()
 }
 
-def loggers = [
-        'org.slf4j:slf4j-api:1.7.32',
-        'org.slf4j:log4j-over-slf4j:1.7.32',
-        'ch.qos.logback:logback-core:1.2.9',
-        'ch.qos.logback:logback-classic:1.2.9'
-]
-
 dependencies {
     implementation 'info.picocli:picocli:4.6.3'
     annotationProcessor 'info.picocli:picocli-codegen:4.6.3'
     implementation 'com.github.jknack:handlebars:4.3.0'
     implementation 'org.eclipse.jgit:org.eclipse.jgit:6.3.0.202209071007-r'
-    implementation loggers
-
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    testImplementation loggers
+    implementation 'ch.qos.logback:logback-classic:1.2.9'
 }
 
 compileJava {

@@ -1,6 +1,7 @@
 package dev.appkr.starter.commands;
 
 import dev.appkr.starter.model.ExitCode;
+import dev.appkr.starter.model.GlobalConstants;
 import dev.appkr.starter.services.CommandUtils;
 import dev.appkr.starter.services.FileUtils;
 import dev.appkr.starter.services.GitUtils;
@@ -21,7 +22,7 @@ import java.util.concurrent.Callable;
 )
 public class PublishCommand implements Callable<Integer> {
 
-  final String sourceDir = String.format("%s/.msa-starter", System.getProperty("user.home"));
+  final String sourceDir = String.format("%s/.msa-starter", GlobalConstants.USER_HOME);
   String targetDir = sourceDir;
 
   @Option(names = {"--useDefault"}, description = "Publish a project with all default values")
@@ -49,10 +50,10 @@ public class PublishCommand implements Callable<Integer> {
   private void getTargetDir() throws IOException {
     String answer = CommandUtils.ask("What is the dir you want to publish?", "");
     if (answer.startsWith("~")) {
-      answer = answer.replace("~", System.getProperty("user.home"));
+      answer = answer.replace("~", GlobalConstants.USER_HOME);
     }
     if (answer.startsWith(".")) {
-      answer = answer.replace(".", System.getProperty("user.dir"));
+      answer = answer.replace(".", GlobalConstants.PWD);
     }
 
     this.targetDir = answer;

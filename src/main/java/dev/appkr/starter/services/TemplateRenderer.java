@@ -5,6 +5,7 @@ import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.io.StringTemplateSource;
 import dev.appkr.starter.model.Bindable;
 
+import dev.appkr.starter.model.GlobalConstants;
 import java.io.IOException;
 
 public class TemplateRenderer {
@@ -26,5 +27,13 @@ public class TemplateRenderer {
     final Template template = handlebars.compile(templateSource);
 
     return template.apply(bindable);
+  }
+
+  public static String getTemplatePath(String classpath) {
+    if (!FileUtils.isRunningInJar()) {
+      return String.format("%s/src/main/resources/%s", GlobalConstants.PWD, classpath);
+    }
+
+    return classpath;
   }
 }

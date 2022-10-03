@@ -11,7 +11,7 @@ public class CommandUtils {
 
   public static void success(String message) {
     System.out.println(String.format(
-        CommandLine.Help.Ansi.AUTO.string("@|bold,fg(green) ✔ %s|@"),
+        CommandLine.Help.Ansi.AUTO.string("@|fg(green) ✔ %s|@"),
         message));
   }
 

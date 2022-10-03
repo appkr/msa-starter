@@ -1,17 +1,54 @@
 package dev.appkr.starter.services;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Comparator;
-
 import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
 import static java.nio.file.StandardOpenOption.CREATE;
 
+import dev.appkr.starter.MsaStarter;
+import dev.appkr.starter.model.GlobalConstants;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.FileVisitOption;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Stream;
+
 public class FileUtils {
+
+  // // Reference: https://mkyong.com/java/java-read-a-file-from-resources-folder/
+  final static Class<?> MAIN = MsaStarter.class;
+
+  public static boolean isRunningInJar() {
+    final String fqcn = TemplateRenderer.class.getName().replace(".", GlobalConstants.DIR_SEPARATOR);
+    final String classJar = TemplateRenderer.class.getResource(GlobalConstants.DIR_SEPARATOR + fqcn + ".class")
+        .toString();
+
+    return classJar.startsWith("jar:");
+  }
+
+  public static List<Path> getJarPaths(String path) throws URISyntaxException, IOException {
+    final String jarPath = MAIN.getProtectionDomain()
+        .getCodeSource()
+        .getLocation()
+        .toURI()
+        .getPath();
+
+    final URI uri = URI.create("jar:file:" + jarPath);
+    final FileSystem fs = FileSystems.newFileSystem(uri, Collections.emptyMap());
+
+    return Files.walk(fs.getPath(path))
+        .toList();
+  }
 
   public static void createDir(String toCreate) throws IOException {
     createDir(Paths.get(toCreate));
@@ -53,11 +90,20 @@ public class FileUtils {
           final Path dest = Paths.get(into.toString(), src.toString().substring(from.toString().length()));
           try {
             copy(src, dest);
-            CommandUtils.success(dest.toString());
           } catch (IOException e) {
             CommandUtils.fail(dest.toString(), e);
           }
         });
+  }
+
+  public static Stream<Path> listDir(String path) throws URISyntaxException, IOException {
+    return listDir(Paths.get(path));
+  }
+
+  public static Stream<Path> listDir(Path path) throws URISyntaxException, IOException {
+    return (FileUtils.isRunningInJar())
+        ? FileUtils.getJarPaths(path.toString()).stream()
+        : Files.walk(path, FileVisitOption.FOLLOW_LINKS);
   }
 
   public static void copy(String from, String into) throws IOException {
@@ -65,9 +111,25 @@ public class FileUtils {
   }
 
   public static void copy(Path from, Path into) throws IOException {
-    Files.copy(from, into, COPY_ATTRIBUTES);
+    try {
+      // Try first: e.g. when from={PWD}/src/main/resources/templates/gradle.properties
+      Files.copy(from, into, COPY_ATTRIBUTES);
+    } catch (NoSuchFileException e) {
+      // Try again: e.g. when from=templates/gradle.properties
+      Files.copy(getFileContent(from.toString()), into);
+    }
 
-    CommandUtils.success("copy: " + into);
+    CommandUtils.success("copy: " + from + " -> " + into);
+  }
+
+  private static InputStream getFileContent(String filename) throws NoSuchFileException {
+    final ClassLoader classLoader = MAIN.getClassLoader();
+    final InputStream inputStream = classLoader.getResourceAsStream(filename);
+    if (inputStream == null) {
+      throw new NoSuchFileException(filename);
+    }
+
+    return inputStream;
   }
 
   public static String read(String path) throws IOException {
