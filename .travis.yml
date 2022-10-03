@@ -2,4 +2,5 @@ language: java
 jdk: openjdk17
 script:
   - ./gradlew run --args="generate --useDefault"
-  - cd $HOME/.msa-starter && git init && ./gradlew clean build
+  - ./gradlew run --args="publish --useDefault"
+  - cd $HOME/.msa-starter && ./gradlew clean build

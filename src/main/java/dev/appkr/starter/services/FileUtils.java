@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
 
-import static dev.appkr.starter.services.CommandUtils.success;
 import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
 import static java.nio.file.StandardOpenOption.CREATE;
 
@@ -21,7 +20,7 @@ public class FileUtils {
   public static void createDir(Path toCreate) throws IOException {
     if (!Files.exists(toCreate)) {
       Files.createDirectories(toCreate);
-      success("createDir: " + toCreate);
+      CommandUtils.success("createDir: " + toCreate);
     }
   }
 
@@ -39,7 +38,26 @@ public class FileUtils {
 
     Files.createDirectories(toReset);
 
-    success("resetDir: " + toReset);
+    CommandUtils.success("resetDir: " + toReset);
+  }
+
+  public static void copyDir(String from, String into) throws IOException {
+    copyDir(Paths.get(from), Paths.get(into));
+  }
+
+  public static void copyDir(Path from, Path into) throws IOException {
+    createDir(into);
+
+    Files.walk(from)
+        .forEach(src -> {
+          final Path dest = Paths.get(into.toString(), src.toString().substring(from.toString().length()));
+          try {
+            copy(src, dest);
+            CommandUtils.success(dest.toString());
+          } catch (IOException e) {
+            CommandUtils.fail(dest.toString(), e);
+          }
+        });
   }
 
   public static void copy(String from, String into) throws IOException {
@@ -49,7 +67,7 @@ public class FileUtils {
   public static void copy(Path from, Path into) throws IOException {
     Files.copy(from, into, COPY_ATTRIBUTES);
 
-    success("copy: " + into);
+    CommandUtils.success("copy: " + into);
   }
 
   public static String read(String path) throws IOException {
@@ -66,6 +84,14 @@ public class FileUtils {
 
   public static void write(Path path, String content) throws IOException {
     Files.write(path, content.getBytes(StandardCharsets.UTF_8), CREATE);
+  }
+
+  public static void makeExecutable(String path) {
+    new File(path).setExecutable(true, false);
+  }
+
+  public static void makeExecutable(Path path) {
+    path.toFile().setExecutable(true, false);
   }
 
   public static boolean isBinary(String path) throws IOException {

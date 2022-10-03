@@ -21,27 +21,25 @@ public class CommandUtils {
         message, e.getMessage()));
   }
 
-  public static String getInput(String question, String defaultValue) throws IOException {
+  public static String ask(String question, String defaultValue) throws IOException {
     System.out.printf(CommandLine.Help.Ansi.AUTO.string("@|fg(green) %s|@"),
         question.replaceAll("\\{\\}", defaultValue));
-    final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    final String inputValue = reader.readLine();
 
-    return inputValue.isBlank() ? defaultValue : inputValue;
+    final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    final String answer = reader.readLine();
+
+    return (answer == null || answer.isBlank()) ? defaultValue : answer;
   }
 
-  public static void confirm(String question, String toConfirm) {
-    String inputValue = "";
-    try (final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-      System.out.printf(
-          CommandLine.Help.Ansi.AUTO.string("@|bold,fg(red) %s?%n|@%s%n"),
-          question, toConfirm);
-      inputValue = reader.readLine();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+  public static void confirm(String question, String toConfirm) throws IOException {
+    System.out.printf(
+        CommandLine.Help.Ansi.AUTO.string("@|bold,fg(red) %s%n|@%s%n"),
+        question, toConfirm);
 
-    if (inputValue.equalsIgnoreCase("n")) {
+    final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    final String answer = reader.readLine();
+
+    if (answer != null && answer.equalsIgnoreCase("n")) {
       System.exit(ExitCode.SUCCESS);
     }
   }

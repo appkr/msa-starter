@@ -27,7 +27,7 @@ import java.util.function.Predicate;
 public class GenerateCommand implements Callable<Integer> {
 
   String sourceDir = String.format("%s/src/main/resources/templates/webmvc", System.getProperty("user.dir"));
-  String targetDir = String.format("%s/.msa-starter", System.getProperty("user.home"));
+  final String targetDir = String.format("%s/.msa-starter", System.getProperty("user.home"));
 
   final BuildInfo buildInfo = BuildInfo.getInstance();
 
@@ -42,6 +42,7 @@ public class GenerateCommand implements Callable<Integer> {
     if (!useDefault) {
       // get project attributes from a user
       getBuildInfo();
+      CommandUtils.confirm("'Enter' to continue OR 'n' to quit)?", buildInfo.toString());
     }
 
     // copy gradle.properties
@@ -55,16 +56,19 @@ public class GenerateCommand implements Callable<Integer> {
         .filter(Predicate.not(this::shouldSkip))
         .forEach(this::process);
 
+    // make gradlew be executable
+    FileUtils.makeExecutable(String.format("%s/%s", targetDir, "gradlew"));
+
     return ExitCode.SUCCESS;
   }
 
   private void getBuildInfo() throws IOException {
-    final String templates = CommandUtils.getInput("A WebMVC/JPA project(m)? Or a WebFlux/R2DBC project(f) (default: {})?", "m");
+    final String templates = CommandUtils.ask("A WebMVC/JPA project(m)? Or a WebFlux/R2DBC project(f) (default: {})?", "m");
     if (templates.equalsIgnoreCase("f")) {
       sourceDir = String.format("%s/src/main/resources/templates/webflux", System.getProperty("user.dir"));
     }
 
-    final String isVroongProject = CommandUtils.getInput("Is vroong project(y/n, default: {})?", "n");
+    final String isVroongProject = CommandUtils.ask("Is vroong project(y/n, default: {})?", "n");
     if (isVroongProject.equalsIgnoreCase("y")) {
       buildInfo.setProjectType("v");
       buildInfo.setGroupName("com.vroong");
@@ -74,7 +78,7 @@ public class GenerateCommand implements Callable<Integer> {
 
     boolean incorrect = true;
     while (incorrect) {
-      final String javaVersion = CommandUtils.getInput("Which java version will you choose(1.8/11/17, default: {})?", buildInfo.getJavaVersion());
+      final String javaVersion = CommandUtils.ask("Which java version will you choose(1.8/11/17, default: {})?", buildInfo.getJavaVersion());
       if (javaVersion.equalsIgnoreCase("1.8")) {
         buildInfo.setJavaVersion("1.8");
         buildInfo.setDockerImage("openjdk:8-jre-alpine");
@@ -89,13 +93,11 @@ public class GenerateCommand implements Callable<Integer> {
         incorrect = false;
       }
 
-      buildInfo.setProjectName(CommandUtils.getInput("What is the project name(default: {})?", buildInfo.getProjectName()));
-      buildInfo.setGroupName(CommandUtils.getInput("What is the group name(default: {})?", buildInfo.getGroupName()));
-      buildInfo.setPortNumber(CommandUtils.getInput("What is the web server port(default: {})?", buildInfo.getPortNumber()));
-      buildInfo.setMediaType(CommandUtils.getInput("What is the media type for request and response(default: {})?", buildInfo.getMediaType()));
+      buildInfo.setProjectName(CommandUtils.ask("What is the project name(default: {})?", buildInfo.getProjectName()));
+      buildInfo.setGroupName(CommandUtils.ask("What is the group name(default: {})?", buildInfo.getGroupName()));
+      buildInfo.setPortNumber(CommandUtils.ask("What is the web server port(default: {})?", buildInfo.getPortNumber()));
+      buildInfo.setMediaType(CommandUtils.ask("What is the media type for request and response(default: {})?", buildInfo.getMediaType()));
       buildInfo.setPackageName(buildInfo.getGroupName() + "." + buildInfo.getProjectName());
-
-      CommandUtils.confirm("'Enter' to continue OR 'n' to quit)?", buildInfo.toString());
     }
   }
 

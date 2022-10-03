@@ -8,12 +8,24 @@
 
 ### 설치법
 
-- 방법 1: [Releases 페이지](https://github.com/appkr/msa-starter/releases)에서 각자의 아키텍처에 맞는 바이너리를 내려 받습니다.
+- 방법 1: [Releases 페이지](https://github.com/appkr/msa-starter/releases)에서 각자의 아키텍처에 맞는 바이너리를 내려 받습니다(추천).
 - 방법 2: 프로젝트를 클론 받아 직접 빌드하고 사용합니다.
+```shell
+./gradlew clean build
+
+# jar 파일을 이용한 방법
+java -jar build/libs/msastarter-VERSION-all.jar generate
+java -jar build/libs/msastarter-VERSION-all.jar publish
+
+# zip 파일을 풀고, 쉘 스크립트를 이용하는 방법
+unzip build/distributions/msastarter-shadow-VERSION.zip -d {DIR}
+{DIR}/bin/msastarter
+``` 
+- 방법 3: 프로젝트를 클론 받아 Gradle로 구동합니다(추천하지 않음).
 ```shell
 ./gradlew run --args="generate"
 ./gradlew run --args="publish"
-```
+``` 
 
 ### 사용법
 
@@ -52,7 +64,10 @@ $ ./msastarter-VERSION-all generate
 #### publish 커맨드
 
 ```shell
-TBD
+$ ./msastarter-VERSION-all publish 
+# What is the dir you want to publish? ~/demo ↵
+# Proceed ('Enter' to continue OR 'n' to quit)?
+# targetDir:  ~/demo
 ```
 
 ### 포함된 내용

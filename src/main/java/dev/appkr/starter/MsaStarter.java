@@ -26,8 +26,8 @@ import static picocli.CommandLine.Model.UsageMessageSpec.SECTION_KEY_COMMAND_LIS
 public class MsaStarter {
 
   final static ColorScheme colorScheme = new ColorScheme.Builder()
-      .commands(Style.bold)    // combine multiple styles
-      .options(Style.fg_yellow)                // yellow foreground color
+      .commands(Style.bold)       // combine multiple styles
+      .options(Style.fg_yellow)   // yellow foreground color
       .parameters(Style.fg_yellow)
       .optionParams(Style.italic)
       .errors(Style.fg_red, Style.bold)
