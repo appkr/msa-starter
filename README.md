@@ -8,13 +8,18 @@
 
 ### 설치법
 
-프로젝트를 클론 받아 빌드합니다
+방법 1: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 jar 파일을 받아서 사용합니다
+```shell
+wget https://github.com/appkr/msa-starter/releases/download/3.1.0/msastarter-3.1.0-all.jar
+java -jar msastarter-3.1.0-all.jar
+```
+
+방법 2: 프로젝트를 클론 받아 빌드합니다
 ```shell
 ./gradlew clean build
 
 # jar 파일을 이용한 방법
-java -jar build/libs/msastarter-VERSION-all.jar generate
-java -jar build/libs/msastarter-VERSION-all.jar publish
+java -jar build/libs/msastarter-VERSION-all.jar
 
 # zip 파일을 풀고, 쉘 스크립트를 이용하는 방법
 unzip build/distributions/msastarter-shadow-VERSION.zip -d {DIR}
