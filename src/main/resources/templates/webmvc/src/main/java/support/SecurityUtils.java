@@ -1,10 +1,12 @@
 package {{packageName}}.support;
 
+import static {{packageName}}.config.Constants.JwtKey.USER_ID_CLAIM;
+
+import java.util.Optional;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Optional;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 public class SecurityUtils {
 
@@ -20,11 +22,13 @@ public class SecurityUtils {
     SecurityContext securityContext = SecurityContextHolder.getContext();
     return Optional.ofNullable(securityContext.getAuthentication())
         .map(authentication -> {
-          if (authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-            return springSecurityUser.getUsername();
-          } else if (authentication.getPrincipal() instanceof String) {
-            return (String) authentication.getPrincipal();
+          final Object principal = authentication.getPrincipal();
+          if (principal instanceof UserDetails userDetails) {
+            return userDetails.getUsername();
+          } else if (principal instanceof String) {
+            return (String) principal;
+          } else if (principal instanceof Jwt jwt) {
+            return jwt.getClaimAsString(USER_ID_CLAIM);
           }
           return null;
         });
