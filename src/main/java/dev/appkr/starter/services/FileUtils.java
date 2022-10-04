@@ -34,7 +34,7 @@ public class FileUtils {
       final String classJar = TemplateUtils.class.getResource(GlobalConstants.DIR_SEPARATOR + fqcn + ".class").toString();
       return classJar.startsWith("jar:");
     } catch (Exception e) {
-      return true;
+      return false;
     }
   }
 

@@ -79,26 +79,34 @@ public class GenerateCommand implements Callable<Integer> {
     while (incorrect) {
       final String javaVersion = CommandUtils.ask("Which java version will you choose(1.8/11/17, default: {})?",
           buildInfo.getJavaVersion());
-      if (javaVersion.equalsIgnoreCase("1.8")) {
-        buildInfo.setJavaVersion("1.8");
-        buildInfo.setDockerImage("openjdk:8-jre-alpine");
-        incorrect = false;
-      } else if (javaVersion.equalsIgnoreCase("11")) {
-        buildInfo.setJavaVersion("11");
-        buildInfo.setDockerImage("amazoncorretto:11-alpine-jdk");
-        incorrect = false;
-      } else if (javaVersion.equalsIgnoreCase("17")) {
-        buildInfo.setJavaVersion("17");
-        buildInfo.setDockerImage("amazoncorretto:17-alpine-jdk");
-        incorrect = false;
+      switch (javaVersion) {
+        case "1.8" -> {
+          buildInfo.setJavaVersion("1.8");
+          buildInfo.setDockerImage("openjdk:8-jre-alpine");
+          incorrect = false;
+        }
+        case "11" -> {
+          buildInfo.setJavaVersion("11");
+          buildInfo.setDockerImage("amazoncorretto:11-alpine-jdk");
+          incorrect = false;
+        }
+        case "17" -> {
+          buildInfo.setJavaVersion("17");
+          buildInfo.setDockerImage("amazoncorretto:17-alpine-jdk");
+          incorrect = false;
+        }
+        default -> {
+          CommandUtils.warn("Must be one of '1.8', '11', or '17'!");
+        }
       }
-
-      buildInfo.setProjectName(CommandUtils.ask("What is the project name(default: {})?", buildInfo.getProjectName()));
-      buildInfo.setGroupName(CommandUtils.ask("What is the group name(default: {})?", buildInfo.getGroupName()));
-      buildInfo.setPortNumber(CommandUtils.ask("What is the web server port(default: {})?", buildInfo.getPortNumber()));
-      buildInfo.setMediaType(CommandUtils.ask("What is the media type for request and response(default: {})?", buildInfo.getMediaType()));
-      buildInfo.setPackageName(buildInfo.getGroupName() + "." + buildInfo.getProjectName());
     }
+
+    buildInfo.setProjectName(CommandUtils.ask("What is the project name(default: {})?", buildInfo.getProjectName()));
+    buildInfo.setGroupName(CommandUtils.ask("What is the group name(default: {})?", buildInfo.getGroupName()));
+    buildInfo.setPortNumber(CommandUtils.ask("What is the web server port(default: {})?", buildInfo.getPortNumber()));
+    buildInfo.setMediaType(
+        CommandUtils.ask("What is the media type for request and response(default: {})?", buildInfo.getMediaType()));
+    buildInfo.setPackageName(buildInfo.getGroupName() + "." + buildInfo.getProjectName());
   }
 
   private boolean shouldSkip(Path path) {

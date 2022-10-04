@@ -15,6 +15,12 @@ public class CommandUtils {
         message));
   }
 
+  public static void warn(String message) {
+    System.out.println(String.format(
+        CommandLine.Help.Ansi.AUTO.string("@|fg(yellow) ⚠ %s|@"),
+        message));
+  }
+
   public static void fail(String message, Exception e) {
     System.out.println(String.format(
         CommandLine.Help.Ansi.AUTO.string("@|bold,fg(red) ✘ %s: %s|@"),
