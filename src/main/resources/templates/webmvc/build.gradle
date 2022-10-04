@@ -19,15 +19,16 @@ version = project.version
 sourceCompatibility = '{{javaVersion}}'
 
 repositories {
-    {{#ifVroongProject projectType}}maven {
+    {{#isVroongProject}}
+    maven {
         url 'https://nexus.mm.meshkorea.net/repository/maven-public/'
 
         credentials {
             username repoUser
             password repoPass
         }
-    }{{/ifVroongProject}}
-
+    }
+    {{/isVroongProject}}
     mavenCentral()
     maven { url 'https://repo.spring.io/milestone' }
 }

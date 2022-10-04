@@ -1,6 +1,6 @@
 @Library('meshkorea') _
 
-{{#ifJava17 javaVersion}}vroongMsaJava17MultiPipeline{{else}}{{#ifJava11}}vroongNeoMsaJavaPipeline{{else}}vroongMsaJava8MultiPipeline{{/ifJava11}}{{/ifJava17}}(
+{{#isJava17}}vroongMsaJava17MultiPipeline{{/isJava17}}{{#isJava11}}vroongNeoMsaJavaPipeline{{/isJava11}}{{#isJava8}}vroongMsaJava8MultiPipeline{{/isJava8}}(
     team: '',
     ecrRepoName: 'vroong/{{projectName}}',
     argoAppName: 'vroong-{{projectName}}',

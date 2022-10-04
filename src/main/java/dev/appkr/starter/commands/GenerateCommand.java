@@ -5,7 +5,7 @@ import dev.appkr.starter.model.ExitCode;
 import dev.appkr.starter.model.GlobalConstants;
 import dev.appkr.starter.services.CommandUtils;
 import dev.appkr.starter.services.FileUtils;
-import dev.appkr.starter.services.TemplateRenderer;
+import dev.appkr.starter.services.TemplateUtils;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,7 +25,7 @@ import picocli.CommandLine.ScopeType;
 )
 public class GenerateCommand implements Callable<Integer> {
 
-  String sourceDir = TemplateRenderer.getTemplatePath("templates/webmvc");
+  String sourceDir = TemplateUtils.getTemplatePath("templates/webmvc");
   final String targetDir = String.format("%s/.msa-starter", GlobalConstants.USER_HOME);
 
   final BuildInfo buildInfo = BuildInfo.getInstance();
@@ -63,12 +63,13 @@ public class GenerateCommand implements Callable<Integer> {
     final String templates = CommandUtils.ask("A WebMVC/JPA project(m)? Or a WebFlux/R2DBC project(f) (default: {})?",
         "m");
     if (templates.equalsIgnoreCase("f")) {
-      sourceDir = TemplateRenderer.getTemplatePath("templates/webflux");
+      buildInfo.setReactiveProject(true);
+      sourceDir = TemplateUtils.getTemplatePath("templates/webflux");
     }
 
     final String isVroongProject = CommandUtils.ask("Is vroong project(y/n, default: {})?", "n");
     if (isVroongProject.equalsIgnoreCase("y")) {
-      buildInfo.setProjectType("v");
+      buildInfo.setVroongProject(true);
       buildInfo.setGroupName("com.vroong");
       buildInfo.setMediaType("application/vnd.vroong.private.v1+json");
       buildInfo.setSkipTokens(List.of(".DS_Store"));
@@ -95,8 +96,7 @@ public class GenerateCommand implements Callable<Integer> {
       buildInfo.setProjectName(CommandUtils.ask("What is the project name(default: {})?", buildInfo.getProjectName()));
       buildInfo.setGroupName(CommandUtils.ask("What is the group name(default: {})?", buildInfo.getGroupName()));
       buildInfo.setPortNumber(CommandUtils.ask("What is the web server port(default: {})?", buildInfo.getPortNumber()));
-      buildInfo.setMediaType(
-          CommandUtils.ask("What is the media type for request and response(default: {})?", buildInfo.getMediaType()));
+      buildInfo.setMediaType(CommandUtils.ask("What is the media type for request and response(default: {})?", buildInfo.getMediaType()));
       buildInfo.setPackageName(buildInfo.getGroupName() + "." + buildInfo.getProjectName());
     }
   }
@@ -146,8 +146,7 @@ public class GenerateCommand implements Callable<Integer> {
       if (FileUtils.isBinary(path)) {
         FileUtils.copy(path, Paths.get(targetFilename));
       } else {
-        final String content = TemplateRenderer.render(path.toString(), FileUtils.read(path), buildInfo);
-        FileUtils.write(targetFilename, content);
+        TemplateUtils.write(path.toString(), targetFilename, buildInfo);
       }
 
       CommandUtils.success(path + " -> " + targetFilename);

@@ -19,15 +19,16 @@ version = project.version
 sourceCompatibility = '{{javaVersion}}'
 
 repositories {
-    {{#ifVroongProject projectType}}maven {
+    {{#isVroongProject}}
+    maven {
         url 'https://nexus.mm.meshkorea.net/repository/maven-public/'
 
         credentials {
             username repoUser
             password repoPass
         }
-    }{{/ifVroongProject}}
-
+    }
+    {{/isVroongProject}}
     mavenCentral()
     maven { url 'https://repo.spring.io/milestone' }
 }
@@ -138,9 +139,11 @@ dependencies {
     testImplementation 'com.tngtech.archunit:archunit-junit5-api:0.23.1'
     testRuntimeOnly 'com.tngtech.archunit:archunit-junit5-engine:0.23.1'
 
-    {{#ifArmArch osArch}}// For apple silicon
+    {{#isArm}}
+    // For apple silicon
     // Workaround to avoid i.n.r.d.DnsServerAddressStreamProviders : Unable to load io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS.
-    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.80.Final:osx-aarch_64'{{/ifArmArch}}
+    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.80.Final:osx-aarch_64'
+    {{/isArm}}
 }
 
 if (!org.gradle.internal.os.OperatingSystem.current().isWindows()) {

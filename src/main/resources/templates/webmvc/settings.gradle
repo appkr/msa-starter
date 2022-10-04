@@ -1,3 +1,3 @@
 rootProject.name = '{{projectName}}'
 
-{{#ifVroongProject projectType}}include("clients"){{/ifVroongProject}}
+{{#isVroongProject}}include 'clients'{{/isVroongProject}}

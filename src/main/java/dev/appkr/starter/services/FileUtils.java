@@ -29,11 +29,13 @@ public class FileUtils {
   final static Class<?> MAIN = MsaStarter.class;
 
   public static boolean isRunningInJar() {
-    final String fqcn = TemplateRenderer.class.getName().replace(".", GlobalConstants.DIR_SEPARATOR);
-    final String classJar = TemplateRenderer.class.getResource(GlobalConstants.DIR_SEPARATOR + fqcn + ".class")
-        .toString();
-
-    return classJar.startsWith("jar:");
+    try {
+      final String fqcn = TemplateUtils.class.getName().replace(".", GlobalConstants.DIR_SEPARATOR);
+      final String classJar = TemplateUtils.class.getResource(GlobalConstants.DIR_SEPARATOR + fqcn + ".class").toString();
+      return classJar.startsWith("jar:");
+    } catch (Exception e) {
+      return true;
+    }
   }
 
   public static List<Path> getJarPaths(String path) throws URISyntaxException, IOException {
