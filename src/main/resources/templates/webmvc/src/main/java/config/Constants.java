@@ -54,6 +54,10 @@ public class Constants {
     public static final String BODY = "body";
   }
 
+  public static class JwtKey {
+    public static final String USER_ID_CLAIM = "user_name";
+  }
+
   private Constants() {
   }
 }
