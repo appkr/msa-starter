@@ -8,30 +8,14 @@
 
 ### 설치법
 
-방법 1: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 jar 파일을 받아서 사용합니다
+방법 1: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 바이너리 파일을 받아서 사용합니다 (**jdk 불필요**).
 ```shell
-wget https://github.com/appkr/msa-starter/releases/download/3.1.0/msastarter-3.1.0-all.jar
-java -jar msastarter-3.1.0-all.jar
-```
-
-방법 2: 프로젝트를 클론 받아 빌드합니다
-```shell
-./gradlew clean build
-
-# jar 파일을 이용한 방법
-java -jar build/libs/msastarter-VERSION-all.jar
-
-# zip 파일을 풀고, 쉘 스크립트를 이용하는 방법
-unzip build/distributions/msastarter-shadow-VERSION.zip -d {DIR}
-{DIR}/bin/msastarter
-``` 
-
-### 사용법
-
-`generate`, `publish` 두 개의 서브 커맨드를 제공합니다
-
-```shell
-$ java -jar build/libs/msastarter-VERSION-all.jar↵
+VERSION=3.2.0
+OS=osx
+ARCH=intel
+wget https://github.com/appkr/msa-starter/releases/download/$VERSION/msastarter-$VERSION-$OS-$ARCH.zip
+unzip msastarter-{VERSION}-{OS}-{ARCH}.zip -d /usr/local/bin/
+msastarter
 # Usage: msa-starter [-hV] [COMMAND]
 # Command that generates a Spring-boot microservice skeleton
 #   -h, --help      Show this help message and exit.
@@ -42,10 +26,30 @@ $ java -jar build/libs/msastarter-VERSION-all.jar↵
 # Developed by appkr<juwonkim@me.com>
 ```
 
+방법 2: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 jar 파일을 받아서 사용합니다 (**jdk 필요**).
+```shell
+VERSION=3.2.0
+wget https://github.com/appkr/msa-starter/releases/download/$VERSION/msastarter-$VERSION-all.jar
+java -jar msastarter-$VERSION-all.jar
+```
+
+방법 3: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 zip 파일을 받아서 사용합니다 (**jdk 필요**).
+```shell
+VERSION=3.2.0
+wget https://github.com/appkr/msa-starter/releases/download/$VERSION/msastarter-shadow-$VERSION.zip
+unzip msastarter-shadow-$VERSION.zip
+msastarter-shadow-$VERSION/bin/msastarter
+``` 
+
+### 사용법
+
+`generate`, `publish` 두 개의 서브 커맨드를 제공합니다
+
 #### generate 커맨드
 
 ```shell
-$ java -jar build/libs/msastarter-VERSION-all.jar generate↵ 
+$ APP=msastarter # OR APP="java -jar msastarter-$VERSION-all.jar"
+$ $APP generate↵ 
 # A WebMVC/JPA project(m)? Or a WebFlux/R2DBC project(f) (default: m)? ↵
 # Is vroong project(y/n, default: n)? ↵
 # Which java version will you choose(1.8/11/17, default: 17)? ↵
@@ -63,7 +67,8 @@ $ java -jar build/libs/msastarter-VERSION-all.jar generate↵
 #### publish 커맨드
 
 ```shell
-$ java -jar build/libs/msastarter-VERSION-all.jar publish↵ 
+$ APP=msastarter
+$ $APP publish↵ 
 # What is the dir you want to publish? ~/demo ↵
 # Proceed ('Enter' to continue OR 'n' to quit)?
 # targetDir:  ~/demo

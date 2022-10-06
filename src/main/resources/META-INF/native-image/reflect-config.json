@@ -1,0 +1,252 @@
+[
+{
+  "name":"ch.qos.logback.classic.encoder.PatternLayoutEncoder",
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.classic.pattern.DateConverter",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.classic.pattern.LevelConverter",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.classic.pattern.LineSeparatorConverter",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.classic.pattern.LoggerConverter",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.classic.pattern.MessageConverter",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.classic.pattern.ThreadConverter",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.core.ConsoleAppender",
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"ch.qos.logback.core.OutputStreamAppender",
+  "methods":[{"name":"setEncoder","parameterTypes":["ch.qos.logback.core.encoder.Encoder"] }]
+},
+{
+  "name":"ch.qos.logback.core.encoder.LayoutWrappingEncoder",
+  "methods":[
+    {"name":"setCharset","parameterTypes":["java.nio.charset.Charset"] }, 
+    {"name":"setParent","parameterTypes":["ch.qos.logback.core.spi.ContextAware"] }
+  ]
+},
+{
+  "name":"ch.qos.logback.core.pattern.PatternLayoutEncoderBase",
+  "methods":[{"name":"setPattern","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"dev.appkr.starter.MsaStarter",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"dev.appkr.starter.commands.GenerateCommand",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"dev.appkr.starter.commands.PublishCommand",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"dev.appkr.starter.model.BuildInfo",
+  "methods":[
+    {"name":"getDockerImage","parameterTypes":[] }, 
+    {"name":"getGroupName","parameterTypes":[] }, 
+    {"name":"getJavaVersion","parameterTypes":[] }, 
+    {"name":"getMediaType","parameterTypes":[] }, 
+    {"name":"getPackageName","parameterTypes":[] }, 
+    {"name":"getPortNumber","parameterTypes":[] }, 
+    {"name":"getProjectName","parameterTypes":[] }, 
+    {"name":"isArm","parameterTypes":[] }, 
+    {"name":"isJava11","parameterTypes":[] }, 
+    {"name":"isJava17","parameterTypes":[] }, 
+    {"name":"isJava8","parameterTypes":[] }, 
+    {"name":"isVroongProject","parameterTypes":[] }
+  ]
+},
+{
+  "name":"java.io.FilePermission"
+},
+{
+  "name":"java.lang.Object",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.lang.RuntimePermission"
+},
+{
+  "name":"java.lang.System",
+  "methods":[{"name":"console","parameterTypes":[] }]
+},
+{
+  "name":"java.net.NetPermission"
+},
+{
+  "name":"java.net.SocketPermission"
+},
+{
+  "name":"java.net.URLPermission",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.lang.String"] }]
+},
+{
+  "name":"java.nio.file.Path"
+},
+{
+  "name":"java.nio.file.Paths",
+  "queriedMethods":[{"name":"get","parameterTypes":["java.lang.String","java.lang.String[]"] }]
+},
+{
+  "name":"java.security.AllPermission"
+},
+{
+  "name":"java.security.SecureRandomParameters"
+},
+{
+  "name":"java.security.SecurityPermission"
+},
+{
+  "name":"java.sql.Connection"
+},
+{
+  "name":"java.sql.Driver"
+},
+{
+  "name":"java.sql.DriverManager",
+  "queriedMethods":[
+    {"name":"getConnection","parameterTypes":["java.lang.String"] }, 
+    {"name":"getDriver","parameterTypes":["java.lang.String"] }
+  ]
+},
+{
+  "name":"java.sql.Time",
+  "queriedMethods":[{"name":"<init>","parameterTypes":["long"] }]
+},
+{
+  "name":"java.sql.Timestamp",
+  "queriedMethods":[{"name":"valueOf","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"java.time.Duration",
+  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+},
+{
+  "name":"java.time.Instant",
+  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+},
+{
+  "name":"java.time.LocalDate",
+  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+},
+{
+  "name":"java.time.LocalDateTime",
+  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+},
+{
+  "name":"java.time.LocalTime",
+  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+},
+{
+  "name":"java.time.MonthDay",
+  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+},
+{
+  "name":"java.time.OffsetDateTime",
+  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+},
+{
+  "name":"java.time.OffsetTime",
+  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+},
+{
+  "name":"java.time.Period",
+  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+},
+{
+  "name":"java.time.Year",
+  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+},
+{
+  "name":"java.time.YearMonth",
+  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+},
+{
+  "name":"java.time.ZoneId",
+  "queriedMethods":[{"name":"of","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"java.time.ZoneOffset",
+  "queriedMethods":[{"name":"of","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"java.time.ZonedDateTime",
+  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+},
+{
+  "name":"java.util.Map",
+  "queriedMethods":[{"name":"get","parameterTypes":["java.lang.Object"] }]
+},
+{
+  "name":"java.util.PropertyPermission"
+},
+{
+  "name":"javax.management.ObjectName"
+},
+{
+  "name":"org.eclipse.jgit.lib.CoreConfig$AutoCRLF",
+  "methods":[{"name":"values","parameterTypes":[] }]
+},
+{
+  "name":"org.eclipse.jgit.lib.CoreConfig$CheckStat",
+  "methods":[{"name":"values","parameterTypes":[] }]
+},
+{
+  "name":"org.eclipse.jgit.lib.CoreConfig$EOL",
+  "methods":[{"name":"values","parameterTypes":[] }]
+},
+{
+  "name":"org.eclipse.jgit.lib.CoreConfig$HideDotFiles",
+  "methods":[{"name":"values","parameterTypes":[] }]
+},
+{
+  "name":"org.eclipse.jgit.lib.CoreConfig$LogRefUpdates",
+  "methods":[{"name":"values","parameterTypes":[] }]
+},
+{
+  "name":"org.eclipse.jgit.lib.CoreConfig$SymLinks",
+  "methods":[{"name":"values","parameterTypes":[] }]
+},
+{
+  "name":"picocli.CommandLine$AutoHelpMixin",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"sun.security.provider.NativePRNG",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.provider.SHA",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+}
+]

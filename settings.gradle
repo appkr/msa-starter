@@ -1,3 +1,10 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
 import org.apache.tools.ant.DirectoryScanner
 
 // @see https://github.com/gradle/gradle/pull/13694

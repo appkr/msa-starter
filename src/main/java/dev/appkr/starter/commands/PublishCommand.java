@@ -48,12 +48,28 @@ public class PublishCommand implements Callable<Integer> {
   }
 
   private void getTargetDir() throws IOException {
-    String answer = CommandUtils.ask("What is the dir you want to publish?", "");
-    if (answer.startsWith("~")) {
-      answer = answer.replace("~", GlobalConstants.USER_HOME);
-    }
-    if (answer.startsWith(".")) {
-      answer = answer.replace(".", GlobalConstants.PWD);
+    String answer = "";
+    boolean incorrect = true;
+    while (incorrect) {
+      answer = CommandUtils.ask("What is the dir you want to publish?", "");
+      if (answer == null || answer.length() == 0) {
+        CommandUtils.warn("Please provide a dir!");
+        continue;
+      }
+
+      if (answer.startsWith("~")) {
+        answer = answer.replace("~", GlobalConstants.USER_HOME);
+      }
+      if (answer.startsWith(".")) {
+        answer = answer.replace(".", GlobalConstants.PWD);
+      }
+
+      if (Files.exists(Paths.get(answer))) {
+        CommandUtils.warn("The dir exists!");
+        continue;
+      }
+
+      incorrect = false;
     }
 
     this.targetDir = answer;

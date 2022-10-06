@@ -5,9 +5,10 @@ plugins {
     // Exception in thread "main" java.lang.NoClassDefFoundError: picocli.CommandLine
     // @see https://stackoverflow.com/a/73107093
     id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'org.graalvm.buildtools.native' version '0.9.14'
 }
 
-version = '3.1.0'
+version = '3.2.0'
 group = 'dev.appkr'
 sourceCompatibility = '17'
 
@@ -33,8 +34,48 @@ application {
 
 jar {
     manifest {
-        attributes(
-                'Main-Class': 'dev.appkr.starter.MsaStarter'
-        )
+        attributes('Main-Class': 'dev.appkr.starter.MsaStarter')
+    }
+}
+
+graalvmNative {
+    // Reference: https://graalvm.github.io/native-build-tools/latest/gradle-plugin.html#configuration-options
+    agent {
+        // 'agent' means 'native-image-agent' which is provided by GraalVM
+        defaultMode = "standard"
+        enabled = true
+        modes {
+            standard {
+            }
+        }
+
+        builtinCallerFilter = true
+        builtinHeuristicFilter = true
+        enableExperimentalPredefinedClasses = false
+        enableExperimentalUnsafeAllocationTracing = false
+        trackReflectionMetadata = true
+
+        metadataCopy {
+            outputDirectories.add("src/main/resources/META-INF/native-image")
+            mergeWithExisting = true
+        }
+    }
+
+    binaries {
+        main {
+            javaLauncher = javaToolchains.launcherFor {
+                languageVersion = JavaLanguageVersion.of(17)
+                vendor = JvmVendorSpec.matching("GraalVM Community")
+            }
+            mainClass = 'dev.appkr.starter.MsaStarter'
+            debug = true
+            verbose = true
+// 'useFatJar' makes the following error, but was not able to find right answer from
+//   References: https://github.com/edvin/tornadofx-idea-plugin/issues/18, https://stackoverflow.com/a/14441628
+// "Fatal error: java.lang.SecurityException: Invalid signature file digest for Manifest main attributes"
+//            useFatJar = true
+
+//            excludeConfig.put("org.eclipse.jgit:org.eclipse.jgit:6.3.0.202209071007-r", ["META-INF/*.RSA", "META-INF/*.DSA", "META-INF/*.SF"])
+        }
     }
 }

@@ -17,7 +17,7 @@ public class CommandUtils {
 
   public static void warn(String message) {
     System.out.println(String.format(
-        CommandLine.Help.Ansi.AUTO.string("@|fg(yellow) ⚠ %s|@"),
+        CommandLine.Help.Ansi.AUTO.string("@|fg(yellow) ﹖ %s|@"),
         message));
   }
 

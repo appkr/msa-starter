@@ -44,9 +44,6 @@ public class GenerateCommand implements Callable<Integer> {
       CommandUtils.confirm("'Enter' to continue OR 'n' to quit)?", buildInfo.toString());
     }
 
-    // copy gradle.properties
-    FileUtils.copy("templates/gradle.properties", String.format("%s/gradle.properties", targetDir));
-
     // bind BuildInfo to the templates and create files
     FileUtils.listDir(sourceDir)
         .filter(Files::isRegularFile)
