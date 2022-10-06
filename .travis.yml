@@ -1,6 +1,8 @@
 language: java
 jdk: openjdk17
 script:
-  - ./gradlew run --args="generate --useDefault"
-  - ./gradlew run --args="publish --useDefault"
+  - ./gradlew build
+  - mv build/libs/msastarter-*-all.jar build/libs/msastarter.jar
+  - java -jar build/libs/msastarter.jar generate --useDefault
+  - java -jar build/libs/msastarter.jar publish --useDefault
   - cd $HOME/.msa-starter && ./gradlew clean build
