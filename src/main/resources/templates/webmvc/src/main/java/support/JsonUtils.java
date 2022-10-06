@@ -34,6 +34,10 @@ public class JsonUtils {
     return mapper.writeValueAsString(object);
   }
 
+  public static String convertObjectToPrettyString(Object object) throws IOException {
+    return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+  }
+
   public static JsonNode convertStringToJsonNode(String json) throws JsonProcessingException {
     return mapper.readTree(json);
   }

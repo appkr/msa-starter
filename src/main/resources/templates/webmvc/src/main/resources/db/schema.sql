@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS shedlock
 CREATE TABLE IF NOT EXISTS persistent_events
 (
     id            bigint(20) NOT NULL AUTO_INCREMENT,
-    status        tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '10:CREATED; 20:PRODUCED; 30:CONSUMED; 40:FAILED',
+    status        tinyint(3) unsigned NOT NULL DEFAULT '0',
     event_id      varchar(40)  NOT NULL,
     event_type    varchar(100) NOT NULL,
     partition_key varchar(40)  NOT NULL,
@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS persistent_events
     KEY           IDX_STATUS_EVENTTYPE (status,event_type)*/
 );
 
+{{#includeExample}}
 CREATE TABLE IF NOT EXISTS examples
 (
     id         bigint(20) NOT NULL AUTO_INCREMENT,
@@ -31,3 +32,4 @@ CREATE TABLE IF NOT EXISTS examples
     updated_by varchar(40)  NOT NULL,
     PRIMARY KEY (id)
 );
+{{/includeExample}}

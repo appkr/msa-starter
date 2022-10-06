@@ -42,9 +42,7 @@ import reactor.core.publisher.Mono;
  *   "scst_partition": "java.lang.Integer",
  *   "messageVersion": "java.lang.Integer",
  *   "contentType": "java.lang.String"
- * }#{
- * "title": "original title"
- * }
+ * }#{JSON BODY}
  * ```
  */
 @Component

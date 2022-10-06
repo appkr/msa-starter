@@ -92,9 +92,7 @@ public class GenerateCommand implements Callable<Integer> {
           buildInfo.setDockerImage("amazoncorretto:17-alpine-jdk");
           incorrect = false;
         }
-        default -> {
-          CommandUtils.warn("Must be one of '1.8', '11', or '17'!");
-        }
+        default -> CommandUtils.warn("Must be one of '1.8', '11', or '17'!");
       }
     }
 
@@ -104,6 +102,12 @@ public class GenerateCommand implements Callable<Integer> {
     buildInfo.setMediaType(
         CommandUtils.ask("What is the media type for request and response(default: {})?", buildInfo.getMediaType()));
     buildInfo.setPackageName(buildInfo.getGroupName() + "." + buildInfo.getProjectName());
+
+    final String includeExample = CommandUtils.ask("Include example codes(y/n, default: {})?", "y");
+    if (includeExample.equalsIgnoreCase("n")) {
+      buildInfo.setIncludeExample(false);
+      buildInfo.mergeSkipTokensWithExamples();
+    }
   }
 
   private boolean shouldSkip(Path path) {

@@ -1,12 +1,54 @@
 package dev.appkr.starter.model;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class BuildInfo implements Bindable {
+
+  static final List<String> EXAMPLE_FILES = new ArrayList<>();
+  static {
+    // src/main/resources/templates/webflux
+    EXAMPLE_FILES.add("AlbumMapper.java");
+    EXAMPLE_FILES.add("SongMapper.java");
+    EXAMPLE_FILES.add("AlbumApiDelegateImpl.java");
+    EXAMPLE_FILES.add("SongApiDelegateImpl.java");
+    EXAMPLE_FILES.add("SongService.java");
+    EXAMPLE_FILES.add("AlbumRepository.java");
+    EXAMPLE_FILES.add("AlbumRepositoryCustom.java");
+    EXAMPLE_FILES.add("AlbumRepositoryImpl.java");
+    EXAMPLE_FILES.add("AlbumRowMapper.java");
+    EXAMPLE_FILES.add("AlbumSqlHelper.java");
+    EXAMPLE_FILES.add("SongRepository.java");
+    EXAMPLE_FILES.add("SongRepositoryCustom.java");
+    EXAMPLE_FILES.add("SongRepositoryImpl.java");
+    EXAMPLE_FILES.add("SongRowMapper.java");
+    EXAMPLE_FILES.add("SongSqlHelper.java");
+    EXAMPLE_FILES.add("Album.java");
+    EXAMPLE_FILES.add("Song.java");
+    EXAMPLE_FILES.add("SongApiTest.java");
+    EXAMPLE_FILES.add("SongRepositoryTest.java");
+    EXAMPLE_FILES.add("SongServiceTest.java");
+    EXAMPLE_FILES.add("Fixtures.java");
+    // src/main/resources/templates/webmvc
+    EXAMPLE_FILES.add("ExampleMapper.java");
+    EXAMPLE_FILES.add("ExampleApiDelegateImpl.java");
+    EXAMPLE_FILES.add("Oauth2TestController.java");
+    EXAMPLE_FILES.add("ExampleRepository.java");
+    EXAMPLE_FILES.add("ExampleRepositoryCustom.java");
+    EXAMPLE_FILES.add("ExampleRepositoryImpl.java");
+    EXAMPLE_FILES.add("ExampleService.java");
+    EXAMPLE_FILES.add("Example.java");
+    EXAMPLE_FILES.add("data.sql");
+    EXAMPLE_FILES.add("ExampleMapperTest.java");
+    EXAMPLE_FILES.add("ExampleApiDelegateImplTest.java");
+    EXAMPLE_FILES.add("ExampleRepositoryTest.java");
+  }
 
   boolean isArm = System.getProperty("os.arch").equals("aarch64");
   boolean isReactiveProject = false;
   boolean isVroongProject = false;
+  boolean includeExample = true;
   String javaVersion = "17";
   String projectName = "example";
   String groupName = "dev.appkr";
@@ -44,13 +86,20 @@ public class BuildInfo implements Bindable {
     isReactiveProject = reactiveProject;
   }
 
-
   public boolean isVroongProject() {
     return isVroongProject;
   }
 
   public void setVroongProject(boolean vroongProject) {
     isVroongProject = vroongProject;
+  }
+
+  public boolean isIncludeExample() {
+    return includeExample;
+  }
+
+  public void setIncludeExample(boolean includeExample) {
+    this.includeExample = includeExample;
   }
 
   public String getJavaVersion() {
@@ -127,6 +176,12 @@ public class BuildInfo implements Bindable {
 
   public void setSkipTokens(List<String> skipTokens) {
     this.skipTokens = skipTokens;
+  }
+
+  public void mergeSkipTokensWithExamples() {
+    this.skipTokens = Stream.of(skipTokens, EXAMPLE_FILES)
+        .flatMap(x -> x.stream())
+        .toList();
   }
 
   @Override
