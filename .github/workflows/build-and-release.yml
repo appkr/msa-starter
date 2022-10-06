@@ -10,19 +10,17 @@ on:
 jobs:
   build:
     name: build on ${{ matrix.os }}
+# self-hosted runners: https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners
+# Download and configure: https://github.com/appkr/msa-starter/settings/actions/runners/new?arch=arm64
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest]
+        os: [ macos-latest, macos-aarch64 ]
     steps:
       - uses: actions/checkout@v2
 
-      - name: get git commit hash
-        id: vars
-        run: |
-          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-          echo ${{ steps.vars.outputs.sha_short }}
-
+# GraalVM
+# https://github.com/marketplace/actions/github-action-for-graalvm
       - name: GraalVM setup
         uses: graalvm/setup-graalvm@v1
         with:
@@ -32,36 +30,56 @@ jobs:
           components: native-image
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: set env vars
+        id: vars
+        run: |
+          echo "::set-output name=SHA_SHORT::$(git rev-parse --short HEAD)"
+          echo ${{ steps.vars.outputs.SHA_SHORT }}
+
+          PLATFORM=macos-amd64
+          if [ ${{ matrix.os }} != "macos-latest" ]; then
+            PLATFORM=macos-aarch64
+          fi
+          echo "::set-output name=PLATFORM::$PLATFORM"
+          echo ${{ steps.vars.outputs.PLATFORM }}
+
+          echo "::set-output name=VERSION::$(./gradlew -q printVersion)"
+          echo ${{ steps.vars.outputs.VERSION }}
+
       - name: build jar and native image
         run: |
           ./gradlew clean build
           ./gradlew nativeCompile
           PWD=`pwd`
           cd build/native/nativeCompile
-          zip msastarter-macos-amd64.zip msastarter
+          zip msastarter-${{ steps.vars.outputs.VERSION }}-${{ steps.vars.outputs.PLATFORM }}.zip msastarter
           cd $PWD
 
       - name: updload native image
         uses: actions/upload-artifact@v2
         with:
-          name: msastarter-macos-amd64.zip
-          path: build/native/nativeCompile/msastarter-macos-amd64.zip
+          name: native
+          path: build/native/nativeCompile/msastarter-*.zip
           retention-days: 1
 
       - name: upload fat jar
         uses: actions/upload-artifact@v2
+        if: matrix.os == 'macos-latest'
         with:
-          name: msastarter.jar
+          name: jar
           path: build/libs/msastarter-*-all.jar
           retention-days: 1
 
       - name: upload zip distribution
         uses: actions/upload-artifact@v2
+        if: matrix.os == 'macos-latest'
         with:
-          name: msastarter-dist.zip
+          name: dist
           path: build/distributions/msastarter-shadow-*.zip
           retention-days: 1
 
+# release
+# https://electricui.com/blog/github-actions
   release:
     name: create prerelease
     needs: build
@@ -78,6 +96,6 @@ jobs:
           prerelease: true
           title: Development Build
           files: |
-            msastarter-macos-amd64.zip
-            msastarter.jar
-            msastarter-dist.zip
+            native/msastarter-*.zip
+            jar/msastarter-*-all.jar
+            dist/msastarter-shadow-*.zip

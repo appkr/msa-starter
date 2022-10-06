@@ -74,8 +74,12 @@ graalvmNative {
 //   References: https://github.com/edvin/tornadofx-idea-plugin/issues/18, https://stackoverflow.com/a/14441628
 // "Fatal error: java.lang.SecurityException: Invalid signature file digest for Manifest main attributes"
 //            useFatJar = true
-
-//            excludeConfig.put("org.eclipse.jgit:org.eclipse.jgit:6.3.0.202209071007-r", ["META-INF/*.RSA", "META-INF/*.DSA", "META-INF/*.SF"])
         }
+    }
+}
+
+tasks.register('printVersion') {
+    doLast {
+        println project.version
     }
 }
