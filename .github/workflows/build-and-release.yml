@@ -1,0 +1,83 @@
+name: Build and Prerelease
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: get git commit hash
+        id: vars
+        run: |
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+          echo ${{ steps.vars.outputs.sha_short }}
+
+      - name: GraalVM setup
+        uses: graalvm/setup-graalvm@v1
+        with:
+          version: latest
+          java-version: '17'
+          cache: gradle
+          components: native-image
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: build jar and native image
+        run: |
+          ./gradlew clean build
+          ./gradlew nativeCompile
+          PWD=`pwd`
+          cd build/native/nativeCompile
+          zip msastarter-macos-amd64.zip msastarter
+          cd $PWD
+
+      - name: updload native image
+        uses: actions/upload-artifact@v2
+        with:
+          name: msastarter-macos-amd64.zip
+          path: build/native/nativeCompile/msastarter-macos-amd64.zip
+          retention-days: 1
+
+      - name: upload fat jar
+        uses: actions/upload-artifact@v2
+        with:
+          name: msastarter.jar
+          path: build/libs/msastarter-*-all.jar
+          retention-days: 1
+
+      - name: upload zip distribution
+        uses: actions/upload-artifact@v2
+        with:
+          name: msastarter-dist.zip
+          path: build/distributions/msastarter-shadow-*.zip
+          retention-days: 1
+
+  release:
+    name: create prerelease
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+      - name: display fetched artifacts
+        run: ls -alR
+      - name: create a github release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: latest
+          prerelease: true
+          title: Development Build
+          files: |
+            msastarter-macos-amd64.zip
+            msastarter.jar
+            msastarter-dist.zip
