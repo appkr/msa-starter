@@ -10,7 +10,7 @@ plugins {
 
 version = '3.2.1'
 group = 'dev.appkr'
-sourceCompatibility = '17'
+sourceCompatibility = '8'
 
 repositories {
     mavenCentral()
@@ -20,7 +20,7 @@ dependencies {
     implementation 'info.picocli:picocli:4.6.3'
     annotationProcessor 'info.picocli:picocli-codegen:4.6.3'
     implementation 'com.github.spullara.mustache.java:compiler:0.9.10'
-    implementation 'org.eclipse.jgit:org.eclipse.jgit:6.3.0.202209071007-r'
+    implementation 'org.eclipse.jgit:org.eclipse.jgit:5.13.1.202206130422-r'
     implementation 'ch.qos.logback:logback-classic:1.2.9'
 }
 
@@ -43,7 +43,8 @@ graalvmNative {
     agent {
         // 'agent' means 'native-image-agent' which is provided by GraalVM
         defaultMode = "standard"
-        enabled = true
+        // ./gradlew nativeCompile -DgraalvmNative.agent.enabled=true
+        enabled = false
         modes {
             standard {
             }
@@ -68,6 +69,7 @@ graalvmNative {
                 vendor = JvmVendorSpec.matching("GraalVM Community")
             }
             mainClass = 'dev.appkr.starter.MsaStarter'
+            fallback = false
             debug = true
             verbose = true
 // 'useFatJar' makes the following error, but was not able to find right answer from

@@ -25,6 +25,7 @@ public class CommandUtils {
     System.out.println(String.format(
         CommandLine.Help.Ansi.AUTO.string("@|bold,fg(red) ✘ %s: %s|@"),
         message, e.getMessage()));
+    e.printStackTrace();
   }
 
   public static String ask(String question, String defaultValue) throws IOException {
@@ -34,7 +35,7 @@ public class CommandUtils {
     final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     final String answer = reader.readLine();
 
-    return (answer == null || answer.isBlank()) ? defaultValue : answer;
+    return (answer == null || answer.trim().isEmpty()) ? defaultValue : answer;
   }
 
   public static void confirm(String question, String toConfirm) throws IOException {

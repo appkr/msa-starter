@@ -1,0 +1,55 @@
+@startuml
+
+' print help message
+' inject sub-command
+class MsaStarter {
+  + {static} main()
+  + createGenerateCommand(): GenerateCommand
+  - isRunningInJar(): boolean
+}
+
+interface Callable {
+  + call(): Integer
+}
+
+' generate a new project
+abstract class GenerateCommand implements Callable {
+  + {abstract} getSourceDir(): String
+  + {abstract} setSourceDir(): void
+  + {abstract} listDir(): Stream<String>
+  + generate(useDefault: boolean): void
+  + getTargetDir(): String
+  + getBuildInfo(): void
+  + calculateTargetFilename(path: Path)
+  + isRunningInJava8(): boolean
+}
+
+class GenerateCommandForJar implements GenerateCommand {}
+class GenerateCommandForGradle implements GenerateCommand {}
+
+' publish the generated project
+class PublishCommand implements Callable {
+}
+
+class BuildInfo {
+  - {static}EXAMPLE_FILES: List<String>
+  - isArm: boolean
+  - isReactiveProject: boolean
+  - isVroongProject: boolean
+  - includeExample: boolean
+  - javaVersion: String
+  - projectName: String
+  - groupName: String
+  - packageName: String
+  - portNumber: String
+  - mediaType: String
+  - dockerImage: String
+  - skipTokens: List<String>
+  + mergeSkipTokensWithExamples(): void
+}
+
+MsaStarter --> GenerateCommand
+MsaStarter --> PublishCommand
+GenerateCommand --> BuildInfo
+
+@enduml

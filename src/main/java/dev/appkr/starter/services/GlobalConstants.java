@@ -1,4 +1,4 @@
-package dev.appkr.starter.model;
+package dev.appkr.starter.services;
 
 public class GlobalConstants {
 
