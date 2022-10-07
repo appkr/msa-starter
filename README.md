@@ -1,6 +1,8 @@
 [![](https://api.travis-ci.com/appkr/msa-starter.svg)](https://travis-ci.com/github/appkr/msa-starter)
 
-> **`중요 공지`** 1.x TypeScript/Node.js -> 2.x Groovy/Gradle task -> 3.x Java 로 구현 언어가 다릅니다.  
+> **`중요 공지`** 1.x TypeScript/Node.js -> 2.x Groovy/Gradle task -> 3.x Java 로 구현 언어가 다릅니다.
+> 
+> **`긴급 공지`** Native Build(*-macos-amd64.zip, *-macos-aarch64.zip)는 작동하지 않습니다; Jar(*-all.jar), Dist(*-shadow.zip) 빌드를 JDK17에서만 작동합니다; JDK8에서 작동할 수 있도록 수정중입니다.
 
 ## msa-starter
 
@@ -8,7 +10,7 @@
 
 ### 설치법
 
-방법 1: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 바이너리 파일을 받아서 사용합니다 (**jdk 불필요**).
+~~방법 1: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 바이너리 파일을 받아서 사용합니다 (**jdk 불필요**).~~ **방법 1은 문제가 있어서 고치고 있습니다**
 ```shell
 VERSION=3.2.0
 OS=osx
@@ -26,14 +28,14 @@ msastarter
 # Developed by appkr<juwonkim@me.com>
 ```
 
-방법 2: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 jar 파일을 받아서 사용합니다 (**jdk 필요**).
+방법 2: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 jar 파일을 받아서 사용합니다 (**jdk17 필요**). **jdk8을 사용할 수 있도록 고치고 있습니다**
 ```shell
 VERSION=3.2.0
 wget https://github.com/appkr/msa-starter/releases/download/$VERSION/msastarter-$VERSION-all.jar
 java -jar msastarter-$VERSION-all.jar
 ```
 
-방법 3: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 zip 파일을 받아서 사용합니다 (**jdk 필요**).
+방법 3: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 zip 파일을 받아서 사용합니다 (**jdk17 필요**). **jdk8을 사용할 수 있도록 고치고 있습니다**
 ```shell
 VERSION=3.2.0
 wget https://github.com/appkr/msa-starter/releases/download/$VERSION/msastarter-shadow-$VERSION.zip
