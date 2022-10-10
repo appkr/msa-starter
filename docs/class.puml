@@ -21,12 +21,16 @@ abstract class GenerateCommand implements Callable {
   + {abstract} getTemplateDir(): String
   + {abstract} setTemplateDir(seedDir: String): void
   + {abstract} listDir(): Stream<Path>
+  + {abstract} copyFile(srcPath: Path, destPath: Path): void
   + {abstract} renderTemplate(templatePath: String, writePath: String): void
   # getBuildInfo(): void
   # shouldSkip(path: String): boolean
   # calculateTargetFilenameFrom(aTemplatePath: String): String
 }
 
+class GenerateCommandForNative implements GenerateCommand {
+  - templateDir: String
+}
 class GenerateCommandForJar implements GenerateCommand {
   - templateDir: String
 }

@@ -5,6 +5,7 @@ import static picocli.CommandLine.Model.UsageMessageSpec.SECTION_KEY_COMMAND_LIS
 import dev.appkr.starter.commands.GenerateCommand;
 import dev.appkr.starter.commands.GenerateCommandForGradle;
 import dev.appkr.starter.commands.GenerateCommandForJar;
+import dev.appkr.starter.commands.GenerateCommandForNative;
 import dev.appkr.starter.commands.PublishCommand;
 import dev.appkr.starter.services.GlobalConstants;
 import picocli.CommandLine;
@@ -17,7 +18,10 @@ import picocli.CommandLine.Help.ColorScheme;
     version = "3.0.0",
     mixinStandardHelpOptions = true,
     description = "Command that generates a Spring-boot microservice skeleton",
-    footer = "Developed by appkr<juwonkim@me.com>"
+    optionListHeading = "%nOptions:%n",
+    commandListHeading = "%nCommands:%n",
+    footerHeading = "%n",
+    footer = "appkr<juwonkim@me.com>"
 )
 public class MsaStarter {
 
@@ -63,9 +67,15 @@ public class MsaStarter {
   }
 
   static GenerateCommand createGenerateCommand() {
-    return isRunningInJar()
-        ? new GenerateCommandForJar()
-        : new GenerateCommandForGradle();
+    if (isRunningInNative()) {
+      return new GenerateCommandForNative();
+    }
+
+    if (isRunningInJar()) {
+      return new GenerateCommandForJar();
+    }
+
+    return new GenerateCommandForGradle();
   }
 
   static boolean isRunningInJar() {

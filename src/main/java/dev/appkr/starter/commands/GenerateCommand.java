@@ -23,7 +23,10 @@ import picocli.CommandLine.ScopeType;
     name = "generate",
     description = "Create a new project",
     mixinStandardHelpOptions = true,
-    scope = ScopeType.INHERIT
+    scope = ScopeType.INHERIT,
+    optionListHeading = "%nOptions:%n",
+    footerHeading = "%n",
+    footer = "appkr<juwonkim@me.com>"
 )
 public abstract class GenerateCommand implements Callable<Integer> {
 

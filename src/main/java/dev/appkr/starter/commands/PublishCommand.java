@@ -17,7 +17,10 @@ import picocli.CommandLine.ScopeType;
     name = "publish",
     description = "Publish the project to a new directory",
     mixinStandardHelpOptions = true,
-    scope = ScopeType.INHERIT
+    scope = ScopeType.INHERIT,
+    optionListHeading = "%nOptions:%n",
+    footerHeading = "%n",
+    footer = "appkr<juwonkim@me.com>"
 )
 public class PublishCommand implements Callable<Integer> {
 
