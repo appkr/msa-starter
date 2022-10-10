@@ -1,6 +1,7 @@
 package dev.appkr.starter.commands;
 
 import com.github.mustachejava.Mustache;
+import dev.appkr.starter.services.CommandUtils;
 import dev.appkr.starter.services.GlobalConstants;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -32,8 +33,16 @@ public class GenerateCommandForGradle extends GenerateCommand {
   }
 
   @Override
-  public void renderTemplate(String aTemplatePath, String writePath) throws IOException {
-    final Mustache mustache = mf.compile(aTemplatePath);
+  public void copyFile(Path srcPath, Path destPath) throws IOException {
+    Files.copy(srcPath, destPath);
+    CommandUtils.success(srcPath + " -> " + destPath);
+  }
+
+  @Override
+  public void renderTemplate(Path aTemplatePath, String writePath) throws IOException {
+    final Mustache mustache = mf.compile(aTemplatePath.toString());
     mustache.execute(new FileWriter(writePath), buildInfo).flush();
+
+    CommandUtils.success(aTemplatePath + " -> " + writePath);
   }
 }

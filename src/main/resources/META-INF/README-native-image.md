@@ -33,12 +33,14 @@ Run all commands, so that the generated configuration is as much as complete
 ```shell
 $ ./gradlew assemble
 
+$ VERSION=3.3.0
+
 $ java -agentlib:native-image-agent=config-merge-dir=./src/main/resources/META-INF/native-image \
-	-jar build/libs/msastarter-3.1.0-all.jar
+	-jar build/libs/msastarter-$VERSION-all.jar
 $ java -agentlib:native-image-agent=config-merge-dir=./src/main/resources/META-INF/native-image \
-	-jar build/libs/msastarter-3.1.0-all.jar generate
+	-jar build/libs/msastarter-$VERSION-all.jar generate
 $ java -agentlib:native-image-agent=config-merge-dir=./src/main/resources/META-INF/native-image \
-	-jar build/libs/msastarter-3.1.0-all.jar publish
+	-jar build/libs/msastarter-$VERSION-all.jar publish
 ```
 
 #### 3 Build native image

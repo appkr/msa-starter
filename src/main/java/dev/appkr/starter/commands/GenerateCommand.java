@@ -11,7 +11,6 @@ import dev.appkr.starter.services.FileUtils;
 import dev.appkr.starter.services.GlobalConstants;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.Callable;
@@ -64,6 +63,8 @@ public abstract class GenerateCommand implements Callable<Integer> {
    */
   public abstract Stream<Path> listDir() throws IOException, URISyntaxException;
 
+  public abstract void copyFile(Path srcPath, Path destPath) throws IOException;
+
   /**
    * Read and compile the given template and write the compiled content to outPath
    *
@@ -71,7 +72,7 @@ public abstract class GenerateCommand implements Callable<Integer> {
    * @param writePath
    * @throws IOException
    */
-  public abstract void renderTemplate(String aTemplatePath, String writePath) throws IOException;
+  public abstract void renderTemplate(Path aTemplatePath, String writePath) throws IOException;
 
   @Override
   public Integer call() throws Exception {
@@ -93,12 +94,10 @@ public abstract class GenerateCommand implements Callable<Integer> {
             FileUtils.createDir(Paths.get(targetFilename).getParent());
 
             if (FileUtils.isBinary(aTemplate)) {
-              Files.copy(aTemplate, Paths.get(targetFilename));
+              copyFile(aTemplate, Paths.get(targetFilename));
             } else {
-              renderTemplate(aTemplate.toString(), targetFilename);
+              renderTemplate(aTemplate, targetFilename);
             }
-
-            CommandUtils.success(aTemplate + " -> " + targetFilename);
           } catch (IOException e) {
             CommandUtils.fail(aTemplate + " -> " + targetFilename, e);
           }

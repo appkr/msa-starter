@@ -6,6 +6,7 @@ class MsaStarter {
   + {static} main()
   + createGenerateCommand(): GenerateCommand
   - isRunningInJar(): boolean
+  - isRunningInNative(): boolean
 }
 
 interface Callable {
@@ -14,21 +15,29 @@ interface Callable {
 
 ' generate a new project
 abstract class GenerateCommand implements Callable {
-  + {abstract} getSourceDir(): String
-  + {abstract} setSourceDir(): void
-  + {abstract} listDir(): Stream<String>
-  + generate(useDefault: boolean): void
-  + getTargetDir(): String
-  + getBuildInfo(): void
-  + calculateTargetFilename(path: Path)
-  + isRunningInJava8(): boolean
+  # {static} mf: MustacheFactory
+  # targetDir: String
+  # buildInfo: BuildInfo
+  + {abstract} getTemplateDir(): String
+  + {abstract} setTemplateDir(seedDir: String): void
+  + {abstract} listDir(): Stream<Path>
+  + {abstract} renderTemplate(templatePath: String, writePath: String): void
+  # getBuildInfo(): void
+  # shouldSkip(path: String): boolean
+  # calculateTargetFilenameFrom(aTemplatePath: String): String
 }
 
-class GenerateCommandForJar implements GenerateCommand {}
-class GenerateCommandForGradle implements GenerateCommand {}
+class GenerateCommandForJar implements GenerateCommand {
+  - templateDir: String
+}
+class GenerateCommandForGradle implements GenerateCommand {
+  - templateDir: String
+}
 
 ' publish the generated project
 class PublishCommand implements Callable {
+  - sourceDir: String
+  - targetDir: String
 }
 
 class BuildInfo {

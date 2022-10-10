@@ -2,6 +2,7 @@ package dev.appkr.starter.commands;
 
 import com.github.mustachejava.Mustache;
 import dev.appkr.starter.MsaStarter;
+import dev.appkr.starter.services.CommandUtils;
 import dev.appkr.starter.services.GlobalConstants;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -48,16 +49,31 @@ public class GenerateCommandForJar extends GenerateCommand {
   }
 
   @Override
-  public void renderTemplate(String aTemplatePath, String writePath) throws IOException {
+  public void copyFile(Path srcPath, Path destPath) throws IOException {
+    Files.copy(srcPath, destPath);
+    CommandUtils.success(normalizePath(srcPath.toString()) + " -> " + destPath);
+  }
+
+  @Override
+  public void renderTemplate(Path aTemplatePath, String writePath) throws IOException {
+    String readPath = normalizePath(aTemplatePath.toString());
+    writePath = normalizePath(writePath);
+
+    final Mustache mustache = mf.compile(readPath);
+    mustache.execute(new FileWriter(writePath), buildInfo).flush();
+
+    CommandUtils.success(readPath + " -> " + writePath);
+  }
+
+  private String normalizePath(String path) {
     if (isRunningInJava8()) {
       // NOTE. aTemplatePath differs in Java8 and Java11
       // Java 11: templates/webmvc/src/main/java/domain/Example.java
       // Java 8 : /templates/webmvc/src/main/java/domain/Example.java
-      aTemplatePath = aTemplatePath.substring(GlobalConstants.DIR_SEPARATOR.length());
+      return path.substring(GlobalConstants.DIR_SEPARATOR.length());
     }
 
-    final Mustache mustache = mf.compile(aTemplatePath);
-    mustache.execute(new FileWriter(writePath), buildInfo).flush();
+    return path;
   }
 
   private static boolean isRunningInJava8() {
