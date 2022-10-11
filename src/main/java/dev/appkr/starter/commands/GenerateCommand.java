@@ -85,7 +85,7 @@ public abstract class GenerateCommand implements Callable<Integer> {
     if (!useDefault) {
       // get project attributes from a user
       getBuildInfo();
-      CommandUtils.confirm("'Enter' to continue OR 'n' to quit)?", buildInfo.toString());
+      CommandUtils.confirm("Proceed ('Enter' to continue OR 'n' to quit)??", buildInfo.toString());
     }
 
     // bind BuildInfo to the templates and create files

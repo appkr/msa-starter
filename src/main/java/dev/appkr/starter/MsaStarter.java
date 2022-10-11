@@ -14,7 +14,7 @@ import picocli.CommandLine.Help.Ansi.Style;
 import picocli.CommandLine.Help.ColorScheme;
 
 @Command(
-    name = "msa-starter",
+    name = "msastarter",
     version = "3.0.0",
     mixinStandardHelpOptions = true,
     description = "Command that generates a Spring-boot microservice skeleton",

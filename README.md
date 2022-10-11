@@ -14,20 +14,26 @@ VERSION=3.3.0
 OS=macos
 ARCH=amd64 # aarch64 for Apple m1 or m2
 wget https://github.com/appkr/msa-starter/releases/download/$VERSION/msastarter-$VERSION-$OS-$ARCH.zip
-sudo unzip msastarter-{VERSION}-{OS}-{ARCH}.zip -d /usr/local/bin/
+sudo unzip msastarter-$VERSION-$OS-$ARCH.zip -d /usr/local/bin/
 
-# To add an application to Gatekeepers exceptions
+# To add an application to MacOS Gatekeeper's exceptions
 spctl --add /usr/local/bin/msastarter
 
 msastarter
-# Usage: msa-starter [-hV] [COMMAND]
+# The application is running in NATIVE mode!!!
+# 
+# Usage: msastarter [-hV] [COMMAND]
 # Command that generates a Spring-boot microservice skeleton
+# 
+# Options:
 #   -h, --help      Show this help message and exit.
 #   -V, --version   Print version information and exit.
+# 
 # Commands:
 #   generate       Create a new project
 #   publish        Publish the project to a new directory
-# Developed by appkr<juwonkim@me.com>
+# 
+# appkr<juwonkim@me.com>
 ```
 
 방법 2: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 jar 파일을 받아서 사용합니다(**jdk 필요**)
@@ -54,6 +60,7 @@ msastarter-shadow-$VERSION/bin/msastarter
 ```shell
 APP=msastarter 
 # OR APP="java -jar msastarter-$VERSION-all.jar"
+
 $APP generate 
 # A WebMVC/JPA project(m)? Or a WebFlux/R2DBC project(f) (default: m)? ↵
 # Is vroong project(y/n, default: n)? ↵
@@ -62,11 +69,11 @@ $APP generate
 # What is the group name(default: dev.appkr)? me.group↵
 # What is the web server port(default: 8080)? 19999↵
 # What is the media type for request and response(default: application/json)? ↵
+# Include example codes(y/n, default: y)? ↵
 
 # Proceed ('Enter' to continue OR 'n' to quit)? ↵
-# ✔ copyGradleProperties: ~/.msa-starter/gradle.properties
+# ✔ templates/webmvc/build.gradle -> /path/to/.msa-starter/build.gradle
 # ...
-# ✔ ~/.msa-starter/src/main/java/me/group/demo/domain/Example.java
 ```
 
 #### publish 커맨드
@@ -76,7 +83,7 @@ APP=msastarter
 $APP publish 
 # What is the dir you want to publish? ~/demo ↵
 # Proceed ('Enter' to continue OR 'n' to quit)?
-# targetDir:  ~/demo
+# targetDir: /path/to/demo
 ```
 
 ### 포함된 내용
