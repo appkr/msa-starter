@@ -1,8 +1,6 @@
 [![](https://api.travis-ci.com/appkr/msa-starter.svg)](https://travis-ci.com/github/appkr/msa-starter)
 
 > **`중요 공지`** 1.x TypeScript/Node.js -> 2.x Groovy/Gradle task -> 3.x Java 로 구현 언어가 다릅니다.
-> 
-> **`긴급 공지`** Native Build(*-macos-amd64.zip, *-macos-aarch64.zip)는 작동하지 않습니다; Jar(*-all.jar), Dist(*-shadow.zip) 빌드를 JDK17에서만 작동합니다; JDK8에서 작동할 수 있도록 수정중입니다.
 
 ## msa-starter
 
@@ -10,13 +8,17 @@
 
 ### 설치법
 
-~~방법 1: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 바이너리 파일을 받아서 사용합니다 (**jdk 불필요**).~~ **방법 1은 문제가 있어서 고치고 있습니다**
+방법 1: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 바이너리 파일을 받아서 사용합니다(**jdk 불필요**).
 ```shell
-VERSION=3.2.0
-OS=osx
-ARCH=intel
+VERSION=3.3.0
+OS=macos
+ARCH=amd64 # aarch64 for Apple m1 or m2
 wget https://github.com/appkr/msa-starter/releases/download/$VERSION/msastarter-$VERSION-$OS-$ARCH.zip
-unzip msastarter-{VERSION}-{OS}-{ARCH}.zip -d /usr/local/bin/
+sudo unzip msastarter-{VERSION}-{OS}-{ARCH}.zip -d /usr/local/bin/
+
+# To add an application to Gatekeepers exceptions
+spctl --add /usr/local/bin/msastarter
+
 msastarter
 # Usage: msa-starter [-hV] [COMMAND]
 # Command that generates a Spring-boot microservice skeleton
@@ -28,16 +30,16 @@ msastarter
 # Developed by appkr<juwonkim@me.com>
 ```
 
-방법 2: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 jar 파일을 받아서 사용합니다 (**jdk17 필요**). **jdk8을 사용할 수 있도록 고치고 있습니다**
+방법 2: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 jar 파일을 받아서 사용합니다(**jdk 필요**)
 ```shell
-VERSION=3.2.0
+VERSION=3.3.0
 wget https://github.com/appkr/msa-starter/releases/download/$VERSION/msastarter-$VERSION-all.jar
 java -jar msastarter-$VERSION-all.jar
 ```
 
-방법 3: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 zip 파일을 받아서 사용합니다 (**jdk17 필요**). **jdk8을 사용할 수 있도록 고치고 있습니다**
+방법 3: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 zip 파일을 받아서 사용합니다(**jdk 필요**)
 ```shell
-VERSION=3.2.0
+VERSION=3.3.0
 wget https://github.com/appkr/msa-starter/releases/download/$VERSION/msastarter-shadow-$VERSION.zip
 unzip msastarter-shadow-$VERSION.zip
 msastarter-shadow-$VERSION/bin/msastarter
@@ -50,8 +52,9 @@ msastarter-shadow-$VERSION/bin/msastarter
 #### generate 커맨드
 
 ```shell
-$ APP=msastarter # OR APP="java -jar msastarter-$VERSION-all.jar"
-$ $APP generate↵ 
+APP=msastarter 
+# OR APP="java -jar msastarter-$VERSION-all.jar"
+$APP generate 
 # A WebMVC/JPA project(m)? Or a WebFlux/R2DBC project(f) (default: m)? ↵
 # Is vroong project(y/n, default: n)? ↵
 # Which java version will you choose(1.8/11/17, default: 17)? ↵
@@ -69,8 +72,8 @@ $ $APP generate↵
 #### publish 커맨드
 
 ```shell
-$ APP=msastarter
-$ $APP publish↵ 
+APP=msastarter
+$APP publish 
 # What is the dir you want to publish? ~/demo ↵
 # Proceed ('Enter' to continue OR 'n' to quit)?
 # targetDir:  ~/demo

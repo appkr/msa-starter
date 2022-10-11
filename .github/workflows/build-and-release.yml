@@ -49,7 +49,7 @@ jobs:
       - name: build jar and native image
         run: |
           ./gradlew clean build
-          ./gradlew nativeCompile
+          ./gradlew nativeCompile -DgraalvmNative.agent.enabled=true
           PWD=`pwd`
           cd build/native/nativeCompile
           zip msastarter-${{ steps.vars.outputs.VERSION }}-${{ steps.vars.outputs.PLATFORM }}.zip msastarter

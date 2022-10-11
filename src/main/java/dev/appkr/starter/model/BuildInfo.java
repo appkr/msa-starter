@@ -1,10 +1,13 @@
 package dev.appkr.starter.model;
 
+import static java.util.Arrays.asList;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class BuildInfo implements Bindable {
+public class BuildInfo {
 
   static final List<String> EXAMPLE_FILES = new ArrayList<>();
   static {
@@ -30,6 +33,7 @@ public class BuildInfo implements Bindable {
     EXAMPLE_FILES.add("SongRepositoryTest.java");
     EXAMPLE_FILES.add("SongServiceTest.java");
     EXAMPLE_FILES.add("Fixtures.java");
+
     // src/main/resources/templates/webmvc
     EXAMPLE_FILES.add("ExampleMapper.java");
     EXAMPLE_FILES.add("ExampleApiDelegateImpl.java");
@@ -45,18 +49,32 @@ public class BuildInfo implements Bindable {
     EXAMPLE_FILES.add("ExampleRepositoryTest.java");
   }
 
+  public static final String JAVA_VERSION_8 = "8";
+  public static final String JAVA_VERSION_11 = "11";
+  public static final String JAVA_VERSION_17 = "17";
+  public static final String PROJECT_NAME_DEFAULT = "example";
+  public static final String GROUP_NAME_DEFAULT = "dev.appkr";
+  public static final String GROUP_NAME_VROONG = "com.vroong";
+  public static final String PACKAGE_NAME_DEFAULT = "dev.appkr.example";
+  public static final String PORT_NUMBER_DEFAULT = "8080";
+  public static final String MEDIA_TYPE_DEFAULT = "application/json";
+  public static final String MEDIA_TYPE_VROONG = "application/vnd.vroong.private.v1+json";
+  public static final String DOCKER_IMAGE_JAVA8 = "openjdk:8-jre-alpine";
+  public static final String DOCKER_IMAGE_JAVA11 = "amazoncorretto:11-alpine-jdk";
+  public static final String DOCKER_IMAGE_JAVA17 = "amazoncorretto:17-alpine-jdk";
+
   boolean isArm = System.getProperty("os.arch").equals("aarch64");
   boolean isReactiveProject = false;
   boolean isVroongProject = false;
   boolean includeExample = true;
-  String javaVersion = "17";
-  String projectName = "example";
-  String groupName = "dev.appkr";
-  String packageName = "dev.appkr.example";
-  String portNumber = "8080";
-  String mediaType = "application/json";
-  String dockerImage = "amazoncorretto:17-alpine-jdk";
-  List<String> skipTokens = List.of(
+  String javaVersion = JAVA_VERSION_17;
+  String projectName = PROJECT_NAME_DEFAULT;
+  String groupName = GROUP_NAME_DEFAULT;
+  String packageName = PACKAGE_NAME_DEFAULT;
+  String portNumber = PORT_NUMBER_DEFAULT;
+  String mediaType = MEDIA_TYPE_DEFAULT;
+  String dockerImage = DOCKER_IMAGE_JAVA17;
+  List<String> skipTokens = asList(
       ".DS_Store",
       "jmx-exporter",
       "newrelic",
@@ -181,7 +199,7 @@ public class BuildInfo implements Bindable {
   public void mergeSkipTokensWithExamples() {
     this.skipTokens = Stream.of(skipTokens, EXAMPLE_FILES)
         .flatMap(x -> x.stream())
-        .toList();
+        .collect(Collectors.toList());
   }
 
   @Override

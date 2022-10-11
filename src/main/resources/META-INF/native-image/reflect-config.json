@@ -63,6 +63,11 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"dev.appkr.starter.commands.GenerateCommandForJar",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"dev.appkr.starter.commands.PublishCommand",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true
@@ -78,6 +83,7 @@
     {"name":"getPortNumber","parameterTypes":[] }, 
     {"name":"getProjectName","parameterTypes":[] }, 
     {"name":"isArm","parameterTypes":[] }, 
+    {"name":"isIncludeExample","parameterTypes":[] }, 
     {"name":"isJava11","parameterTypes":[] }, 
     {"name":"isJava17","parameterTypes":[] }, 
     {"name":"isJava8","parameterTypes":[] }, 
