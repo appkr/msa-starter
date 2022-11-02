@@ -85,5 +85,4 @@ kafka|alice|alice-secret
 
 - [Kibana](https://kibana.meshtools.io/)
 - [Sentry](https://sentry.io)
-- [Newrelic](http://rpm.newrelic.com/)
 {{/isVroongProject}}
