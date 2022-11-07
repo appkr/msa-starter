@@ -20,10 +20,6 @@ jib {
     extraDirectories {
         paths {
             path {
-                from = file('docker/newrelic')
-                into = '/newrelic'
-            }
-            path {
                 from = file('docker/jmx-exporter')
                 into = '/jmx-exporter'
             }
@@ -55,7 +51,6 @@ jib {
                 '-Dfile.encoding=UTF8',
                 '-Dsun.net.inetaddr.ttl=30',
                 {{#isVroongProject}}
-                '-javaagent:/newrelic/newrelic.jar',
                 '-javaagent:/jmx-exporter/jmx_prometheus_javaagent-0.13.0.jar=8888:/jmx-exporter/config.yml',
                 {{/isVroongProject}}
         ]

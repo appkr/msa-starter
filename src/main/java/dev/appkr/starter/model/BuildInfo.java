@@ -77,7 +77,6 @@ public class BuildInfo {
   List<String> skipTokens = asList(
       ".DS_Store",
       "jmx-exporter",
-      "newrelic",
       "Jenkinsfile",
       "clients/.gitignore",
       "clients/build.gradle",
