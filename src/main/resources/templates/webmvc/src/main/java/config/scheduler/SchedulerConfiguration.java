@@ -25,7 +25,7 @@ public class SchedulerConfiguration {
   }
 
   @Bean
-  public Executor getAsyncExecutor() {
+  public Executor taskExecutor() {
     final TaskExecutionProperties.Pool config = properties.getPool();
 
     ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();

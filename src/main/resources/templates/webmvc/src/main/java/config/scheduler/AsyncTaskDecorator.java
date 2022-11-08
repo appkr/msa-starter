@@ -15,28 +15,22 @@ class AsyncTaskDecorator implements TaskDecorator {
 
   @Override
   public Runnable decorate(Runnable runnable) {
-
-    Map<String, String> contextMap = MDC.getCopyOfContextMap();
+    final Map<String, String> contextMap = MDC.getCopyOfContextMap();
     if (contextMap == null) {
       /**
        * WORKAROUND for "Exception in thread "exe-3" java.lang.NullPointerException
-       *   at {{packageName}}.config.scheduler.AsyncTaskDecorator.lambda$decorate$0(AsyncTaskDecorator.java:21)"
        * @see https://jira.qos.ch/browse/LOGBACK-944
        */
-      MDC.put("foo", "bar");
+      return () -> runnable.run();
+    } else {
+      return () -> {
+        MDC.setContextMap(contextMap);
+        try {
+          runnable.run();
+        } finally {
+          MDC.clear();
+        }
+      };
     }
-
-    return () -> {
-      MDC.setContextMap(contextMap);
-      StopWatch stopWatch = new StopWatch();
-      try {
-        stopWatch.start();
-        runnable.run();
-      } finally {
-        stopWatch.stop();
-        log.info("A scheduled task finished, elapsedTime={}", stopWatch.getTime(TimeUnit.SECONDS));
-        MDC.clear();
-      }
-    };
   }
 }
