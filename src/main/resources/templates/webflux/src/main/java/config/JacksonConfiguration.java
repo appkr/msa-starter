@@ -33,18 +33,18 @@ public class JacksonConfiguration {
     return new ConstraintViolationProblemModule();
   }
 
-  @Bean
-  public ObjectMapper jacksonObjectMapper() {
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.registerModules(javaTimeModule(), jsonNullableModule(), problemModule(), constraintViolationProblemModule());
-    mapper.disable(
-        DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
-        DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS);
-    mapper.disable(
-        SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS,
-        SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,
-        SerializationFeature.FAIL_ON_EMPTY_BEANS);
-
-    return mapper;
-  }
+//  @Bean
+//  public ObjectMapper jacksonObjectMapper() {
+//    ObjectMapper mapper = new ObjectMapper();
+//    mapper.registerModules(javaTimeModule(), jsonNullableModule(), problemModule(), constraintViolationProblemModule());
+//    mapper.disable(
+//        DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
+//        DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS);
+//    mapper.disable(
+//        SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS,
+//        SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,
+//        SerializationFeature.FAIL_ON_EMPTY_BEANS);
+//
+//    return mapper;
+//  }
 }
