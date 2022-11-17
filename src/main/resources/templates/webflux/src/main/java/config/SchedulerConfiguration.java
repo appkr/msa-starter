@@ -41,7 +41,7 @@ public class SchedulerConfiguration {
 
   @Bean
   @Primary
-  public Executor defaultTaskExecutor() {
+  public Executor taskExecutor() {
     final TaskExecutionProperties.Pool config = properties.getPool();
 
     final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
@@ -65,25 +65,23 @@ public class SchedulerConfiguration {
 
     @Override
     public Runnable decorate(Runnable runnable) {
-
-      Map<String, String> contextMap = MDC.getCopyOfContextMap();
+      final Map<String, String> contextMap = MDC.getCopyOfContextMap();
       if (contextMap == null) {
         /**
          * WORKAROUND for "Exception in thread "exe-3" java.lang.NullPointerException
-         *   at {{packageName}}.config.scheduler.AsyncTaskDecorator.lambda$decorate$0(AsyncTaskDecorator.java:21)"
          * @see https://jira.qos.ch/browse/LOGBACK-944
          */
-        MDC.put("foo", "bar");
+        return () -> runnable.run();
+      } else {
+        return () -> {
+          MDC.setContextMap(contextMap);
+          try {
+            runnable.run();
+          } finally {
+            MDC.clear();
+          }
+        };
       }
-
-      return () -> {
-        MDC.setContextMap(contextMap);
-        try {
-          runnable.run();
-        } finally {
-          MDC.clear();
-        }
-      };
     }
   }
 }
