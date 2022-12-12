@@ -53,17 +53,6 @@ spring:
         binder:
           headers: [ "messageId", "messageType", "messageVersion", "messageSource" ]
           auto-create-topics: false
-          {{#isVroongProject}}
-          # Kafka - SASL_SSL설정과 SCRAM-SHA-512 를 이용한 ID Password 설정
-          # @see https://wiki.mm.meshkorea.net/pages/viewpage.action?pageId=95856174
-          configuration:
-            sasl:
-              jaas:
-                config: 'org.apache.kafka.common.security.plain.PlainLoginModule required username="alice" password="alice-secret";'
-              mechanism: PLAIN
-            security:
-              protocol: SASL_PLAINTEXT
-          {{/isVroongProject}}
       bindings:
         messageChannel:
           binder: kafka
