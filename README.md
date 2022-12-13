@@ -10,9 +10,10 @@
 
 방법 1: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 바이너리 파일을 받아서 사용합니다(**jdk 불필요**).
 ```shell
-VERSION=3.3.0
+VERSION=3.3.4
 OS=macos
-ARCH=amd64 # aarch64 for Apple m1 or m2
+ARCH=amd64 # for Intel cpu
+ARCH=amd64 # for m1 or m2 cpu
 wget https://github.com/appkr/msa-starter/releases/download/$VERSION/msastarter-$VERSION-$OS-$ARCH.zip
 sudo unzip msastarter-$VERSION-$OS-$ARCH.zip -d /usr/local/bin/
 
