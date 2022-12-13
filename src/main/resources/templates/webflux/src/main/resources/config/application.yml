@@ -29,20 +29,25 @@ spring:
             jwk-set-uri: http://localhost:9999/.well-known/jwks.json
 
   cloud:
+    function:
+      definition: consumeMessage
     stream:
-      kafka:
-        binder:
-          headers: [ "messageId", "messageType", "messageVersion", "messageSource" ]
-          auto-create-topics: false
       bindings:
-        messageChannel:
-          binder: kafka
+        # CONVENTIONS: https://docs.spring.io/spring-cloud-stream/docs/current/reference/html/spring-cloud-stream.html#_functional_binding_names
+        #   <functionName> + -in- + <index>
+        #   <functionName> + -out- + <index>
+        # Consumer properties: https://docs.spring.io/spring-cloud-stream/docs/current/reference/html/spring-cloud-stream.html#_consumer_properties
+        # Producer properties: https://docs.spring.io/spring-cloud-stream/docs/current/reference/html/spring-cloud-stream.html#_producer_properties
+        consumeMessage-in-0:
+          group: {{projectName}}-comsumer-group
           destination: local-{{projectName}}-output
-          producer:
-            # @see https://docs.spring.io/spring-cloud-stream-binder-kafka/docs/3.0.10.RELEASE/reference/html/spring-cloud-stream-binder-kafka.html#kafka-producer-properties
-            header-mode: headers
-            partition-key-expression: headers['partitionKey']
-            partition-count: 1
+        produceMessage-out-0:
+          destination: local-{{projectName}}-output
+          header-mode: headers
+      binders:
+        kafka:
+          type: kafka
+          headers: [ "messageId", "messageType", "messageVersion", "messageSource" ]
       default-binder: kafka
 
   sleuth:

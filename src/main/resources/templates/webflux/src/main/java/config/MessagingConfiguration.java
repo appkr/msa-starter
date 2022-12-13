@@ -1,8 +1,23 @@
 package {{packageName}}.config;
 
-import {{packageName}}.application.port.out.messaging.ProducerChannel;
-import org.springframework.cloud.stream.annotation.EnableBinding;
+import java.util.function.Consumer;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.Message;
 
-@EnableBinding(value = {ProducerChannel.class})
+@Configuration
+@Slf4j
 public class MessagingConfiguration {
+
+  public static final String PRODUCER_CHANNEL = "produceMessage-out-0";
+  public static final String CONSUMER_CHANNEL = "consumeMessage-in-0";
+
+  @Bean
+  public Consumer<Message<?>> consumeMessage() {
+    return data -> {
+      // Add business logic here
+      log.info("A message received: {}", data.getPayload());
+    };
+  }
 }

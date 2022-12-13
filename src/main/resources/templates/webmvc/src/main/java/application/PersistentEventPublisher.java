@@ -17,36 +17,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * When: a new record being created in persistent_event table
- *
- * Then:
- * ```
- * $ kafkactl consume local-{{projectName}}-output --from-beginning --print-headers
- * b3:c1fd9ecc53fc2d81-160976621383d9fb-0,
- * contentType:"application/json",
- * messageId:"cb970d49-465e-493b-8c1b-da90856412e0",
- * messageSource:{{projectName}},
- * messageType:ExampleCreated,
- * messageVersion:1,
- * nativeHeaders:{"b3":["c1fd9ecc53fc2d81-160976621383d9fb-0"]},
- * partitionKey:"cb970d49-465e-493b-8c1b-da90856412e0",
- * resource:String,
- * scst_partition:0,
- * spring_json_header_types:{
- *   "b3": "java.lang.String",
- *   "nativeHeaders": "org.springframework.util.LinkedMultiValueMap",
- *   "messageType": "java.lang.String",
- *   "partitionKey": "java.util.UUID",
- *   "resource": "java.lang.String",
- *   "messageId": "java.util.UUID",
- *   "messageSource": "java.lang.String",
- *   "scst_partition": "java.lang.Integer",
- *   "messageVersion": "java.lang.Integer",
- *   "contentType": "java.lang.String"
- * }#{JSON BODY}
- * ```
- */
 @Component
 @Slf4j
 @RequiredArgsConstructor
