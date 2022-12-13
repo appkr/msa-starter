@@ -115,3 +115,9 @@ src
             ├── webflux     # WebFlux/R2DBC 프로젝트 템플릿
             └── webmvc      # WebMVC/JPA 프로젝트 템플릿
 ```
+
+### 배포전 버전 수정
+
+- build.gradle
+- README.md
+- src/main/java/dev/appkr/starter/MsaStarter.java
