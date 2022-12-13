@@ -65,6 +65,12 @@ management:
   health:
     mail.enabled: false
 
+sentry:
+  release: #project.version#
+  in-app-includes: '{{packageName}}'
+  enable-tracing: 'true'
+  traces-sample-rate: '0.001'
+
 application:
   version: #project.version#
   scheduler:
