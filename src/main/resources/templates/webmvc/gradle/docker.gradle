@@ -61,5 +61,4 @@ jib {
 
 dockerCompose {
     useComposeFiles = ['docker/compose.yml']
-    tcpPortsToIgnoreWhenWaiting = [1099]
 }

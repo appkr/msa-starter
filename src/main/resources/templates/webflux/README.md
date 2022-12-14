@@ -73,6 +73,8 @@ kafka|alice|alice-secret
 ```shell
 ~/{{projectName}} $ ./gradlew redoc
 # 빌드된 API 문서는 build/redoc.html 입니다
+~/{{projectName}} $ ./gradlew generate
+# 빌드된 비동기 API 문서는 build/asyncapi.html 입니다
 ```
 
 {{#isVroongProject}}

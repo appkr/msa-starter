@@ -48,32 +48,27 @@ spring:
     throw-exception-if-no-handler-found: true
 
   cloud:
+    function:
+      definition: consumeMessage
     stream:
-      kafka:
-        binder:
-          headers: [ "messageId", "messageType", "messageVersion", "messageSource" ]
-          auto-create-topics: false
-          {{#isVroongProject}}
-          # Kafka - SASL_SSL설정과 SCRAM-SHA-512 를 이용한 ID Password 설정
-          # @see https://wiki.mm.meshkorea.net/pages/viewpage.action?pageId=95856174
-          configuration:
-            sasl:
-              jaas:
-                config: 'org.apache.kafka.common.security.plain.PlainLoginModule required username="alice" password="alice-secret";'
-              mechanism: PLAIN
-            security:
-              protocol: SASL_PLAINTEXT
-          {{/isVroongProject}}
       bindings:
-        messageChannel:
-          binder: kafka
+        # CONVENTIONS: https://docs.spring.io/spring-cloud-stream/docs/current/reference/html/spring-cloud-stream.html#_functional_binding_names
+        #   <functionName> + -in- + <index>
+        #   <functionName> + -out- + <index>
+        # Consumer properties: https://docs.spring.io/spring-cloud-stream/docs/current/reference/html/spring-cloud-stream.html#_consumer_properties
+        # Producer properties: https://docs.spring.io/spring-cloud-stream/docs/current/reference/html/spring-cloud-stream.html#_producer_properties
+        consumeMessage-in-0:
+          group: {{projectName}}-comsumer-group
           destination: local-{{projectName}}-output
-          producer:
-            # @see https://docs.spring.io/spring-cloud-stream-binder-kafka/docs/3.0.10.RELEASE/reference/html/spring-cloud-stream-binder-kafka.html#kafka-producer-properties
-            header-mode: headers
-            partition-key-expression: headers['partitionKey']
-            partition-count: 1
+        produceMessage-out-0:
+          destination: local-{{projectName}}-output
+          header-mode: headers
+      binders:
+        kafka:
+          type: kafka
+          headers: [ "messageId", "messageType", "messageVersion", "messageSource" ]
       default-binder: kafka
+
   security:
     oauth2:
       client:
@@ -104,6 +99,12 @@ management:
       mode: simple
   health:
     mail.enabled: false
+
+sentry:
+  release: #project.version#
+  in-app-includes: '{{packageName}}'
+  enable-tracing: 'true'
+  traces-sample-rate: '0.001'
 
 application:
   version: #project.version#

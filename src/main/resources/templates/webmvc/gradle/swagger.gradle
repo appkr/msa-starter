@@ -34,3 +34,16 @@ task redoc(type:Exec) {
     // For this to work correctly, `yarn global add redoc`
     commandLine 'npx', 'redoc-cli', 'bundle', "${rootDir}/src/main/resources/swagger/api.yml", '-o', "${buildDir}/redoc.html"
 }
+
+asyncapi {
+    // Prerequisite: brew install node
+    version = '1.9.14'
+    asyncapi = "${rootDir}/src/main/resources/swagger/asyncapi.yml"
+    template = '@asyncapi/html-template'
+    output = "${buildDir}"
+    forceWrite = true
+    parameters = [
+            'singleFile': 'true',
+            'outFilename': 'asyncapi.html'
+    ]
+}

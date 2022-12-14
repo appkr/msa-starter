@@ -6,6 +6,7 @@ plugins {
     id 'com.gorylenko.gradle-git-properties' version "${gitPropertiesVersion}"
     id 'com.google.cloud.tools.jib' version "${jibVersion}"
     id 'org.openapi.generator' version "${openapiGeneratorVersion}"
+    id 'com.rivancic.asyncapi-gradle-plugin' version "${asyncapiGeneratorVersion}"
     id 'io.freefair.lombok' version "${lombokVersion}"
     id 'com.github.ben-manes.versions' version "${versionManagerVersion}"
     id 'com.avast.gradle.docker-compose' version "${dockerComposeVersion}"

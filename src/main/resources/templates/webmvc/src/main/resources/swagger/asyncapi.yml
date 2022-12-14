@@ -1,0 +1,22 @@
+asyncapi: 2.5.0
+
+info:
+  title: '{{projectName}}'
+  version: 0.0.1
+
+channels: {{^includeExample}}{}{{/includeExample}}
+{{#includeExample}}
+  local-{{projectName}}-output:
+    subscribe:
+      message:
+        $ref: '#/components/messages/ExampleCreated'
+{{/includeExample}}
+
+components: {{^includeExample}}{}{{/includeExample}}
+{{#includeExample}}
+  messages:
+    ExampleCreated:
+      contentType: application/json
+      payload:
+        $ref: 'api.yml#/components/schemas/Example'
+{{/includeExample}}
