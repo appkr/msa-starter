@@ -13,7 +13,7 @@
 VERSION=3.3.4
 OS=macos
 ARCH=amd64 # for Intel cpu
-ARCH=amd64 # for m1 or m2 cpu
+ARCH=aarch64 # for m1 or m2 cpu
 wget https://github.com/appkr/msa-starter/releases/download/$VERSION/msastarter-$VERSION-$OS-$ARCH.zip
 sudo unzip msastarter-$VERSION-$OS-$ARCH.zip -d /usr/local/bin/
 
