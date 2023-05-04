@@ -1,18 +1,49 @@
+# see charset & collation for client options
+# https://dev.mysql.com/doc/refman/8.0/en/charset-connection.html#charset-connection-client-configuration
+#
+# How to connect to the server with mysql, mysqldump, mysqladmin, mysqlimport, mysqlcheck, mysqlshow CLI.
+#   export LANG=ko_KR.utf8 && mysql -uroot -p
+# OR
+#   mysql -uroot -p --default-character-set=utf8mb4
+# OR
+#   SET NAMES utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+[client]
+default-character-set=utf8mb4
+
+[mysql]
+default-character-set=utf8mb4
+
+[mysqldump]
+default-character-set=utf8mb4
+
 [mysqld]
-pid-file	            = /var/run/mysqld/mysqld.pid
-socket		            = /var/run/mysqld/mysqld.sock
-datadir		            = /var/lib/mysql
+# see for charset & collation server options
+# https://dev.mysql.com/doc/refman/8.0/en/charset-connection.html#charset-connection-system-variables
+init-connect='SET NAMES utf8mb4'
+init-connect='SET collation_connection=utf8mb4_0900_ai_ci'
 
-# How to find general log path
-# SHOW VARIABLES LIKE '%general%';
+host_cache_size=0
+skip-name-resolve
+disable-log-bin
+authentication_policy=mysql_native_password
+explicit_defaults_for_timestamp
 
-# How to turn on and off general log at runtime
-# SET GLOBAL general_log = 'ON';
+bind-address=*
 
-general_log_file      = /var/log/mysql/mysql.log
-general_log           = 1
+general_log=0
+general_log_file=/var/log/mysql/general.log
+
+slow_query_log=0
+slow_query_log_file=/var/log/mysql/slow.log
+long_query_time=1
+# (filter log) To log only queries not using index
+# log_queries_not_using_indexes=1
+# (add log) To log also ALTER TABLE, ANALYZE TABLE, CHECK TABLE, CREATE INDEX, DROP INDEX, OPTIMIZE TABLE, and REPAIR TABLE
+# log_slow_admin_statements=1
+# (filter log) To log query that examined at least n rows
+# min_examined_row_limit =
 
 # Default value of 'local_infile' is 'ON'
 # If you have error in running 'LOAD DATA LOCAL INFILE ...',
 #   reconect your mysql client with '--loose-local-infile' option
-# loose_local_infile    = 1
+loose_local_infile=1

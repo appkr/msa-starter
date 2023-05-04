@@ -1,8 +1,0 @@
-@Library('meshkorea') _
-
-{{#isJava17}}vroongMsaJava17MultiPipeline{{/isJava17}}{{#isJava11}}vroongNeoMsaJavaPipeline{{/isJava11}}{{#isJava8}}vroongMsaJava8MultiPipeline{{/isJava8}}(
-    team: '',
-    ecrRepoName: 'vroong/{{projectName}}',
-    argoAppName: 'vroong-{{projectName}}',
-    gradleBuildArguments: '-x :clients:build'
-)

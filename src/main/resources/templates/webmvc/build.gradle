@@ -10,6 +10,7 @@ plugins {
     id 'io.freefair.lombok' version "${lombokVersion}"
     id 'com.github.ben-manes.versions' version "${versionManagerVersion}"
     id 'com.avast.gradle.docker-compose' version "${dockerComposeVersion}"
+    id 'com.diffplug.spotless' version "${spotlessVersion}"
 }
 
 apply from: 'gradle/docker.gradle'
@@ -41,7 +42,8 @@ dependencies {
      */
 
     implementation platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
-    implementation platform("org.zalando:logbook-bom:${logbookVersion}");
+    implementation platform("org.zalando:logbook-bom:${logbookVersion}")
+    implementation platform("io.sentry:sentry-bom:${sentryVersion}")
 
     /**
      * Global utilities
@@ -66,18 +68,15 @@ dependencies {
 
     // open-api-spec support packages
     implementation 'io.springfox:springfox-swagger2:3.0.0'
-    implementation 'org.openapitools:jackson-databind-nullable:0.2.1'
+    implementation "org.openapitools:jackson-databind-nullable:${jacksonNullableVersion}"
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
     // OpenApi Bug workaround @see https://github.com/OpenAPITools/openapi-generator/issues/3668
-    implementation 'io.swagger:swagger-annotations:1.5.17'
+    // For spring-boot 3 @see https://github.com/OpenAPITools/openapi-generator/pull/14402/files#diff-a69d7ddda55ae7f9f544bf415c96590ff4bfe3ecd52b49e519842eaac2b4f045L131
+    implementation "io.swagger.core.v3:swagger-annotations:${swaggerAnnotationsVersion}"
 
     // object validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-
-    // RFC 7807  Problem Details for HTTP APIs
-    // @see https://github.com/zalando/problem-spring-web/tree/main/problem-spring-web
-    implementation "org.zalando:problem-spring-web-starter:${problemWebVersion}"
 
     // scheduler lock @see https://github.com/lukas-krecan/ShedLock
     implementation "net.javacrumbs.shedlock:shedlock-spring:${shedlockVersion}"
@@ -89,19 +88,16 @@ dependencies {
 
     // jpa & database drivers
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.hibernate:hibernate-jpamodelgen'
-    annotationProcessor 'org.hibernate:hibernate-jpamodelgen'
-    implementation 'mysql:mysql-connector-java'
-    testImplementation 'com.h2database:h2'
+    compileOnly 'org.hibernate.orm:hibernate-jpamodelgen:6.2.2.Final'
+    annotationProcessor 'org.hibernate.orm:hibernate-jpamodelgen:6.2.2.Final'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    testRuntimeOnly 'com.h2database:h2'
 
     // querydsl
-    implementation "com.querydsl:querydsl-core:${queryDslVersion}"
-    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-    annotationProcessor(
-            "com.querydsl:querydsl-apt:${queryDslVersion}:jpa",
-            'jakarta.persistence:jakarta.persistence-api',
-            'jakarta.annotation:jakarta.annotation-api'
-    )
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
+    annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}:jakarta"
+    annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
+    annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
 
     // messaging
     implementation 'org.springframework.cloud:spring-cloud-stream'
@@ -116,11 +112,17 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     // 로깅 및 추적 패턴
-    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+    // micrometer bug workaround: Cannot invoke "io.micrometer.tracing.CurrentTraceContext$Scope.close()" because the return value of "io.micrometer.tracing.handler.TracingObservationHandler$TracingContext.getScope()" is null
+    // https://github.com/micrometer-metrics/tracing/issues/179
+    // https://github.com/micrometer-metrics/micrometer/issues/1910#issuecomment-1462711578
+    // https://github.com/micrometer-metrics/tracing/tree/v1.1.0-M1
+    implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+    implementation 'io.micrometer:micrometer-tracing:latest.integration'
 
     // sentry
     // @see https://docs.sentry.io/platforms/java/guides/logback/
-    implementation 'io.sentry:sentry-logback:5.4.1'
+    implementation 'io.sentry:sentry-logback'
+    implementation 'io.sentry:sentry-spring-boot-starter-jakarta'
 
     // logback extension
     implementation "net.logstash.logback:logstash-logback-encoder:${logstashLogbackEncoderVersion}"
@@ -144,30 +146,13 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
         exclude group: 'com.vaadin.external.google', module: 'android-json'
     }
-    testImplementation 'com.tngtech.archunit:archunit-junit5-api:0.23.1'
-    testRuntimeOnly 'com.tngtech.archunit:archunit-junit5-engine:0.23.1'
+    testImplementation "com.tngtech.archunit:archunit-junit5-api:${archunitVersion}"
+    testRuntimeOnly "com.tngtech.archunit:archunit-junit5-engine:${archunitVersion}"
 }
-
-// QueryDSL Class Generate Script to avoid lombok error {start}
-// @see https://jojoldu.tistory.com/372#gradle-50-이상--intellij-2020x-사용시
-def generated='src/main/generated'
-
-sourceSets {
-    main.java.srcDirs += [ generated ]
-}
-
-tasks.withType(JavaCompile) {
-    options.annotationProcessorGeneratedSourcesDirectory = file(generated)
-}
-
-clean.doLast {
-    file(generated).deleteDir()
-}
-// QueryDSL Class Generate Script to avoid lombok error {end}
 
 if (!org.gradle.internal.os.OperatingSystem.current().isWindows()) {
     processResources {
-        filesMatching(['**/application.yml', '**/sentry.properties']) {
+        filesMatching(['**/application.yaml']) {
             filter {
                 it.replace('#project.version#', version)
             }
@@ -188,3 +173,22 @@ test {
     systemProperty('spring.profiles.active', 'test')
     systemProperty('user.timezone', 'Asia/Seoul')
 }
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+spotless {
+    encoding 'UTF-8'
+    java {
+        targetExclude('**/generated/**', "**/build/**")
+        importOrder()
+        removeUnusedImports()
+        endWithNewline()
+    }
+}
+
+compileJava.dependsOn('spotlessApply')

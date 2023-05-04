@@ -74,19 +74,18 @@
 },
 {
   "name":"dev.appkr.starter.model.BuildInfo",
+  "fields":[
+    {"name":"dockerImage"}, 
+    {"name":"includeExample"}, 
+    {"name":"isVroongProject"}, 
+    {"name":"javaVersion"}
+  ],
   "methods":[
-    {"name":"getDockerImage","parameterTypes":[] }, 
     {"name":"getGroupName","parameterTypes":[] }, 
-    {"name":"getJavaVersion","parameterTypes":[] }, 
     {"name":"getMediaType","parameterTypes":[] }, 
     {"name":"getPackageName","parameterTypes":[] }, 
     {"name":"getPortNumber","parameterTypes":[] }, 
     {"name":"getProjectName","parameterTypes":[] }, 
-    {"name":"isArm","parameterTypes":[] }, 
-    {"name":"isIncludeExample","parameterTypes":[] }, 
-    {"name":"isJava11","parameterTypes":[] }, 
-    {"name":"isJava17","parameterTypes":[] }, 
-    {"name":"isJava8","parameterTypes":[] }, 
     {"name":"isVroongProject","parameterTypes":[] }
   ]
 },
@@ -120,7 +119,7 @@
 },
 {
   "name":"java.nio.file.Paths",
-  "queriedMethods":[{"name":"get","parameterTypes":["java.lang.String","java.lang.String[]"] }]
+  "methods":[{"name":"get","parameterTypes":["java.lang.String","java.lang.String[]"] }]
 },
 {
   "name":"java.security.AllPermission"
@@ -139,78 +138,78 @@
 },
 {
   "name":"java.sql.DriverManager",
-  "queriedMethods":[
+  "methods":[
     {"name":"getConnection","parameterTypes":["java.lang.String"] }, 
     {"name":"getDriver","parameterTypes":["java.lang.String"] }
   ]
 },
 {
   "name":"java.sql.Time",
-  "queriedMethods":[{"name":"<init>","parameterTypes":["long"] }]
+  "methods":[{"name":"<init>","parameterTypes":["long"] }]
 },
 {
   "name":"java.sql.Timestamp",
-  "queriedMethods":[{"name":"valueOf","parameterTypes":["java.lang.String"] }]
+  "methods":[{"name":"valueOf","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"java.time.Duration",
-  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+  "methods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
 },
 {
   "name":"java.time.Instant",
-  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+  "methods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
 },
 {
   "name":"java.time.LocalDate",
-  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+  "methods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
 },
 {
   "name":"java.time.LocalDateTime",
-  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+  "methods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
 },
 {
   "name":"java.time.LocalTime",
-  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+  "methods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
 },
 {
   "name":"java.time.MonthDay",
-  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+  "methods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
 },
 {
   "name":"java.time.OffsetDateTime",
-  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+  "methods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
 },
 {
   "name":"java.time.OffsetTime",
-  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+  "methods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
 },
 {
   "name":"java.time.Period",
-  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+  "methods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
 },
 {
   "name":"java.time.Year",
-  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+  "methods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
 },
 {
   "name":"java.time.YearMonth",
-  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+  "methods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
 },
 {
   "name":"java.time.ZoneId",
-  "queriedMethods":[{"name":"of","parameterTypes":["java.lang.String"] }]
+  "methods":[{"name":"of","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"java.time.ZoneOffset",
-  "queriedMethods":[{"name":"of","parameterTypes":["java.lang.String"] }]
+  "methods":[{"name":"of","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"java.time.ZonedDateTime",
-  "queriedMethods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
+  "methods":[{"name":"parse","parameterTypes":["java.lang.CharSequence"] }]
 },
 {
   "name":"java.util.Map",
-  "queriedMethods":[{"name":"get","parameterTypes":["java.lang.Object"] }]
+  "methods":[{"name":"get","parameterTypes":["java.lang.Object"] }]
 },
 {
   "name":"java.util.PropertyPermission"

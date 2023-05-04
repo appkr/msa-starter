@@ -15,8 +15,10 @@ export environment variables
 
 ```shell
 VMDIR=/Library/Java/JavaVirtualMachines
-GRDIR=graalvm-ce-java17-22.2.0
+GRDIR=graalvm-ce-java17-22.3.1
+sudo xattr -r -d com.apple.quarantine $VMDIR/$GRDIR
 export GRAALVM_HOME=$VMDIR/$GRDIR/Contents/Home
+jenv add $GRAALVM_HOME
 export PATH=$GRAALVM_HOME/bin:$PATH
 ```
 
@@ -33,7 +35,7 @@ Run all commands, so that the generated configuration is as much as complete
 ```shell
 ./gradlew assemble
 
-VERSION=3.3.0
+VERSION=3.4.0
 
 java -agentlib:native-image-agent=config-merge-dir=./src/main/resources/META-INF/native-image \
 	-jar build/libs/msastarter-$VERSION-all.jar

@@ -31,7 +31,6 @@ import picocli.CommandLine.ScopeType;
 public abstract class GenerateCommand implements Callable<Integer> {
 
   static final String TEMPLATE_WEBMVC_DIR = "templates/webmvc";
-  static final String TEMPLATE_WEBFLUX_DIR = "templates/webflux";
   static final String MAIN_MODULE_DIR = "src/main/java";
   static final String TEST_MODULE_DIR = "src/test/java";
   static final String RESOURCE_DIR = "src/main/resources";
@@ -49,10 +48,8 @@ public abstract class GenerateCommand implements Callable<Integer> {
    * Get template directory
    *
    * @return string value of the template dir
-   * number of cases: 2^3 = 8
+   * number of cases: 2
    *  - when running in jar(relative path) or gradle(absolute path)
-   *  - when running with java 8 or higher (should be normalized)
-   *  - webmvc or webflux
    */
   public abstract String getTemplateDir();
 
@@ -113,44 +110,12 @@ public abstract class GenerateCommand implements Callable<Integer> {
   }
 
   protected void getBuildInfo() throws IOException {
-    final String templates = CommandUtils.ask("A WebMVC/JPA project(m)? Or a WebFlux/R2DBC project(f) (default: {})?",
-        "m");
-    if (templates.equalsIgnoreCase("f")) {
-      buildInfo.setReactiveProject(true);
-      setTemplateDir(TEMPLATE_WEBFLUX_DIR);
-    }
-
     final String isVroongProject = CommandUtils.ask("Is vroong project(y/n, default: {})?", "n");
     if (isVroongProject.equalsIgnoreCase("y")) {
       buildInfo.setVroongProject(true);
       buildInfo.setGroupName(BuildInfo.GROUP_NAME_VROONG);
       buildInfo.setMediaType(BuildInfo.MEDIA_TYPE_VROONG);
       buildInfo.setSkipTokens(asList(".DS_Store"));
-    }
-
-    boolean incorrect = true;
-    while (incorrect) {
-      final String javaVersion = CommandUtils.ask("Which java version will you choose(1.8/11/17, default: {})?",
-          buildInfo.getJavaVersion());
-      switch (javaVersion) {
-        case BuildInfo.JAVA_VERSION_8:
-          buildInfo.setJavaVersion(BuildInfo.JAVA_VERSION_8);
-          buildInfo.setDockerImage(BuildInfo.DOCKER_IMAGE_JAVA8);
-          incorrect = false;
-          break;
-        case BuildInfo.JAVA_VERSION_11:
-          buildInfo.setJavaVersion(BuildInfo.JAVA_VERSION_11);
-          buildInfo.setDockerImage(BuildInfo.DOCKER_IMAGE_JAVA11);
-          incorrect = false;
-          break;
-        case BuildInfo.JAVA_VERSION_17:
-          buildInfo.setJavaVersion(BuildInfo.JAVA_VERSION_17);
-          buildInfo.setDockerImage(BuildInfo.DOCKER_IMAGE_JAVA17);
-          incorrect = false;
-          break;
-        default:
-          CommandUtils.warn("Must be one of '1.8', '11', or '17'!");
-      }
     }
 
     buildInfo.setProjectName(CommandUtils.ask("What is the project name(default: {})?", buildInfo.getProjectName()));

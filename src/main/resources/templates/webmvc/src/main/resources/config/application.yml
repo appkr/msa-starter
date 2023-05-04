@@ -19,10 +19,10 @@ spring:
 
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://localhost:3306/local_{{projectName}}?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/local_{{projectName}}?useSSL=false
     username: root
     password: secret
-    driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -31,21 +31,11 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: none
-      naming:
-        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
-    properties:
-      hibernate:
-        jdbc:
-          batch_size: 100
-          batch_versioned_data: true
-        order_inserts: true
-        order_updates: true
 
-  resources:
-    add-mappings: false
   mvc:
     throw-exception-if-no-handler-found: true
+    problemdetails:
+      enabled: true
 
   cloud:
     function:
@@ -67,6 +57,7 @@ spring:
         kafka:
           type: kafka
           headers: [ "messageId", "messageType", "messageVersion", "messageSource" ]
+          auto-create-topics: false
       default-binder: kafka
 
   security:
@@ -88,7 +79,7 @@ management:
     web:
       base-path: /management
       exposure:
-        include: ["health", "info"]
+        include: ['health', 'info', 'metrics', 'loggers']
   endpoint:
     health:
       show-details: when_authorized
@@ -102,11 +93,26 @@ management:
 
 sentry:
   release: #project.version#
+  environment: local
   in-app-includes: '{{packageName}}'
-  enable-tracing: 'true'
   traces-sample-rate: '0.001'
 
 application:
   version: #project.version#
   scheduler:
     enabled: false
+
+---
+
+spring.config.activate.on-profile: local
+
+server:
+  shutdown: immediate
+
+spring:
+  jpa:
+    properties.hibernate.format_sql: true
+
+application:
+  scheduler:
+    enabled: true

@@ -1,6 +1,7 @@
 package {{packageName}};
 
 import {{packageName}}.config.ApplicationProperties;
+import io.sentry.spring.boot.jakarta.SentryProperties;
 import java.net.InetAddress;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.SpringApplication;
@@ -14,7 +15,8 @@ import org.springframework.boot.info.GitProperties;
 import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
-@EnableConfigurationProperties({ApplicationProperties.class, OAuth2ClientProperties.class, TaskExecutionProperties.class})
+@EnableConfigurationProperties({ApplicationProperties.class, OAuth2ClientProperties.class,
+    TaskExecutionProperties.class, SentryProperties.class})
 public class Application {
 
   public static void main(String[] args) {
@@ -26,19 +28,24 @@ public class Application {
     final GitProperties gitInfo = ctx.getBean(GitProperties.class);
     final ServerProperties serverInfo = ctx.getBean(ServerProperties.class);
 
-    // @formatter:off
-    final String textBanner = String.format("\n----------------------------------------------------------\n"
-                + "Spring profiles {RED}%s{RST}\n"
-                + "Application version {RED}%s{RST}\n"
-                + "Git branch {RED}%s{RST}; commit {RED}%s{RST}\n"
-                + "\n"
-                + "Application is running!\n"
-                + "%s"
-                + "\n----------------------------------------------------------\n",
-            profiles, version, gitInfo.getBranch(), gitInfo.getShortCommitId(), getHealthEndpoint(serverInfo))
-        .replaceAll("\\{RED}", ConsoleColor.TEXT_RED)
-        .replaceAll("\\{RST}", ConsoleColor.TEXT_RESET);
-    ;
+    final String textBanner =
+        """
+--------------------------------------------------------------------------------
+Spring profiles {RED}$profiles{RST}
+Application version {RED}$version{RST}
+Git branch {RED}$branch{RST}; commit {RED}$commit{RST}
+
+Application is running!
+$healthEndpoint
+--------------------------------------------------------------------------------
+"""
+            .replace("$profiles", profiles)
+            .replace("$version", version)
+            .replace("$branch", gitInfo.getBranch())
+            .replace("$commit", gitInfo.getShortCommitId())
+            .replace("$healthEndpoint", getHealthEndpoint(serverInfo))
+            .replaceAll("\\{RED}", ConsoleColor.TEXT_RED)
+            .replaceAll("\\{RST}", ConsoleColor.TEXT_RESET);
     // @formatter:on
 
     System.out.println(textBanner);

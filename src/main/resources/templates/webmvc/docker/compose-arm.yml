@@ -1,0 +1,61 @@
+services:
+
+  mysql:
+    image: appkr/mysql:8.0-arm64
+    container_name: mysql
+    volumes:
+      - $HOME/mysql_data8:/var/lib/mysql/
+      - $HOME/mysql_log8:/var/log/mysql/
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./mysqld.cnf:/tmp/mysqld.cnf
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+    ports:
+      - 3306:3306
+    command: mysqld --defaults-extra-file=/tmp/mysqld.cnf
+    healthcheck:
+      test: mysql -uroot -psecret -e 'SELECT 1' 2>/dev/null || exit 1
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper
+    platform: linux/arm64
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_SYNC_LIMIT: 2
+    ports:
+      - 2181:2181
+    healthcheck:
+      test: nc -z localhost 2181 || exit 1
+
+  kafka:
+    image: confluentinc/cp-kafka
+    platform: linux/arm64
+    container_name: kafka
+    environment:
+      KAFKA_CREATE_TOPICS: "local-{{projectName}}-output:1:1"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_BROKER_ID: 2
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+    ports:
+      - 9092:9092
+    healthcheck:
+      test: nc -z localhost 9092 || exit 1
+
+  jhipster-uaa:
+    image: appkr/jhipster-uaa:arm64-mysql8
+    container_name: jhipster-uaa
+    ports:
+      - 9999:9999
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: curl -s http://localhost:9999/management/health || exit 1
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/jhipster_uaa?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=secret

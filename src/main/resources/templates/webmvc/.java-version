@@ -1,1 +1,1 @@
-{{#isJava17}}17.0{{/isJava17}}{{#isJava11}}11.0{{/isJava11}}{{#isJava8}}1.8{{/isJava8}}
+17.0
