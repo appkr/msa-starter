@@ -1,6 +1,10 @@
 [![](https://api.travis-ci.com/appkr/msa-starter.svg)](https://travis-ci.com/github/appkr/msa-starter)
 
-> **`중요 공지`** 1.x TypeScript/Node.js -> 2.x Groovy/Gradle task -> 3.x Java 로 구현 언어가 다릅니다.
+> **`중요 공지`** 
+> 
+> 1.x TypeScript/Node.js -> 2.x Groovy/Gradle task -> 3.x Java 로 구현 언어가 다릅니다.
+> 
+> 3.4.0부터 webflux/R2DBC 프로젝트 생성을 지원하지 않습니다; Java 17, Spring Boot 3.0, MySQL 8 버전만 지원합니다.
 
 ## msa-starter
 
@@ -10,7 +14,7 @@
 
 방법 1: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 바이너리 파일을 받아서 사용합니다(**jdk 불필요**).
 ```shell
-VERSION=3.3.4
+VERSION=3.4.0
 OS=macos
 ARCH=amd64 # for Intel cpu
 ARCH=aarch64 # for m1 or m2 cpu
@@ -39,14 +43,14 @@ msastarter
 
 방법 2: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 jar 파일을 받아서 사용합니다(**jdk 필요**)
 ```shell
-VERSION=3.3.0
+VERSION=3.4.0
 wget https://github.com/appkr/msa-starter/releases/download/$VERSION/msastarter-$VERSION-all.jar
 java -jar msastarter-$VERSION-all.jar
 ```
 
 방법 3: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 zip 파일을 받아서 사용합니다(**jdk 필요**)
 ```shell
-VERSION=3.3.0
+VERSION=3.4.0
 wget https://github.com/appkr/msa-starter/releases/download/$VERSION/msastarter-shadow-$VERSION.zip
 unzip msastarter-shadow-$VERSION.zip
 msastarter-shadow-$VERSION/bin/msastarter
@@ -63,9 +67,7 @@ APP=msastarter
 # OR APP="java -jar msastarter-$VERSION-all.jar"
 
 $APP generate 
-# A WebMVC/JPA project(m)? Or a WebFlux/R2DBC project(f) (default: m)? ↵
 # Is vroong project(y/n, default: n)? ↵
-# Which java version will you choose(1.8/11/17, default: 17)? ↵
 # What is the project name(default: example)? demo↵
 # What is the group name(default: dev.appkr)? me.group↵
 # What is the web server port(default: 8080)? 19999↵
@@ -89,7 +91,7 @@ $APP publish
 
 ### 포함된 내용
 
-- spring-boot 2.x
+- spring-boot 3.x
 - 마이크로서비스 패턴: 헬쓰 체크 패턴, 추적 및 로깅 패턴, 보안 패턴
 - 도커를 이용한 로컬 개발 환경 설정: MySQL, Kafka 등
 - JPA, MySQL/H2 driver, QueryDSL, JPA Specification 설정
@@ -112,9 +114,13 @@ src
     ├── java                # 스타터 앱
     └── resources
         └── templates       # Handlebar 템플릿을 포함하고 있는 스프링부트 프로젝트
-            ├── gradle.properties
-            ├── webflux     # WebFlux/R2DBC 프로젝트 템플릿
             └── webmvc      # WebMVC/JPA 프로젝트 템플릿
+```
+
+### 테스트
+
+```shell
+bash jig.sh
 ```
 
 ### 배포전 버전 수정
@@ -122,3 +128,7 @@ src
 - build.gradle
 - README.md
 - src/main/java/dev/appkr/starter/MsaStarter.java
+
+### 네이티브 빌드
+
+- https://github.com/meshkorea/msa-starter/settings/actions/runners
