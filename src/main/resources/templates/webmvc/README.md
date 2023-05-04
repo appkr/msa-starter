@@ -2,23 +2,12 @@
 
 ## 개발 환경
 
-{{#isJava17}}
 - amazonaws corretto jdk 17을 사용합니다
 ```shell
 $ brew install homebrew/cask-versions/corretto17 --cask
 $ jenv add /Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home
 $ jenv versions
 ```
-{{/isJava17}}
-
-{{#isJava11}}
-- amazonaws corretto jdk 11을 사용합니다
-```shell
-$ brew install homebrew/cask-versions/corretto11 --cask
-$ jenv add /Library/Java/JavaVirtualMachines/amazon-corretto-11.jdk/Contents/Home
-$ jenv versions
-```
-{{/isJava11}}
 
 - 아래 명령으로 MySQL(3306), Kafka(9092), jhipster-uaa(9999) 등을 구동합니다
 ```shell
@@ -85,6 +74,7 @@ kafka|alice|alice-secret
 
 ## 모니터링
 
+- [Grafana](https://monitoring.meshtools.io/)
 - [Kibana](https://kibana.meshtools.io/)
 - [Sentry](https://sentry.io)
 {{/isVroongProject}}

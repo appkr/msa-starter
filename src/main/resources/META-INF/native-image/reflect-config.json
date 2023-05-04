@@ -75,18 +75,11 @@
 {
   "name":"dev.appkr.starter.model.BuildInfo",
   "methods":[
-    {"name":"getDockerImage","parameterTypes":[] }, 
-    {"name":"getGroupName","parameterTypes":[] }, 
-    {"name":"getJavaVersion","parameterTypes":[] }, 
+    {"name":"getGroupName","parameterTypes":[] },
     {"name":"getMediaType","parameterTypes":[] }, 
     {"name":"getPackageName","parameterTypes":[] }, 
     {"name":"getPortNumber","parameterTypes":[] }, 
-    {"name":"getProjectName","parameterTypes":[] }, 
-    {"name":"isArm","parameterTypes":[] }, 
-    {"name":"isIncludeExample","parameterTypes":[] }, 
-    {"name":"isJava11","parameterTypes":[] }, 
-    {"name":"isJava17","parameterTypes":[] }, 
-    {"name":"isJava8","parameterTypes":[] }, 
+    {"name":"getProjectName","parameterTypes":[] },
     {"name":"isVroongProject","parameterTypes":[] }
   ]
 },

@@ -1,6 +1,5 @@
 package {{packageName}}.adapter.in.rest;
 
-import {{packageName}}.adapter.in.rest.error.BadRequestAlertException;
 import {{packageName}}.adapter.in.rest.mapper.ExampleMapper;
 import {{packageName}}.application.ExampleService;
 import {{packageName}}.domain.Example;
@@ -16,8 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-
-import static {{packageName}}.adapter.in.rest.error.ErrorConstants.CONSTRAINT_VIOLATION_TYPE;
 
 /**
  * Given:
@@ -143,8 +140,7 @@ public class ExampleApiDelegateImpl implements ExampleApiDelegate {
       case "NoSuchElement":
         throw new NoSuchElementException("NoSuchElementException");
       default:
-        throw new BadRequestAlertException("Unacceptable type given: " + type,
-            null, CONSTRAINT_VIOLATION_TYPE.toString());
+        throw new RuntimeException("Unacceptable type given: " + type);
     }
   }
 }

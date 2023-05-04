@@ -38,10 +38,8 @@ jib {
 
     container {
         jvmFlags = [
-                {{^isJava8}}
                 // Java9 container support @see https://www.eclipse.org/openj9/docs/xxusecontainersupport/
                 '-XX:+UseContainerSupport',
-                {{/isJava8}}
                 // for G1GC @see https://www.oracle.com/technical-resources/articles/java/g1gc.html
                 '-XX:+UseG1GC',
                 '-XX:+HeapDumpOnOutOfMemoryError',
@@ -49,16 +47,15 @@ jib {
                 '-Djava.net.preferIPv4Stack=true',
                 '-Duser.timezone=Asia/Seoul',
                 '-Dfile.encoding=UTF8',
-                '-Dsun.net.inetaddr.ttl=30',
-                {{#isVroongProject}}
-                '-javaagent:/jmx-exporter/jmx_prometheus_javaagent-0.13.0.jar=8888:/jmx-exporter/config.yml',
-                {{/isVroongProject}}
+                '-Dsun.net.inetaddr.ttl=30'
         ]
         ports = ['{{portNumber}}']
         creationTime = 'USE_CURRENT_TIMESTAMP'
     }
 }
 
+def dockerComposePath = System.getProperty('os.arch').equals('aarch64')
+        ? 'docker/compose-arm.yaml' : 'docker/compose-intel.yaml'
 dockerCompose {
-    useComposeFiles = ['docker/compose.yml']
+    useComposeFiles = [dockerComposePath]
 }
