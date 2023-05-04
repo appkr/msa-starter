@@ -15,8 +15,10 @@ export environment variables
 
 ```shell
 VMDIR=/Library/Java/JavaVirtualMachines
-GRDIR=graalvm-ce-java17-22.2.0
+GRDIR=graalvm-ce-java17-22.3.1
+sudo xattr -r -d com.apple.quarantine $VMDIR/$GRDIR
 export GRAALVM_HOME=$VMDIR/$GRDIR/Contents/Home
+jenv add $GRAALVM_HOME
 export PATH=$GRAALVM_HOME/bin:$PATH
 ```
 

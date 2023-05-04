@@ -131,4 +131,5 @@ bash jig.sh
 
 ### 네이티브 빌드
 
-- https://github.com/meshkorea/msa-starter/settings/actions/runners
+- [src/main/resources/META-INF/README-native-image.md](src/main/resources/META-INF/README-native-image.md)
+- [https://github.com/meshkorea/msa-starter/settings/actions/runners](https://github.com/meshkorea/msa-starter/settings/actions/runners)
