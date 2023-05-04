@@ -4,19 +4,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import {{packageName}}.adapter.in.rest.error.ExceptionTranslator;
+import {{packageName}}.adapter.in.rest.exception.ProblemDetailExceptionHandler;
 import {{packageName}}.rest.ExampleApiController;
 import {{packageName}}.rest.ExampleApiDelegate;
 import {{packageName}}.support.TestUtils;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
@@ -36,9 +32,11 @@ class ExampleApiDelegateImplTest {
   private MockMvc mvc;
 
   @Autowired private ExampleApiDelegate apiDelegate;
-  @Autowired private ExceptionTranslator exceptionTranslator;
-  @Autowired private MappingJackson2HttpMessageConverter jacksonMessageConverter;
-  @Autowired @Qualifier("defaultValidator") private Validator validator;
+  @Autowired private ProblemDetailExceptionHandler exceptionHandler;
+  @Autowired @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+  private MappingJackson2HttpMessageConverter jacksonMessageConverter;
+  @Autowired @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+  private Validator validator;
 
   @Test
   @WithMockUser("user")
@@ -60,25 +58,12 @@ class ExampleApiDelegateImplTest {
     res.andExpect(status().is4xxClientError());
   }
 
-  @ParameterizedTest
-  @MethodSource("provideTypes")
-  @WithMockUser("user")
-  public void testGetExceptions(String type) throws Exception {
-    ResultActions res = mvc.perform(
-        get("/api/exceptions?type=" + type).accept(MediaType.ALL)
-    ).andDo(print());
-  }
-
-  private static Stream<String> provideTypes() {
-    return Stream.of("Unacceptable", "ServerError", "NoSuchElement");
-  }
-
   @BeforeEach
   public void setup() {
     ExampleApiController controller = new ExampleApiController(apiDelegate);
     this.mvc = MockMvcBuilders.standaloneSetup(controller)
         .addFilters(new CharacterEncodingFilter("utf-8", true))
-        .setControllerAdvice(exceptionTranslator)
+        .setControllerAdvice(exceptionHandler)
         .setConversionService(TestUtils.createFormattingConversionService())
         .setMessageConverters(jacksonMessageConverter)
         .setValidator(validator)

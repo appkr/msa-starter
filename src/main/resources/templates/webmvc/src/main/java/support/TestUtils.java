@@ -6,31 +6,19 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import java.lang.reflect.Method;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
-import org.springframework.http.MediaType;
+import org.springframework.util.ReflectionUtils;
 
-/**
- * Utility class for testing REST controllers.
- */
 public final class TestUtils {
 
   private static final ObjectMapper mapper = createObjectMapper();
 
-  /** MediaType for JSON UTF8 */
-  public static final MediaType APPLICATION_JSON_UTF8 = MediaType.APPLICATION_JSON_UTF8;
-
   private static ObjectMapper createObjectMapper() {
-    ObjectMapper mapper = new ObjectMapper();
+    final ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
@@ -80,48 +68,52 @@ public final class TestUtils {
    * @return the {@link FormattingConversionService}.
    */
   public static FormattingConversionService createFormattingConversionService() {
-    DefaultFormattingConversionService dfcs = new DefaultFormattingConversionService ();
-    DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();
+    final DefaultFormattingConversionService dfcs = new DefaultFormattingConversionService ();
+    final DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();
     registrar.setUseIsoFormat(true);
     registrar.registerFormatters(dfcs);
+
     return dfcs;
   }
 
   /**
-   * Makes a an executes a query to the EntityManager finding all stored objects.
-   * @param <T> The type of objects to be searched
-   * @param em The instance of the EntityManager
-   * @param clss The class type to be searched
-   * @return A list of all found objects
-   */
-  public static <T> List<T> findAll(EntityManager em, Class<T> clss) {
-    CriteriaBuilder cb = em.getCriteriaBuilder();
-    CriteriaQuery<T> cq = cb.createQuery(clss);
-    Root<T> rootEntry = cq.from(clss);
-    CriteriaQuery<T> all = cq.select(rootEntry);
-    TypedQuery<T> allQuery = em.createQuery(all);
-    return allQuery.getResultList();
-  }
-
-  /**
-   * Test Helper to manipulate static final field
+   * Test Helper to manipulate final field
    *
-   * @param target
+   * @param instance
    * @param fieldName
    * @param newValue
    * @throws NoSuchFieldException
    * @throws IllegalAccessException
-   *
-   * @see http://java-performance.info/updating-final-and-static-final-fields/
    */
-  public static void setStaticFinalFieldValue(Class target, String fieldName, Object newValue) throws NoSuchFieldException, IllegalAccessException {
-    Field field = target.getDeclaredField(fieldName);
+  public static <T> void setFinalFieldValue(T instance, String fieldName, Object newValue)
+      throws IllegalAccessException, NoSuchFieldException {
+    // Reference: http://java-performance.info/updating-final-and-static-final-fields/
+    final Field field = ReflectionUtils.findField(instance.getClass(), fieldName, null);
     field.setAccessible(true);
-    Field modifiersField = Field.class.getDeclaredField("modifiers");
-    modifiersField.setAccessible(true);
-    modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-    field.set(null, newValue);
+    field.set(instance, newValue);
   }
 
-  private TestUtils() {}
+  /**
+   * Test Helper to call private method
+   *
+   * @param instance
+   * @param methodToCall
+   * @param parameters list of objects which will be sued as method parameters
+   * @param <T> targetClass's type
+   * @param <R> return type
+   */
+  public static<T, R> R callPrivateMethod(T instance, String methodToCall, Object... parameters) {
+    final Class[] parameterTypes = new Class[parameters.length];
+    for (int i = 0; i < parameters.length; i++) {
+      parameterTypes[i] = parameters[i].getClass();
+    }
+
+    final Method method = ReflectionUtils.findMethod(instance.getClass(), methodToCall, parameterTypes);
+    method.setAccessible(true);
+
+    return (R) ReflectionUtils.invokeMethod(method, instance, parameters);
+  }
+
+  private TestUtils() {
+  }
 }

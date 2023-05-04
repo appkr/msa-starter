@@ -11,29 +11,6 @@ public class BuildInfo {
 
   static final List<String> EXAMPLE_FILES = new ArrayList<>();
   static {
-    // src/main/resources/templates/webflux
-    EXAMPLE_FILES.add("AlbumMapper.java");
-    EXAMPLE_FILES.add("SongMapper.java");
-    EXAMPLE_FILES.add("AlbumApiDelegateImpl.java");
-    EXAMPLE_FILES.add("SongApiDelegateImpl.java");
-    EXAMPLE_FILES.add("SongService.java");
-    EXAMPLE_FILES.add("AlbumRepository.java");
-    EXAMPLE_FILES.add("AlbumRepositoryCustom.java");
-    EXAMPLE_FILES.add("AlbumRepositoryImpl.java");
-    EXAMPLE_FILES.add("AlbumRowMapper.java");
-    EXAMPLE_FILES.add("AlbumSqlHelper.java");
-    EXAMPLE_FILES.add("SongRepository.java");
-    EXAMPLE_FILES.add("SongRepositoryCustom.java");
-    EXAMPLE_FILES.add("SongRepositoryImpl.java");
-    EXAMPLE_FILES.add("SongRowMapper.java");
-    EXAMPLE_FILES.add("SongSqlHelper.java");
-    EXAMPLE_FILES.add("Album.java");
-    EXAMPLE_FILES.add("Song.java");
-    EXAMPLE_FILES.add("SongApiTest.java");
-    EXAMPLE_FILES.add("SongRepositoryTest.java");
-    EXAMPLE_FILES.add("SongServiceTest.java");
-    EXAMPLE_FILES.add("Fixtures.java");
-
     // src/main/resources/templates/webmvc
     EXAMPLE_FILES.add("ExampleMapper.java");
     EXAMPLE_FILES.add("ExampleApiDelegateImpl.java");
@@ -49,8 +26,6 @@ public class BuildInfo {
     EXAMPLE_FILES.add("ExampleRepositoryTest.java");
   }
 
-  public static final String JAVA_VERSION_8 = "8";
-  public static final String JAVA_VERSION_11 = "11";
   public static final String JAVA_VERSION_17 = "17";
   public static final String PROJECT_NAME_DEFAULT = "example";
   public static final String GROUP_NAME_DEFAULT = "dev.appkr";
@@ -59,12 +34,9 @@ public class BuildInfo {
   public static final String PORT_NUMBER_DEFAULT = "8080";
   public static final String MEDIA_TYPE_DEFAULT = "application/json";
   public static final String MEDIA_TYPE_VROONG = "application/vnd.vroong.private.v1+json";
-  public static final String DOCKER_IMAGE_JAVA8 = "openjdk:8-jre-alpine";
-  public static final String DOCKER_IMAGE_JAVA11 = "amazoncorretto:11-alpine-jdk";
   public static final String DOCKER_IMAGE_JAVA17 = "amazoncorretto:17-alpine-jdk";
 
   boolean isArm = System.getProperty("os.arch").equals("aarch64");
-  boolean isReactiveProject = false;
   boolean isVroongProject = false;
   boolean includeExample = true;
   String javaVersion = JAVA_VERSION_17;
@@ -87,56 +59,12 @@ public class BuildInfo {
     return new BuildInfo();
   }
 
-  public boolean isArm() {
-    return isArm;
-  }
-
-  public void setArm(boolean arm) {
-    isArm = arm;
-  }
-
-  public boolean isReactiveProject() {
-    return isReactiveProject;
-  }
-
-  public void setReactiveProject(boolean reactiveProject) {
-    isReactiveProject = reactiveProject;
-  }
-
-  public boolean isVroongProject() {
-    return isVroongProject;
-  }
-
   public void setVroongProject(boolean vroongProject) {
     isVroongProject = vroongProject;
   }
 
-  public boolean isIncludeExample() {
-    return includeExample;
-  }
-
   public void setIncludeExample(boolean includeExample) {
     this.includeExample = includeExample;
-  }
-
-  public String getJavaVersion() {
-    return javaVersion;
-  }
-
-  public void setJavaVersion(String javaVersion) {
-    this.javaVersion = javaVersion;
-  }
-
-  public boolean isJava17() {
-    return javaVersion.equals("17");
-  }
-
-  public boolean isJava11() {
-    return javaVersion.equals("11");
-  }
-
-  public boolean isJava8() {
-    return javaVersion.equals("1.8");
   }
 
   public String getProjectName() {
@@ -177,14 +105,6 @@ public class BuildInfo {
 
   public void setMediaType(String mediaType) {
     this.mediaType = mediaType;
-  }
-
-  public String getDockerImage() {
-    return dockerImage;
-  }
-
-  public void setDockerImage(String dockerImage) {
-    this.dockerImage = dockerImage;
   }
 
   public List<String> getSkipTokens() {

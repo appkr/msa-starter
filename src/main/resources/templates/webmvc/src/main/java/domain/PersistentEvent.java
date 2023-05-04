@@ -7,7 +7,7 @@ package {{packageName}}.domain;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.UUID;

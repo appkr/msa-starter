@@ -10,7 +10,7 @@ plugins {
 version = project.version
 group = '{{groupName}}.{{projectName}}'
 archivesBaseName = '{{projectName}}-api-java-client'
-def specPath = "${parent.rootDir}/src/main/resources/swagger/api.yml"
+def specPath = "${parent.rootDir}/src/main/resources/swagger/api.yaml"
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'

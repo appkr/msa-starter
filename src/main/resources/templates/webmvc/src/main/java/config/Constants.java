@@ -1,5 +1,7 @@
 package {{packageName}}.config;
 
+import java.time.ZoneId;
+
 public class Constants {
 
   public static final String PROJECT_NAME = "{{projectName}}";
@@ -7,8 +9,8 @@ public class Constants {
   public static final String UNKNOWN_USER_ID = "00000000-0000-0000-0000-000000000000";
   public static final String V1_MEDIA_TYPE = "{{mediaType}}";
 
-  public static final String TIMEZONE_SEOUL = "UTC+9";
-  public static final int TIMEZONE_SEOUL_HOURS = 9;
+  public static final String TIMEZONE_SEOUL = "Asia/Seoul";
+  public static final ZoneId SEOUL = ZoneId.of(TIMEZONE_SEOUL);
 
   public static class Profile {
     public static final String TEST_PROFILE = "test";
@@ -24,6 +26,12 @@ public class Constants {
     public static final String B3_PARENT_ID = "X-B3-ParentSpanId";
     public static final String B3_SAMPLED = "X-B3-Sampled";
     public static final String B3_FLAGS = "X-B3-Flags";
+    // @see https://www.w3.org/TR/trace-context/#header-name
+    // by default vendors SHOULD keep the header name lowercase. The header name is a single word without any delimiters
+    public static final String W3C_TRACE_PARENT = "traceparent";
+    public static final String W3C_TRACE_STATE = "tracestate";
+    public static final String W3C_TRACE_STATE_VENDOR_KEY = "micrometer";
+    public static final String NEOGEO_REQUEST_HEADER = "X-Mesh-ServiceName";
   }
 
   /**

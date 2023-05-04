@@ -1,6 +1,6 @@
 openApiGenerate {
     generatorName = 'spring'
-    inputSpec = "${rootDir}/src/main/resources/swagger/api.yml".toString()
+    inputSpec = "${rootDir}/src/main/resources/swagger/api.yaml"
     outputDir = "${buildDir}/openapi".toString()
     apiPackage = '{{packageName}}.rest'
     modelPackage = '{{packageName}}.rest'
@@ -9,36 +9,33 @@ openApiGenerate {
     modelFilesConstrainedTo = ['']
     supportingFilesConstrainedTo = ['ApiUtil.java']
     configOptions = [
-            delegatePattern: 'true',
-            title: '{{projectName}}',
-            useTags: 'true',
-            dateLibrary: 'java8',
-            java8: 'true',
-            hideGenerationTimestamp: 'true'
+            delegatePattern        : 'true',
+            title                  : 'address',
+            useTags                : 'true',
+            dateLibrary            : 'java8',
+            java8                  : 'true',
+            hideGenerationTimestamp: 'true',
+            useSpringBoot3         : 'true',
+            useJakartaEe           : 'true'
     ]
     validateSpec = true
-    importMappings = [Problem: 'org.zalando.problem.Problem']
 }
 
 sourceSets {
-    main {
-        java {
-            srcDir file("${project.buildDir.path}/openapi/src/main/java")
-        }
-    }
+    main.java.srcDir layout.buildDirectory.file('openapi/src/main/java')
 }
 
 compileJava.dependsOn('openApiGenerate')
 
 task redoc(type:Exec) {
     // For this to work correctly, `yarn global add redoc`
-    commandLine 'npx', 'redoc-cli', 'bundle', "${rootDir}/src/main/resources/swagger/api.yml", '-o', "${buildDir}/redoc.html"
+    commandLine 'npx', 'redoc-cli', 'bundle', "${rootDir}/src/main/resources/swagger/api.yaml", '-o', "${buildDir}/redoc.html"
 }
 
 asyncapi {
     // Prerequisite: brew install node
     version = '1.9.14'
-    asyncapi = "${rootDir}/src/main/resources/swagger/asyncapi.yml"
+    asyncapi = "${rootDir}/src/main/resources/swagger/asyncapi.yaml"
     template = '@asyncapi/html-template'
     output = "${buildDir}"
     forceWrite = true
