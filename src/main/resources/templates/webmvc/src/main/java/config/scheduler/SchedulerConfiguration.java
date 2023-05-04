@@ -1,7 +1,5 @@
 package {{packageName}}.config.scheduler;
 
-import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
-import org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.task.TaskExecutionProperties;
 import org.springframework.context.annotation.Bean;
@@ -38,10 +36,5 @@ public class SchedulerConfiguration {
     executor.setTaskDecorator(new AsyncTaskDecorator());
 
     return executor;
-  }
-
-  @Bean
-  public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-    return new SimpleAsyncUncaughtExceptionHandler();
   }
 }

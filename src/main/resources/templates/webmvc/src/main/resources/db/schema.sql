@@ -1,10 +1,10 @@
 CREATE TABLE IF NOT EXISTS shedlock
 (
-    name       varchar(64) NOT NULL,
+    `name`     varchar(64) NOT NULL,
     locked_by  varchar(255) DEFAULT NULL,
     locked_at  timestamp(3) NULL DEFAULT NULL,
     lock_until timestamp(3) NULL DEFAULT NULL,
-    PRIMARY KEY (name)
+    PRIMARY KEY (`name`)
 );
 
 CREATE TABLE IF NOT EXISTS persistent_events
@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS persistent_events
     body          longtext,
     created_at    timestamp(3) NOT NULL,
     produced_at   timestamp(3) NULL DEFAULT NULL,
-    PRIMARY KEY (id)/*,
-    KEY           IDX_STATUS_EVENTTYPE (status,event_type)*/
+    PRIMARY KEY (id),
+    KEY           IDX_STATUS_EVENTTYPE (status,event_type)
 );
 
 {{#includeExample}}
