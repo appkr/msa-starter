@@ -70,7 +70,7 @@ dependencies {
     implementation 'io.springfox:springfox-swagger2:3.0.0'
     implementation "org.openapitools:jackson-databind-nullable:${jacksonNullableVersion}"
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8'
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5-jakarta'
     // OpenApi Bug workaround @see https://github.com/OpenAPITools/openapi-generator/issues/3668
     // For spring-boot 3 @see https://github.com/OpenAPITools/openapi-generator/pull/14402/files#diff-a69d7ddda55ae7f9f544bf415c96590ff4bfe3ecd52b49e519842eaac2b4f045L131
     implementation "io.swagger.core.v3:swagger-annotations:${swaggerAnnotationsVersion}"
@@ -88,8 +88,8 @@ dependencies {
 
     // jpa & database drivers
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compileOnly 'org.hibernate.orm:hibernate-jpamodelgen:6.2.2.Final'
-    annotationProcessor 'org.hibernate.orm:hibernate-jpamodelgen:6.2.2.Final'
+    compileOnly 'org.hibernate.orm:hibernate-jpamodelgen:6.1.7.Final'
+    annotationProcessor 'org.hibernate.orm:hibernate-jpamodelgen:6.1.7.Final'
     runtimeOnly 'com.mysql:mysql-connector-j'
     testRuntimeOnly 'com.h2database:h2'
 

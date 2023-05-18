@@ -103,6 +103,7 @@ public final class TestUtils {
    * @param <R> return type
    */
   public static<T, R> R callPrivateMethod(T instance, String methodToCall, Object... parameters) {
+    @SuppressWarnings("rawtypes")
     final Class[] parameterTypes = new Class[parameters.length];
     for (int i = 0; i < parameters.length; i++) {
       parameterTypes[i] = parameters[i].getClass();

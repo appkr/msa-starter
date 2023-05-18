@@ -35,7 +35,7 @@ Run all commands, so that the generated configuration is as much as complete
 ```shell
 ./gradlew assemble
 
-VERSION=3.4.0
+VERSION=3.4.1
 
 java -agentlib:native-image-agent=config-merge-dir=./src/main/resources/META-INF/native-image \
 	-jar build/libs/msastarter-$VERSION-all.jar

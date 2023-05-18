@@ -5,9 +5,6 @@ import static {{packageName}}.config.Constants.Profile.*;
 
 import {{packageName}}.support.JsonUtils;
 import java.io.IOException;
-import java.net.URLDecoder;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.stream.Stream;
@@ -23,7 +20,6 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
-import org.springframework.util.StreamUtils;
 
 @Configuration
 public class RestTemplateConfiguration {

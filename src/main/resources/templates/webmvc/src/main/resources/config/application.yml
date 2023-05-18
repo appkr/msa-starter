@@ -31,7 +31,7 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: none
-      dialect: org.hibernate.dialect.MySQL8Dialect
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
 
   mvc:
     throw-exception-if-no-handler-found: true
