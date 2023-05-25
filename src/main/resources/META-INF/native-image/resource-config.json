@@ -35,7 +35,13 @@
       "pattern":"\\Qtemplates/webmvc/clients/build.gradle\\E"
     }, 
     {
+      "pattern":"\\Qtemplates/webmvc/docker/compose-arm.yaml\\E"
+    }, 
+    {
       "pattern":"\\Qtemplates/webmvc/docker/compose-arm.yml\\E"
+    }, 
+    {
+      "pattern":"\\Qtemplates/webmvc/docker/compose-intel.yaml\\E"
     }, 
     {
       "pattern":"\\Qtemplates/webmvc/docker/compose-intel.yml\\E"
@@ -173,6 +179,12 @@
       "pattern":"\\Qtemplates/webmvc/src/main/java/config/RestTemplateConfiguration.java\\E"
     }, 
     {
+      "pattern":"\\Qtemplates/webmvc/src/main/java/config/TimerFilter.java\\E"
+    }, 
+    {
+      "pattern":"\\Qtemplates/webmvc/src/main/java/config/async/AsyncConfiguration.java\\E"
+    }, 
+    {
       "pattern":"\\Qtemplates/webmvc/src/main/java/config/database/DatabaseConfiguration.java\\E"
     }, 
     {
@@ -239,7 +251,13 @@
       "pattern":"\\Qtemplates/webmvc/src/main/java/support/Carbon.java\\E"
     }, 
     {
+      "pattern":"\\Qtemplates/webmvc/src/main/java/support/CheckedFunction.java\\E"
+    }, 
+    {
       "pattern":"\\Qtemplates/webmvc/src/main/java/support/DisplayCodeUtils.java\\E"
+    }, 
+    {
+      "pattern":"\\Qtemplates/webmvc/src/main/java/support/Either.java\\E"
     }, 
     {
       "pattern":"\\Qtemplates/webmvc/src/main/java/support/HeaderUtils.java\\E"
@@ -248,10 +266,19 @@
       "pattern":"\\Qtemplates/webmvc/src/main/java/support/JsonUtils.java\\E"
     }, 
     {
+      "pattern":"\\Qtemplates/webmvc/src/main/java/support/Lazy.java\\E"
+    }, 
+    {
+      "pattern":"\\Qtemplates/webmvc/src/main/java/support/Pair.java\\E"
+    }, 
+    {
       "pattern":"\\Qtemplates/webmvc/src/main/java/support/SecurityUtils.java\\E"
     }, 
     {
       "pattern":"\\Qtemplates/webmvc/src/main/java/support/TestUtils.java\\E"
+    }, 
+    {
+      "pattern":"\\Qtemplates/webmvc/src/main/java/support/Timer.java\\E"
     }, 
     {
       "pattern":"\\Qtemplates/webmvc/src/main/resources/config/application.yml\\E"
@@ -303,6 +330,15 @@
     }, 
     {
       "pattern":"\\Qtemplates/webmvc/src/test/java/lombok.config\\E"
+    }, 
+    {
+      "pattern":"\\Qtemplates/webmvc/src/test/java/support/CheckedFunctionUsage.java\\E"
+    }, 
+    {
+      "pattern":"\\Qtemplates/webmvc/src/test/java/support/EitherUsage.java\\E"
+    }, 
+    {
+      "pattern":"\\Qtemplates/webmvc/src/test/java/support/LazyUsage.java\\E"
     }, 
     {
       "pattern":"\\Qtemplates/webmvc/src/test/resources/config/application.yml\\E"
