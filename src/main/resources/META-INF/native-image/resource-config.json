@@ -83,6 +83,9 @@
       "pattern":"\\Qtemplates/webmvc/postman/MsaStarter.postman_collection.json\\E"
     }, 
     {
+      "pattern":"\\Qtemplates/webmvc/postman/vroong-uaa-compact.postman_collection.json\\E"
+    }, 
+    {
       "pattern":"\\Qtemplates/webmvc/settings.gradle\\E"
     }, 
     {

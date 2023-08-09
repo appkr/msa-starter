@@ -9,7 +9,7 @@ $ jenv add /Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Hom
 $ jenv versions
 ```
 
-- 아래 명령으로 MySQL(3306), Kafka(9092), jhipster-uaa(9999) 등을 구동합니다
+- 아래 명령으로 MySQL(3306), Kafka(9092), vroong-uaa(9999) 등을 구동합니다
 ```shell
 ~/{{projectName}} $ ./gradlew composeUp
 # To stop and delete the cluster, ./gradlew composeDown

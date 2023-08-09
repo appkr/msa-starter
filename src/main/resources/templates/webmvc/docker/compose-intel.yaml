@@ -42,18 +42,10 @@ services:
     healthcheck:
       test: nc -z localhost 9092 || exit 1
 
-  jhipster-uaa:
-    image: appkr/jhipster-uaa:intel-mysql8
-    container_name: jhipster-uaa
+  vroong-uaa:
+    image: appkr/vroong-uaa-compact:1.0.0-amd64
+    container_name: vroong-uaa
     ports:
       - 9999:9999
-    depends_on:
-      mysql:
-        condition: service_healthy
     healthcheck:
       test: curl -s http://localhost:9999/management/health || exit 1
-    environment:
-      - SPRING_PROFILES_ACTIVE=dev
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/jhipster_uaa?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=secret

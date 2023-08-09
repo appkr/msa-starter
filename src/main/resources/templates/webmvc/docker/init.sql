@@ -1,2 +1,1 @@
 CREATE DATEBASE IF NOT EXISTS `local_{{projectName}}`;
-CREATE DATEBASE IF NOT EXISTS `jhipster_uaa`;

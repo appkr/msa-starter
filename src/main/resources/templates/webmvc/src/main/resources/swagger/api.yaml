@@ -261,7 +261,7 @@ components:
             $ref: '#/components/schemas/ProblemDetails'
 
   securitySchemes:
-    'jhipster-uaa':
+    'vroong-uaa':
       type: oauth2
       flows:
         password:
@@ -273,4 +273,4 @@ components:
           scopes: {}
 
 security:
-  - jhipster-uaa: []
+  - vroong-uaa: []

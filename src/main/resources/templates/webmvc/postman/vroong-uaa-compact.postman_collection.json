@@ -1,0 +1,610 @@
+{
+	"info": {
+		"_postman_id": "94c67a8e-8af8-4f93-bacf-81e19d061dc1",
+		"name": "vroong-uaa-compact",
+		"description": "uaa API documentation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "736341"
+	},
+	"item": [
+		{
+			"name": "tokenKey",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{authHost}}/oauth/token_key",
+					"host": [
+						"{{authHost}}"
+					],
+					"path": [
+						"oauth",
+						"token_key"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "jwks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{authHost}}/.well-known/jwks.json",
+					"host": [
+						"{{authHost}}"
+					],
+					"path": [
+						".well-known",
+						"jwks.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "clientCredentialsGrant",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();",
+							"pm.environment.set('accessToken', res.access_token);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const seed = CryptoJS.enc.Utf8.parse(\"bc68ef76-95c4-40b2-9854-b3111318e319:machinesecret\");",
+							"const basicAuthString = CryptoJS.enc.Base64.stringify(seed);",
+							"pm.environment.set(\"basicAuthString\", basicAuthString);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Basic {{basicAuthString}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{authHost}}/oauth/token",
+					"host": [
+						"{{authHost}}"
+					],
+					"path": [
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "passwordGrant_user_vroong",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();",
+							"pm.environment.set('accessToken', res.access_token);",
+							"pm.environment.set('refreshToken', res.refresh_token);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const seed = CryptoJS.enc.Utf8.parse(\"eb4814fb-66f8-498d-b65c-d6ffa80bb712:webappsecret\");",
+							"const basicAuthString = CryptoJS.enc.Base64.stringify(seed);",
+							"pm.environment.set(\"basicAuthString\", basicAuthString);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic  {{basicAuthString}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "95c464a5-ea74-43e9-b1cd-ac002a20adf2",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "user",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "openid",
+							"type": "text"
+						},
+						{
+							"key": "account_type",
+							"value": "vroong",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{authHost}}/oauth/token",
+					"host": [
+						"{{authHost}}"
+					],
+					"path": [
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "passwordGrant_admin_vroong",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();",
+							"pm.environment.set('accessToken', res.access_token);",
+							"pm.environment.set('refreshToken', res.refresh_token);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const seed = CryptoJS.enc.Utf8.parse(\"eb4814fb-66f8-498d-b65c-d6ffa80bb712:webappsecret\");",
+							"const basicAuthString = CryptoJS.enc.Base64.stringify(seed);",
+							"pm.environment.set(\"basicAuthString\", basicAuthString);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic  {{basicAuthString}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "19ab74d5-68c4-4f8a-b6e9-12f960495141",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "openid",
+							"type": "text"
+						},
+						{
+							"key": "account_type",
+							"value": "vroong",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{authHost}}/oauth/token",
+					"host": [
+						"{{authHost}}"
+					],
+					"path": [
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "passwordGrant_user_employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();",
+							"pm.environment.set('accessToken', res.access_token);",
+							"pm.environment.set('refreshToken', res.refresh_token);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const seed = CryptoJS.enc.Utf8.parse(\"eb4814fb-66f8-498d-b65c-d6ffa80bb712:webappsecret\");",
+							"const basicAuthString = CryptoJS.enc.Base64.stringify(seed);",
+							"pm.environment.set(\"basicAuthString\", basicAuthString);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic  {{basicAuthString}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "95c464a5-ea74-43e9-b1cd-ac002a20adf2",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "user",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "openid",
+							"type": "text"
+						},
+						{
+							"key": "account_type",
+							"value": "employee",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{authHost}}/oauth/token",
+					"host": [
+						"{{authHost}}"
+					],
+					"path": [
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "passwordGrant_admin_employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();",
+							"pm.environment.set('accessToken', res.access_token);",
+							"pm.environment.set('refreshToken', res.refresh_token);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const seed = CryptoJS.enc.Utf8.parse(\"eb4814fb-66f8-498d-b65c-d6ffa80bb712:webappsecret\");",
+							"const basicAuthString = CryptoJS.enc.Base64.stringify(seed);",
+							"pm.environment.set(\"basicAuthString\", basicAuthString);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic  {{basicAuthString}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "19ab74d5-68c4-4f8a-b6e9-12f960495141",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "openid",
+							"type": "text"
+						},
+						{
+							"key": "account_type",
+							"value": "employee",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{authHost}}/oauth/token",
+					"host": [
+						"{{authHost}}"
+					],
+					"path": [
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "refreshGrant",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();",
+							"pm.environment.set('accessToken', res.access_token);",
+							"pm.environment.set('refreshToken', res.refresh_token);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const seed = CryptoJS.enc.Utf8.parse(\"eb4814fb-66f8-498d-b65c-d6ffa80bb712:webappsecret\");",
+							"const basicAuthString = CryptoJS.enc.Base64.stringify(seed);",
+							"pm.environment.set(\"basicAuthString\", basicAuthString);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Basic {{basicAuthString}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "refresh_token",
+							"type": "text"
+						},
+						{
+							"key": "refresh_token",
+							"value": "{{refreshToken}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{authHost}}/oauth/token",
+					"host": [
+						"{{authHost}}"
+					],
+					"path": [
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "checkToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const res = pm.response.json();",
+							"pm.environment.set('accessToken', res.access_token);",
+							"pm.environment.set('refreshToken', res.refresh_token);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const seed = CryptoJS.enc.Utf8.parse(\"bc68ef76-95c4-40b2-9854-b3111318e319:machinesecret\");",
+							"const basicAuthString = CryptoJS.enc.Base64.stringify(seed);",
+							"pm.environment.set(\"basicAuthString\", basicAuthString);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic  {{basicAuthString}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{authHost}}/oauth/check_token",
+					"host": [
+						"{{authHost}}"
+					],
+					"path": [
+						"oauth",
+						"check_token"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "//localhost:9999/",
+			"type": "string"
+		}
+	]
+}
