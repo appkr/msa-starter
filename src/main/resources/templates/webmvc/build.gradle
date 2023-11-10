@@ -112,12 +112,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     // 로깅 및 추적 패턴
-    // micrometer bug workaround: Cannot invoke "io.micrometer.tracing.CurrentTraceContext$Scope.close()" because the return value of "io.micrometer.tracing.handler.TracingObservationHandler$TracingContext.getScope()" is null
-    // https://github.com/micrometer-metrics/tracing/issues/179
-    // https://github.com/micrometer-metrics/micrometer/issues/1910#issuecomment-1462711578
-    // https://github.com/micrometer-metrics/tracing/tree/v1.1.0-M1
+    implementation 'io.micrometer:micrometer-tracing'
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
-    implementation 'io.micrometer:micrometer-tracing:latest.integration'
 
     // sentry
     // @see https://docs.sentry.io/platforms/java/guides/logback/
