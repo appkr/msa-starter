@@ -1,357 +1,243 @@
 {
   "resources":{
-  "includes":[
-    {
-      "pattern":"\\QMETA-INF/services/java.nio.file.spi.FileSystemProvider\\E"
-    }, 
-    {
-      "pattern":"\\Qdev/appkr/starter/MsaStarter.class\\E"
-    }, 
-    {
-      "pattern":"\\Qlogback.xml\\E"
-    }, 
-    {
-      "pattern":"\\Qorg/slf4j/impl/StaticLoggerBinder.class\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/.gitignore\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/.java-version\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/Jenkinsfile\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/README.md\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/build.gradle\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/clients/.gitignore\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/clients/build.gradle\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/docker/compose-arm.yaml\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/docker/compose-arm.yml\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/docker/compose-intel.yaml\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/docker/compose-intel.yml\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/docker/init.sql\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/docker/kafka/kafka_server_jaas.conf\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/docker/mysqld.cnf\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/gradle.properties\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/gradle/docker.gradle\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/gradle/swagger.gradle\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/gradle/wrapper/gradle-wrapper.properties\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/gradlew.bat\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/gradlew\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/postman/JhipsterUaa.postman_collection.json\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/postman/LOCAL.postman_environment.json\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/postman/MsaStarter.postman_collection.json\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/postman/vroong-uaa-compact.postman_collection.json\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/settings.gradle\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/Application.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/ConsoleColor.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/adapter/in/rest/ExampleApiDelegateImpl.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/adapter/in/rest/Oauth2TestController.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/adapter/in/rest/exception/ProblemDetailExceptionHandler.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/adapter/in/rest/mapper/DateTimeMapper.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/adapter/in/rest/mapper/DtoMapper.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/adapter/in/rest/mapper/ExampleMapper.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/adapter/out/.gitignore\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/application/ExampleService.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/application/MessageProducer.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/application/PersistentEventCreator.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/application/PersistentEventPublisher.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/in/SearchCriteria.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/in/exception/ConstraintViolationProblem.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/in/validator/NullableLocalDateValidator.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/in/validator/RequiredLocalDateValidator.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/in/validator/ValidNullableDate.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/in/validator/ValidRequiredDate.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/out/ExampleRepository.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/out/ExampleRepositoryCustom.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/out/ExampleRepositoryImpl.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/out/PersistentEventRepository.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/out/spec/GenericSpecification.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/out/spec/SpecificationBuilder.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/config/ApplicationProperties.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/config/AsyncConfiguration.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/config/Constants.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/config/JacksonConfiguration.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/config/MessagingConfiguration.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/config/RestTemplateConfiguration.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/config/TimerFilter.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/config/async/AsyncConfiguration.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/config/database/DatabaseConfiguration.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/config/database/QueryDslConfiguration.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/config/scheduler/AsyncTaskDecorator.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/config/scheduler/SchedulerConfiguration.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/config/scheduler/ShedLockConfiguration.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/config/security/SecurityConfiguration.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/config/security/SpringSecurityAuditorAware.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/config/tracing/BackwardCompatibleTraceFilter.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/config/tracing/LogBookConfiguration.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/config/tracing/SentryPerformanceConfiguration.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/domain/Carbon.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/domain/Example.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/domain/FieldError.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/domain/PersistentEvent.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/domain/PersistentEventStatus.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/domain/converter/CarbonJpaConverter.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/domain/converter/CarbonJsonDeserializer.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/domain/converter/CarbonJsonSerializer.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/domain/converter/PersistentEventStatusConverter.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/domain/converter/UUIDJpaConverter.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/lombok.config\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/support/Carbon.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/support/CheckedFunction.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/support/DisplayCodeUtils.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/support/Either.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/support/HeaderUtils.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/support/JsonUtils.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/support/Lazy.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/support/Pair.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/support/SecurityUtils.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/support/TestUtils.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/java/support/Timer.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/resources/config/application.yml\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/resources/config/bootstrap.yml\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/resources/db/data.sql\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/resources/db/schema.sql\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/resources/logback-spring.xml\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/resources/logback/logback-console.xml\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/resources/logback/logback-json.xml\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/resources/swagger/api.yaml\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/main/resources/swagger/asyncapi.yaml\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/test/java/ApplicationTests.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/test/java/HexagonalTest.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/test/java/IntegrationTestConfiguration.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/test/java/adapter/in/rest/ExampleApiDelegateImplTest.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/test/java/adapter/in/rest/mapper/ExampleMapperTest.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/test/java/application/port/out/ExampleRepositoryTest.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/test/java/domain/CarbonTest.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/test/java/lombok.config\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/test/java/support/CheckedFunctionUsage.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/test/java/support/EitherUsage.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/test/java/support/LazyUsage.java\\E"
-    }, 
-    {
-      "pattern":"\\Qtemplates/webmvc/src/test/resources/config/application.yml\\E"
-    }, 
-    {
-      "pattern":"dev/appkr/starter/.*"
-    }, 
-    {
-      "pattern":"templates/webmvc/.*"
-    }
-  ]},
+  "includes":[{
+    "pattern":"\\QMETA-INF/services/java.nio.file.spi.FileSystemProvider\\E"
+  }, {
+    "pattern":"\\Qdev/appkr/starter/MsaStarter.class\\E"
+  }, {
+    "pattern":"\\Qlogback.xml\\E"
+  }, {
+    "pattern":"\\Qorg/slf4j/impl/StaticLoggerBinder.class\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/.gitignore\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/.java-version\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/Jenkinsfile\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/README.md\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/build.gradle\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/clients/.gitignore\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/clients/build.gradle\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/docker/compose-arm.yaml\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/docker/compose-arm.yml\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/docker/compose-intel.yaml\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/docker/compose-intel.yml\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/docker/init.sql\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/docker/kafka/kafka_server_jaas.conf\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/docker/mysqld.cnf\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/gradle.properties\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/gradle/docker.gradle\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/gradle/swagger.gradle\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/gradle/wrapper/gradle-wrapper.properties\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/gradlew.bat\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/gradlew\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/postman/JhipsterUaa.postman_collection.json\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/postman/LOCAL.postman_environment.json\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/postman/MsaStarter.postman_collection.json\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/postman/vroong-uaa-compact.postman_collection.json\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/settings.gradle\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/Application.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/ConsoleColor.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/adapter/in/rest/ExampleApiDelegateImpl.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/adapter/in/rest/Oauth2TestController.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/adapter/in/rest/exception/ProblemDetailExceptionHandler.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/adapter/in/rest/mapper/DateTimeMapper.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/adapter/in/rest/mapper/DtoMapper.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/adapter/in/rest/mapper/ExampleMapper.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/adapter/out/.gitignore\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/application/ExampleService.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/application/MessageProducer.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/application/PersistentEventCreator.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/application/PersistentEventPublisher.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/in/SearchCriteria.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/in/exception/ConstraintViolationProblem.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/in/validator/NullableLocalDateValidator.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/in/validator/RequiredLocalDateValidator.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/in/validator/ValidNullableDate.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/in/validator/ValidRequiredDate.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/out/ExampleRepository.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/out/ExampleRepositoryCustom.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/out/ExampleRepositoryImpl.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/out/PersistentEventRepository.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/out/spec/GenericSpecification.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/application/port/out/spec/SpecificationBuilder.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/config/ApplicationProperties.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/config/AsyncConfiguration.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/config/Constants.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/config/JacksonConfiguration.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/config/MessagingConfiguration.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/config/RestTemplateConfiguration.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/config/TimerFilter.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/config/async/AsyncConfiguration.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/config/database/DatabaseConfiguration.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/config/database/QueryDslConfiguration.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/config/scheduler/AsyncTaskDecorator.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/config/scheduler/SchedulerConfiguration.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/config/scheduler/ShedLockConfiguration.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/config/security/SecurityConfiguration.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/config/security/SpringSecurityAuditorAware.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/config/tracing/BackwardCompatibleTraceFilter.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/config/tracing/LogBookConfiguration.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/config/tracing/SentryPerformanceConfiguration.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/domain/Carbon.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/domain/Example.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/domain/FieldError.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/domain/PersistentEvent.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/domain/PersistentEventStatus.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/domain/converter/CarbonJpaConverter.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/domain/converter/CarbonJsonDeserializer.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/domain/converter/CarbonJsonSerializer.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/domain/converter/PersistentEventStatusConverter.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/domain/converter/UUIDJpaConverter.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/lombok.config\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/support/Carbon.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/support/CheckedFunction.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/support/DisplayCodeUtils.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/support/Either.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/support/HeaderUtils.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/support/JsonUtils.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/support/Lazy.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/support/Pair.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/support/SecurityUtils.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/support/TestUtils.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/java/support/Timer.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/resources/config/application.yml\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/resources/config/bootstrap.yml\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/resources/db/data.sql\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/resources/db/schema.sql\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/resources/logback-spring.xml\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/resources/logback/logback-console.xml\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/resources/logback/logback-json.xml\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/resources/swagger/api.yaml\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/main/resources/swagger/asyncapi.yaml\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/test/java/ApplicationTests.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/test/java/HexagonalTest.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/test/java/IntegrationTestConfiguration.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/test/java/adapter/in/rest/ExampleApiDelegateImplTest.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/test/java/adapter/in/rest/mapper/ExampleMapperTest.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/test/java/application/port/out/ExampleRepositoryTest.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/test/java/domain/CarbonTest.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/test/java/lombok.config\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/test/java/support/CheckedFunctionUsage.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/test/java/support/EitherUsage.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/test/java/support/LazyUsage.java\\E"
+  }, {
+    "pattern":"\\Qtemplates/webmvc/src/test/resources/config/application.yml\\E"
+  }, {
+    "pattern":"dev/appkr/starter/.*"
+  }, {
+    "pattern":"java.base:\\Qjdk/internal/icu/impl/data/icudt67b/nfc.nrm\\E"
+  }, {
+    "pattern":"java.base:\\Qsun/text/resources/LineBreakIteratorData\\E"
+  }, {
+    "pattern":"templates/webmvc/.*"
+  }]},
   "bundles":[]
 }
