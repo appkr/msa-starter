@@ -3,7 +3,7 @@ package {{packageName}}.config.tracing;
 import static {{packageName}}.config.Constants.LogKey.*;
 import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 import static org.apache.commons.lang3.StringUtils.startsWithIgnoreCase;
-import static org.zalando.logbook.HeaderFilters.authorization;
+import static org.zalando.logbook.core.HeaderFilters.authorization;
 
 import {{packageName}}.support.JsonUtils;
 import io.micrometer.tracing.Span;
@@ -22,6 +22,7 @@ import org.slf4j.MDC;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.zalando.logbook.*;
+import org.zalando.logbook.core.*;
 import org.zalando.logbook.json.PrettyPrintingJsonBodyFilter;
 
 @Configuration
