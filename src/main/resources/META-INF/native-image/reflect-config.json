@@ -38,15 +38,20 @@
   "methods":[{"name":"setEncoder","parameterTypes":["ch.qos.logback.core.encoder.Encoder"] }]
 },
 {
+  "name":"ch.qos.logback.core.encoder.Encoder",
+  "methods":[{"name":"valueOf","parameterTypes":["java.lang.String"] }]
+},
+{
   "name":"ch.qos.logback.core.encoder.LayoutWrappingEncoder",
-  "methods":[
-    {"name":"setCharset","parameterTypes":["java.nio.charset.Charset"] }, 
-    {"name":"setParent","parameterTypes":["ch.qos.logback.core.spi.ContextAware"] }
-  ]
+  "methods":[{"name":"setCharset","parameterTypes":["java.nio.charset.Charset"] }, {"name":"setParent","parameterTypes":["ch.qos.logback.core.spi.ContextAware"] }]
 },
 {
   "name":"ch.qos.logback.core.pattern.PatternLayoutEncoderBase",
   "methods":[{"name":"setPattern","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"ch.qos.logback.core.spi.ContextAware",
+  "methods":[{"name":"valueOf","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl",
@@ -74,23 +79,19 @@
 },
 {
   "name":"dev.appkr.starter.model.BuildInfo",
-  "fields":[
-    {"name":"dockerImage"}, 
-    {"name":"includeExample"}, 
-    {"name":"isVroongProject"}, 
-    {"name":"javaVersion"}
-  ],
-  "methods":[
-    {"name":"getGroupName","parameterTypes":[] }, 
-    {"name":"getMediaType","parameterTypes":[] }, 
-    {"name":"getPackageName","parameterTypes":[] }, 
-    {"name":"getPortNumber","parameterTypes":[] }, 
-    {"name":"getProjectName","parameterTypes":[] }, 
-    {"name":"isVroongProject","parameterTypes":[] }
-  ]
+  "fields":[{"name":"accessToken"}, {"name":"authHost"}, {"name":"baseUrl"}, {"name":"basicAuthString"}, {"name":"dockerImage"}, {"name":"host"}, {"name":"includeExample"}, {"name":"isVroongProject"}, {"name":"javaVersion"}, {"name":"put(ENDPOINT,\u000a            request"}, {"name":"put(ENDPOINT,\u000a            request.getMethod() + \" \" + URLDecoder.decode(request.getURI().toString(), Charset.defaultCharset()));\u000a        put(HEADERS, request.getHeaders());\u000a        put(BODY, new String(body));"}, {"name":"put(STATUS, response"}, {"name":"put(STATUS, response.getStatusCode());\u000a        put(HEADERS, response.getHeaders());\u000a        put(BODY,\u000a            JsonUtils.convertStringToJsonNode(StreamUtils.copyToString(response.getBody(), StandardCharsets.UTF_8)));"}, {"name":"refreshToken"}, {"name":"uaa_refresh_token"}],
+  "methods":[{"name":"accessToken","parameterTypes":[] }, {"name":"authHost","parameterTypes":[] }, {"name":"baseUrl","parameterTypes":[] }, {"name":"basicAuthString","parameterTypes":[] }, {"name":"dockerImage","parameterTypes":[] }, {"name":"getAccessToken","parameterTypes":[] }, {"name":"getAuthHost","parameterTypes":[] }, {"name":"getBaseUrl","parameterTypes":[] }, {"name":"getBasicAuthString","parameterTypes":[] }, {"name":"getDockerImage","parameterTypes":[] }, {"name":"getGroupName","parameterTypes":[] }, {"name":"getHost","parameterTypes":[] }, {"name":"getIncludeExample","parameterTypes":[] }, {"name":"getIsVroongProject","parameterTypes":[] }, {"name":"getJavaVersion","parameterTypes":[] }, {"name":"getMediaType","parameterTypes":[] }, {"name":"getPackageName","parameterTypes":[] }, {"name":"getPortNumber","parameterTypes":[] }, {"name":"getProjectName","parameterTypes":[] }, {"name":"getPut(ENDPOINT,\u000a            request","parameterTypes":[] }, {"name":"getPut(ENDPOINT,\u000a            request.getMethod() + \" \" + URLDecoder.decode(request.getURI().toString(), Charset.defaultCharset()));\u000a        put(HEADERS, request.getHeaders());\u000a        put(BODY, new String(body));","parameterTypes":[] }, {"name":"getPut(STATUS, response","parameterTypes":[] }, {"name":"getPut(STATUS, response.getStatusCode());\u000a        put(HEADERS, response.getHeaders());\u000a        put(BODY,\u000a            JsonUtils.convertStringToJsonNode(StreamUtils.copyToString(response.getBody(), StandardCharsets.UTF_8)));","parameterTypes":[] }, {"name":"getRefreshToken","parameterTypes":[] }, {"name":"getUaa_refresh_token","parameterTypes":[] }, {"name":"groupName","parameterTypes":[] }, {"name":"host","parameterTypes":[] }, {"name":"includeExample","parameterTypes":[] }, {"name":"isAccessToken","parameterTypes":[] }, {"name":"isAuthHost","parameterTypes":[] }, {"name":"isBaseUrl","parameterTypes":[] }, {"name":"isBasicAuthString","parameterTypes":[] }, {"name":"isDockerImage","parameterTypes":[] }, {"name":"isHost","parameterTypes":[] }, {"name":"isIncludeExample","parameterTypes":[] }, {"name":"isIsVroongProject","parameterTypes":[] }, {"name":"isJavaVersion","parameterTypes":[] }, {"name":"isPut(ENDPOINT,\u000a            request","parameterTypes":[] }, {"name":"isPut(ENDPOINT,\u000a            request.getMethod() + \" \" + URLDecoder.decode(request.getURI().toString(), Charset.defaultCharset()));\u000a        put(HEADERS, request.getHeaders());\u000a        put(BODY, new String(body));","parameterTypes":[] }, {"name":"isPut(STATUS, response","parameterTypes":[] }, {"name":"isPut(STATUS, response.getStatusCode());\u000a        put(HEADERS, response.getHeaders());\u000a        put(BODY,\u000a            JsonUtils.convertStringToJsonNode(StreamUtils.copyToString(response.getBody(), StandardCharsets.UTF_8)));","parameterTypes":[] }, {"name":"isRefreshToken","parameterTypes":[] }, {"name":"isUaa_refresh_token","parameterTypes":[] }, {"name":"isVroongProject","parameterTypes":[] }, {"name":"javaVersion","parameterTypes":[] }, {"name":"mediaType","parameterTypes":[] }, {"name":"packageName","parameterTypes":[] }, {"name":"portNumber","parameterTypes":[] }, {"name":"projectName","parameterTypes":[] }, {"name":"put(ENDPOINT,\u000a            request","parameterTypes":[] }, {"name":"put(ENDPOINT,\u000a            request.getMethod() + \" \" + URLDecoder.decode(request.getURI().toString(), Charset.defaultCharset()));\u000a        put(HEADERS, request.getHeaders());\u000a        put(BODY, new String(body));","parameterTypes":[] }, {"name":"put(STATUS, response","parameterTypes":[] }, {"name":"put(STATUS, response.getStatusCode());\u000a        put(HEADERS, response.getHeaders());\u000a        put(BODY,\u000a            JsonUtils.convertStringToJsonNode(StreamUtils.copyToString(response.getBody(), StandardCharsets.UTF_8)));","parameterTypes":[] }, {"name":"refreshToken","parameterTypes":[] }, {"name":"uaa_refresh_token","parameterTypes":[] }]
+},
+{
+  "name":"groovy.lang.Closure"
 },
 {
   "name":"java.io.FilePermission"
+},
+{
+  "name":"java.lang.Boolean",
+  "fields":[{"name":"mediaType"}, {"name":"projectName"}],
+  "methods":[{"name":"getMediaType","parameterTypes":[] }, {"name":"getProjectName","parameterTypes":[] }, {"name":"isMediaType","parameterTypes":[] }, {"name":"isProjectName","parameterTypes":[] }, {"name":"mediaType","parameterTypes":[] }, {"name":"projectName","parameterTypes":[] }]
 },
 {
   "name":"java.lang.Object",
@@ -105,6 +106,10 @@
   "methods":[{"name":"console","parameterTypes":[] }]
 },
 {
+  "name":"java.lang.Thread",
+  "fields":[{"name":"threadLocalRandomProbe"}]
+},
+{
   "name":"java.net.NetPermission"
 },
 {
@@ -113,6 +118,10 @@
 {
   "name":"java.net.URLPermission",
   "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.lang.String"] }]
+},
+{
+  "name":"java.nio.charset.Charset",
+  "methods":[{"name":"valueOf","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"java.nio.file.Path"
@@ -138,10 +147,7 @@
 },
 {
   "name":"java.sql.DriverManager",
-  "methods":[
-    {"name":"getConnection","parameterTypes":["java.lang.String"] }, 
-    {"name":"getDriver","parameterTypes":["java.lang.String"] }
-  ]
+  "methods":[{"name":"getConnection","parameterTypes":["java.lang.String"] }, {"name":"getDriver","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"java.sql.Time",
@@ -215,7 +221,26 @@
   "name":"java.util.PropertyPermission"
 },
 {
+  "name":"java.util.concurrent.ForkJoinTask",
+  "fields":[{"name":"aux"}, {"name":"status"}]
+},
+{
+  "name":"java.util.concurrent.atomic.AtomicBoolean",
+  "fields":[{"name":"value"}]
+},
+{
+  "name":"java.util.concurrent.atomic.AtomicReference",
+  "fields":[{"name":"value"}]
+},
+{
+  "name":"java.util.concurrent.atomic.Striped64",
+  "fields":[{"name":"base"}, {"name":"cellsBusy"}]
+},
+{
   "name":"javax.management.ObjectName"
+},
+{
+  "name":"javax.smartcardio.CardPermission"
 },
 {
   "name":"org.eclipse.jgit.lib.CoreConfig$AutoCRLF",
@@ -248,7 +273,7 @@
 },
 {
   "name":"sun.security.provider.NativePRNG",
-  "methods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"<init>","parameterTypes":["java.security.SecureRandomParameters"] }]
 },
 {
   "name":"sun.security.provider.SHA",

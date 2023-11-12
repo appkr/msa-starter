@@ -14,7 +14,7 @@
 
 방법 1: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 바이너리 파일을 받아서 사용합니다(**jdk 불필요**).
 ```shell
-VERSION=3.4.3
+VERSION=3.4.4
 OS=macos
 ARCH=amd64 # for Intel cpu
 ARCH=aarch64 # for m1 or m2 cpu
@@ -43,14 +43,14 @@ msastarter
 
 방법 2: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 jar 파일을 받아서 사용합니다(**jdk 필요**)
 ```shell
-VERSION=3.4.3
+VERSION=3.4.4
 wget https://github.com/appkr/msa-starter/releases/download/$VERSION/msastarter-$VERSION-all.jar
 java -jar msastarter-$VERSION-all.jar
 ```
 
 방법 3: [Release](https://github.com/appkr/msa-starter/releases)에서 최신 zip 파일을 받아서 사용합니다(**jdk 필요**)
 ```shell
-VERSION=3.4.3
+VERSION=3.4.4
 wget https://github.com/appkr/msa-starter/releases/download/$VERSION/msastarter-shadow-$VERSION.zip
 unzip msastarter-shadow-$VERSION.zip
 msastarter-shadow-$VERSION/bin/msastarter
